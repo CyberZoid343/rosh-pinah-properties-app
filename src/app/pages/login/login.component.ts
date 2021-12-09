@@ -1,18 +1,20 @@
 import { UserService } from './../../services/user/user.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
 
   form: FormGroup;
   submitted = false;
   loading = false;
+  userSubscription: Subscription = new Subscription;
 
   constructor(
     private userService: UserService,
@@ -23,6 +25,10 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(500)]],
       password: ['', [Validators.required, Validators.maxLength(500)]]
     });
+  }
+
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
   }
 
   submit() {
@@ -36,7 +42,6 @@ export class LoginComponent {
     }
   }
 
-
   login() {
     try {
       var auth = {
@@ -44,13 +49,14 @@ export class LoginComponent {
         password: this.form.get('password')!.value,
       }
 
-      this.userService.login(auth).subscribe(
-        (response) => {
-          localStorage.setItem('user', JSON.stringify(response)) 
+      this.userSubscription = this.userService.login(auth).subscribe(
+        (user) => {
+          localStorage.setItem('user', JSON.stringify(user)) 
           this.router.navigate(['/dashboard/clients']);
           this.loading = false;
         },
         (error) => {
+          console.error("Login: " + error)
           alert("Incorrect email or password. Please try agin.")
           this.loading = false;
         }
@@ -59,5 +65,4 @@ export class LoginComponent {
       alert("Oops! Something went wrong. Please try agin or contact IT support for assistance.")
     }
   }
-
 }
