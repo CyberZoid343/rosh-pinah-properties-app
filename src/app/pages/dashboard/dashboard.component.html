@@ -1,0 +1,17 @@
+<div class="sid-nav">
+    <div class="sid-nav-logo border-bottom">
+        <img src="assets/images/dashboard-logo.png" alt="">
+        <b style="margin-left: 12px;">Rosh Pinah CRM</b>
+    </div>
+    <div class="side-nav-body">
+        <button [routerLink]="['clients']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap"><i class="fas fa-address-book"></i>Clients</button>
+        <button [routerLink]="['properties']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap"><i class="fas fa-building"></i>Properties</button>
+        <button [routerLink]="['users']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap"><i class="fas fa-users"></i>Users</button>
+        <button [routerLink]="['profile']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap"><i class="fas fa-user"></i>Profile</button>
+    </div>
+    <button class="logout-button border-top text-nowrap" (click)="logout()"><i class="fas fa-sign-out-alt"></i>Logout</button>
+</div>
+<app-top-bar class="border-bottom border-left" [ngClass]="{expanded: expanded}"></app-top-bar>
+<div class="main border-left" [ngClass]="{expanded: expanded}">
+    <router-outlet></router-outlet>
+</div>

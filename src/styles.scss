@@ -1,0 +1,80 @@
+$primary: #10147c;
+$dark: #212529;
+$secondary: #DEE2E6;
+$light: #F8F9FA;
+$gray-1: #F8F9FA;
+$gray-2: #E9ECEF;
+$gray-3: #DEE2E6;
+$gray-4: #CED4DA;
+$gray-5: #ADB5BD;
+$gray-6: #6C757D;
+$gray-7: #495057;
+$gray-8: #343A40;
+$gray-9: #212529;
+
+$theme-colors: (
+    "main": $primary,
+    "secondary": $secondary,
+    "dark": $dark,
+    "light": $light,
+    "gray-1": $gray-1,
+    "gray-2": $gray-2,
+    "gray-3": $gray-3,
+    "gray-4": $gray-4,
+    "gray-5": $gray-5,
+    "gray-6": $gray-6,
+    "gray-7": $gray-7,
+    "gray-8": $gray-8,
+    "gray-9": $gray-9
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1100px
+);
+
+body{
+    color: $dark !important;
+}
+
+//Form styles
+$input-focus-box-shadow: none;
+$input-border-color: $gray-3;
+
+//button styles
+$btn-box-shadow: none;
+$btn-focus-width: none;
+$btn-focus-box-shadow: none;
+$btn-active-box-shadow: none;
+$btn-focus-width: 0px;
+
+//table styles
+.custom-table{
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.custom-table th, .custom-table td{
+  border-top: 1px solid $gray-3;
+  border-bottom: 1px solid $gray-3;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  text-overflow: ellipsis
+}
+
+//Badge styles
+.badge-primary{
+  background-color: $primary !important;
+}
+
+.box-shadow{
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px !important;
+}
+
+
+@import '../node_modules/bootstrap';
