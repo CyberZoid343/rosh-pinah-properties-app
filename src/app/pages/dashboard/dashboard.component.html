@@ -1,5 +1,5 @@
 <div class="sid-nav">
-    <div class="sid-nav-logo border-bottom">
+    <div class="sid-nav-logo border-bottom border-top">
         <img src="assets/images/dashboard-logo.png" alt="">
         <b style="margin-left: 12px;">Rosh Pinah CRM</b>
     </div>
@@ -11,7 +11,7 @@
     </div>
     <button class="logout-button border-top text-nowrap" (click)="logout()"><i class="fas fa-sign-out-alt"></i>Logout</button>
 </div>
-<app-top-bar class="border-bottom border-left" [ngClass]="{expanded: expanded}"></app-top-bar>
+<app-top-bar class="border-bottom border-top border-left" [ngClass]="{expanded: expanded}"></app-top-bar>
 <div class="main border-left" [ngClass]="{expanded: expanded}">
     <router-outlet></router-outlet>
 </div>
