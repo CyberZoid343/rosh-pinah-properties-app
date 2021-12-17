@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopBarComponent implements OnInit {
 
+  expanded = true;
+
   constructor(
     private dashBoard: DashboardComponent
   ) { }
@@ -18,9 +20,11 @@ export class TopBarComponent implements OnInit {
   expandMenu(){
     if (this.dashBoard.expanded){
       this.dashBoard.expanded = false;
+      this.expanded = false;
     }
     else{
       this.dashBoard.expanded = true;
+      this.expanded = true;
     }
   }
 

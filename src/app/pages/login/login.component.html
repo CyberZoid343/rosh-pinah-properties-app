@@ -37,7 +37,7 @@
                     Remember Me
                 </label>
             </div>
-            <a href="">Forgot Password?</a>
+            <a [routerLink]="['/forgot-password']">Forgot Password?</a>
         </div>
         <button class="btn btn-main w-100 mb-4" (click)="submit()" [disabled]="loading">
             <span *ngIf="!loading">Login</span>
@@ -47,7 +47,7 @@
             </span>
         </button>
         <div class="text-center">
-            <span>Don't have an account? <a href="">Sign up</a></span>
+            <span>Don't have an account? <a [routerLink]="['/sign-up']">Sign up</a></span>
         </div>
     </div>
 </form>

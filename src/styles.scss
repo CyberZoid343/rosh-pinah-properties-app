@@ -1,31 +1,35 @@
 $primary: #10147c;
 $dark: #212529;
-$secondary: #DEE2E6;
+$secondary: #E9ECEF;
 $light: #F8F9FA;
-$gray-1: #F8F9FA;
-$gray-2: #E9ECEF;
-$gray-3: #DEE2E6;
-$gray-4: #CED4DA;
-$gray-5: #ADB5BD;
-$gray-6: #6C757D;
-$gray-7: #495057;
-$gray-8: #343A40;
-$gray-9: #212529;
+$danger: #D2042D;
+$success: #03C03C;
+$gray-100: #F8F9FA;
+$gray-200: #E9ECEF;
+$gray-300: #DEE2E6;
+$gray-400: #CED4DA;
+$gray-500: #ADB5BD;
+$gray-600: #6C757D;
+$gray-700: #495057;
+$gray-800: #343A40;
+$gray-900: #212529;
 
 $theme-colors: (
     "main": $primary,
     "secondary": $secondary,
     "dark": $dark,
     "light": $light,
-    "gray-1": $gray-1,
-    "gray-2": $gray-2,
-    "gray-3": $gray-3,
-    "gray-4": $gray-4,
-    "gray-5": $gray-5,
-    "gray-6": $gray-6,
-    "gray-7": $gray-7,
-    "gray-8": $gray-8,
-    "gray-9": $gray-9
+    "danger": $danger,
+    "success": $success,
+    "gray-1": $gray-100,
+    "gray-2": $gray-200,
+    "gray-3": $gray-300,
+    "gray-4": $gray-400,
+    "gray-5": $gray-500,
+    "gray-6": $gray-600,
+    "gray-7": $gray-700,
+    "gray-8": $gray-800,
+    "gray-9": $gray-900
 );
 
 $container-max-widths: (
@@ -42,14 +46,20 @@ body{
 
 //Form styles
 $input-focus-box-shadow: none;
-$input-border-color: $gray-3;
 
 //button styles
-$btn-box-shadow: none;
-$btn-focus-width: none;
-$btn-focus-box-shadow: none;
-$btn-active-box-shadow: none;
-$btn-focus-width: 0px;
+.btn-circle{
+  border-radius: 50% !important;
+}
+
+.btn-circle i {
+  width: 14px;
+  height: 14px;
+}
+
+button i{
+  width: 20px;
+}
 
 //table styles
 .custom-table{
@@ -58,12 +68,12 @@ $btn-focus-width: 0px;
 }
 
 .custom-table th, .custom-table td{
-  border-top: 1px solid $gray-3;
-  border-bottom: 1px solid $gray-3;
+  border-top: 1px solid $gray-300;
+  border-bottom: 1px solid $gray-300;
   padding-left: 8px;
   padding-right: 8px;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   text-overflow: ellipsis
 }
 
@@ -73,8 +83,24 @@ $btn-focus-width: 0px;
 }
 
 .box-shadow{
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px !important;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
 }
+
+//Dropdown styles
+$dropdown-link-hover-bg: $light;
+$dropdown-link-active-color: none;
+$dropdown-link-active-bg: $gray-300;
+$dropdown-border-color: $gray-300;
+
+.dropdown-item i{
+  width: 20px;
+  margin-right: 16px
+}
+
+.dropdown-divider{
+  background-color: $gray-600 !important;
+  height: 1px !important;
+ }
 
 
 @import '../node_modules/bootstrap';

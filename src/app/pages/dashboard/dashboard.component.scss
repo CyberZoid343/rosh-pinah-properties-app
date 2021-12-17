@@ -17,10 +17,12 @@
     padding-left: 11px;
     display: flex;
     align-items: center;
+    overflow-y: none !important;
 }
 
 .sid-nav-logo img{
     width: 30px;
+    overflow-y: none !important;
 }
 
 .side-nav-body{
@@ -32,8 +34,9 @@
 }
 
 .router-link-active {
-    background-color: $gray-1 !important;
+    background-color: $light !important;
     color: $primary !important;
+    border-left: 4px solid $primary !important;
 }
 
 .router-link-active i{
@@ -42,17 +45,22 @@
 
 .sid-nav-item{
     padding-top: 8px;
-    padding-left: 16px;
+    padding-left: 12px;
     padding-bottom: 8px;
     text-align: left;
     width: 100%;
     border: none;
     background-color: #ffffff;
     height: 40px;
+    border-left: 4px solid transparent;
 }
 
 .sid-nav-item:hover {
-    background-color: $gray-1;
+    background-color: $light;
+}
+
+.sid-nav-item:active{
+    background-color: $gray-300;
 }
 
 .sid-nav-item i {
@@ -86,7 +94,7 @@
 }
 
 .logout-button:hover {
-    background-color: $gray-1;
+    background-color: $light;
 }
 
 app-top-bar{
@@ -107,11 +115,15 @@ app-top-bar{
     right: 0;
     bottom: 0;
     z-index: 12;
-    background-color: $gray-1;
+    background-color: $light;
     overflow: auto;
     transition: all 0.3s;
 }
 
 .expanded{
     left: 199px !important;
+}
+
+a{
+    cursor: pointer;
 }
