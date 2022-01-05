@@ -1,129 +1,46 @@
 @import '../../../styles.scss';
 
-.sid-nav{
-    background-color: #ffffff;
+.side-nav{
+    background-color: $gray-800;
     position: fixed;
-    width: 200px;
+    width: 220px;
     top: 0;
     left: 0;
-    bottom: 48px;
-    z-index: 11;
-    overflow-x: hidden !important;
-}
-
-.sid-nav-logo{
-    height: 66px;
-    padding: 8px;
-    padding-left: 11px;
-    display: flex;
-    align-items: center;
-    overflow-y: none !important;
-}
-
-.sid-nav-logo img{
-    width: 30px;
-    overflow-y: none !important;
-}
-
-.side-nav-body{
-    position: fixed;
-    top: 66px;
-    bottom: 48px;
-    width: 200px;
+    bottom: 0;
     overflow-y: auto;
 }
 
-.router-link-active {
-    background-color: $light !important;
-    color: $primary !important;
-    border-left: 4px solid $primary !important;
-}
-
-.router-link-active i{
-    color: $primary;
-}
-
-.sid-nav-item{
-    padding-top: 8px;
-    padding-left: 12px;
-    padding-bottom: 8px;
-    text-align: left;
+.side-nav-button{
     width: 100%;
-    border: none;
-    background-color: #ffffff;
-    height: 40px;
-    border-left: 4px solid transparent;
-}
-
-.sid-nav-item:hover {
-    background-color: $light;
-}
-
-.sid-nav-item:active{
-    background-color: $gray-300;
-}
-
-.sid-nav-item i {
-    width: 20px;
-    margin-right: 18px;
-    text-align: center;
-    background: transparent;
-}
-
-.logout-button{
-    position: fixed;
-    bottom: 0;
-    height: 48px !important;
-    padding-top: 8px;
-    padding-left: 16px;
-    padding-bottom: 8px;
     text-align: left;
-    width: 100%;
     border: none;
-    background-color: #ffffff;
-    height: 40px;
-    z-index: 11;
-    width: 200px;
+    background-color: $gray-800;
+    color: white;
 }
 
-.logout-button i {
+.side-nav-button i {
     width: 20px;
-    margin-right: 18px;
-    text-align: center;
-    background: transparent;
 }
 
-.logout-button:hover {
-    background-color: $light;
+.side-nav-button:hover{
+    background-color: rgba($color: $gray-900, $alpha: 0.5);
 }
 
-app-top-bar{
-    position: fixed;
-    top: 0;
-    left: 53px;
-    right: 0;
-    background: #ffffff;
-    height: 66px;
-    z-index: 12;
-    transition: all 0.3s;
+.router-link-active{
+    background-color: $gray-900;
+}
+
+.router-link-active:hover{
+    background-color: $gray-900 !important;
 }
 
 .main{
-    position: fixed;
-    left: 53px;
-    top: 66px;
-    right: 0;
-    bottom: 0;
-    z-index: 12;
-    background-color: $light;
-    overflow: auto;
-    transition: all 0.3s;
+    height: 100vh;
+    padding-left: 220px;
 }
 
-.expanded{
-    left: 199px !important;
-}
-
-a{
-    cursor: pointer;
+.top-nav{
+    height: 60px;
+    display: flex;
+    align-items: center;
 }
