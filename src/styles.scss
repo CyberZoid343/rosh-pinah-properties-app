@@ -13,23 +13,25 @@ $gray-600: #6C757D;
 $gray-700: #495057;
 $gray-800: #343A40;
 $gray-900: #212529;
+$box-shadow: rgba(50, 50, 105, 0.1) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+
 
 $theme-colors: (
-    "main": $primary,
+    "primary": $primary,
     "secondary": $secondary,
     "dark": $dark,
     "light": $light,
     "danger": $danger,
     "success": $success,
-    "gray-1": $gray-100,
-    "gray-2": $gray-200,
-    "gray-3": $gray-300,
-    "gray-4": $gray-400,
-    "gray-5": $gray-500,
-    "gray-6": $gray-600,
-    "gray-7": $gray-700,
-    "gray-8": $gray-800,
-    "gray-9": $gray-900
+    "gray-100": $gray-100,
+    "gray-200": $gray-200,
+    "gray-300": $gray-300,
+    "gray-400": $gray-400,
+    "gray-500": $gray-500,
+    "gray-600": $gray-600,
+    "gray-700": $gray-700,
+    "gray-800": $gray-800,
+    "gray-900": $gray-900
 );
 
 $container-max-widths: (
@@ -44,7 +46,11 @@ body{
     color: $dark !important;
 }
 
-//Form styles
+.box-shadow{
+  box-shadow: $box-shadow;
+}
+
+//Form control styles
 $input-focus-box-shadow: none;
 
 //button styles
@@ -61,17 +67,26 @@ button i{
   width: 20px;
 }
 
+.btn:focus{
+  box-shadow: none !important;
+}
+
+.btn-close:focus{
+  box-shadow: none !important;
+}
+
 //table styles
 .custom-table{
   width: 100%;
   background-color: #ffffff;
+  box-shadow: $box-shadow;
 }
 
 .custom-table th, .custom-table td{
   border-top: 1px solid $gray-300;
   border-bottom: 1px solid $gray-300;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
   padding-top: 8px;
   padding-bottom: 8px;
   text-overflow: ellipsis
@@ -82,14 +97,10 @@ button i{
   background-color: $primary !important;
 }
 
-.box-shadow{
-  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
-}
-
 //Dropdown styles
 $dropdown-link-hover-bg: $light;
 $dropdown-link-active-color: none;
-$dropdown-link-active-bg: $gray-300;
+$dropdown-link-active-bg: $gray-200;
 $dropdown-border-color: $gray-300;
 
 .dropdown-item i{
@@ -100,7 +111,52 @@ $dropdown-border-color: $gray-300;
 .dropdown-divider{
   background-color: $gray-600 !important;
   height: 1px !important;
- }
+}
+
+.dropdown-menu{
+  box-shadow: $box-shadow !important;
+}
+
+//Card styles 
+.card{
+  box-shadow: $box-shadow !important;
+}
+
+.card-header{
+  border-color: $gray-300 !important;
+}
+
+.card-footer{
+  border-top: none !important;
+  border-color: $gray-300 !important;
+}
+
+//Offcanvas styles
+.offcanvas{
+  z-index: 2000 !important;
+}
+
+//List group stylies
+$list-group-link-hover-bg: $light;
+$list-group-link-active-color: none;
+$list-group-link-active-bg: $gray-200;
+$list-group-border-color: $gray-300;
+
+.list-group .active{
+  background-color: $gray-100 !important;
+  color: $dark !important;
+  border-color: $gray-300 !important;
+  border-left: 4px solid $primary !important;
+}
+
+.list-group-item-action{
+  cursor: pointer;
+}
+
+.list-group-item-action:hover{
+  cursor: pointer;
+  color: $dark !important;
+}
 
 
 @import '../node_modules/bootstrap';

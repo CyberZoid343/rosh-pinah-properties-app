@@ -1,25 +1,16 @@
-<div class="sid-nav">
-    <div class="sid-nav-logo border-bottom border-top">
-        <img src="assets/images/dashboard-logo.png" alt="">
-        <b style="margin-left: 12px;">Rosh Pinah CRM</b>
-    </div>
-    <div class="side-nav-body">
-        <p class="ml-3 mt-3 mb-1 text-muted small" *ngIf="expanded">Menu</p>
-        <button [routerLink]="['companies']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap" title="Companies"><i class="fas fa-list-alt"></i>Companies</button>
-        <button [routerLink]="['clients']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap" title="Clients"><i class="fas fa-address-book"></i>Clients</button>
-        <button [routerLink]="['properties']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap" title="Properties"><i class="fas fa-building"></i>Properties</button>
-        <button [routerLink]="['analytics']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap" title="Analytics"><i class="fas fa-chart-pie"></i>Analytics</button>
-        <button [routerLink]="['inbox']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap" title="Inbox"><i class="fas fa-bell"></i>Inbox</button>
-        <p class="ml-3 mt-3 mb-1 text-muted small" *ngIf="expanded">Admin</p>
-        <button [routerLink]="['users']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap" title="Users"><i class="fas fa-users"></i>Users</button>
-        <button [routerLink]="['audit-log']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap" title="Audit Log"><i class="fas fa-history"></i>Audit Log</button>
-        <p class="ml-3 mt-3 mb-1 text-muted small" *ngIf="expanded">General</p>
-        <button [routerLink]="['settings']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap" title="Settings"><i class="fas fa-cog"></i>Settings</button>
-        <button [routerLink]="['help']" routerLinkActive="router-link-active" class="sid-nav-item text-nowrap" title="Help"><i class="fas fa-question-circle"></i>Help</button>
-    </div>
-    <button class="logout-button border-top text-nowrap" (click)="logout()"><i class="fas fa-sign-out-alt"></i>Logout</button>
+<div class="side-nav">
+    <p class="small text-gray-500 pl-3 mb-1 mt-3">Menu</p>
+    <button class="side-nav-button px-3 py-2" [routerLink]="['companies']" routerLinkActive="router-link-active"><i class="fas fa-list-alt mr-2"></i>Companies</button>
+    <button class="side-nav-button px-3 py-2" [routerLink]="['clients']" routerLinkActive="router-link-active"><i class="fas fa-address-book mr-2"></i>Clients</button>
+    <button class="side-nav-button px-3 py-2" [routerLink]="['properties']" routerLinkActive="router-link-active"><i class="fas fa-building mr-2"></i>Properties</button>
+    <p class="small text-gray-500 pl-3 mb-1 mt-3">Admin</p>
+    <button class="side-nav-button px-3 py-2" [routerLink]="['audit-log']" routerLinkActive="router-link-active"><i class="fas fa-history mr-2"></i>Audit Log</button>
+    <button class="side-nav-button px-3 py-2" [routerLink]="['users']" routerLinkActive="router-link-active"><i class="fas fa-users mr-2"></i>Users</button> 
+    <p class="small text-gray-500 pl-3 mb-1 mt-3">General</p>
+    <button class="side-nav-button px-3 py-2" [routerLink]="['settings']" routerLinkActive="router-link-active"><i class="fas fa-cog mr-2"></i>Settings</button>
+    <button class="side-nav-button px-3 py-2" [routerLink]="['help']" routerLinkActive="router-link-active"><i class="fas fa-question-circle mr-2"></i>Help</button> 
+    <button class="side-nav-button px-3 py-2" (click)="logout()"><i class="fas fa-sign-out-alt mr-2"></i>Logout</button> 
 </div>
-<app-top-bar class="border-bottom border-top border-left" [ngClass]="{expanded: expanded}"></app-top-bar>
-<div class="main border-left" [ngClass]="{expanded: expanded}">
+<div class="main">
     <router-outlet></router-outlet>
 </div>

@@ -1,12 +1,11 @@
+import { ChangePasswordComponent } from './pages/dashboard/settings/change-password/change-password.component';
+import { ManageAccountComponent } from './pages/dashboard/settings/manage-account/manage-account.component';
+import { SettingsComponent } from './pages/dashboard/settings/settings.component';
 import { CreateNewPasswordComponent } from './pages/create-new-password/create-new-password.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { HelpComponent } from './pages/dashboard/help/help.component';
-import { SettingsComponent } from './pages/dashboard/settings/settings.component';
 import { AuditLogComponent } from './pages/dashboard/audit-log/audit-log.component';
-import { InboxComponent } from './pages/dashboard/inbox/inbox.component';
-import { AnalyticsComponent } from './pages/dashboard/analytics/analytics.component';
 import { CompaniesComponent } from './pages/dashboard/companies/companies.component';
-import { ProfileComponent } from './pages/dashboard/profile/profile.component';
 import { UsersComponent } from './pages/dashboard/users/users.component';
 import { PropertiesComponent } from './pages/dashboard/properties/properties.component';
 import { ClientsComponent } from './pages/dashboard/clients/clients.component';
@@ -42,22 +41,20 @@ const routes: Routes = [
         path: "properties", component: PropertiesComponent
       },
       {
-        path: "analytics", component: AnalyticsComponent
-      },
-      {
-        path: "inbox", component: InboxComponent
-      },
-      {
         path: "users", component: UsersComponent
       },
       {
         path: "audit-log", component: AuditLogComponent
       },
       {
-        path: "profile", component: ProfileComponent
-      },
-      {
-        path: "settings", component: SettingsComponent
+        path: "settings", component: SettingsComponent, children: [
+          {
+            path: "manage-account", component: ManageAccountComponent
+          },
+          {
+            path: "change-password", component: ChangePasswordComponent
+          }
+        ]
       },
       {
         path: "help", component: HelpComponent
