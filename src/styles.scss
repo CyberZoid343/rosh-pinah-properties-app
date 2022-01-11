@@ -1,7 +1,9 @@
 $primary: #10147c;
+$primary-focus: rgba($primary, 0.9);
 $dark: #212529;
 $secondary: #E9ECEF;
 $light: #F8F9FA;
+$light-focus: #E9ECEF;
 $danger: #D2042D;
 $success: #03C03C;
 $gray-100: #F8F9FA;
@@ -14,7 +16,6 @@ $gray-700: #495057;
 $gray-800: #343A40;
 $gray-900: #212529;
 $box-shadow: rgba(50, 50, 105, 0.1) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
-
 
 $theme-colors: (
     "primary": $primary,
@@ -50,6 +51,9 @@ body{
   box-shadow: $box-shadow;
 }
 
+//Typography
+$font-size-base: 0.85rem;
+
 //Form control styles
 $input-focus-box-shadow: none;
 
@@ -64,7 +68,8 @@ $input-focus-box-shadow: none;
 }
 
 button i{
-  width: 20px;
+  width: 14px;
+  height: 14px;
 }
 
 .btn:focus{
@@ -73,6 +78,16 @@ button i{
 
 .btn-close:focus{
   box-shadow: none !important;
+}
+
+.btn-primary:active:focus {
+  background-color: $primary-focus !important; 
+  border-color: $primary-focus !important;
+}
+
+.btn-light:active:focus {
+  background-color: $light-focus !important; 
+  border-color: $light-focus !important;
 }
 
 //table styles
