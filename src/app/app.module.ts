@@ -15,6 +15,7 @@ import { AuditLogComponent } from './pages/dashboard/audit-log/audit-log.compone
 import { SettingsComponent } from './pages/dashboard/settings/settings.component';
 import { ManageAccountComponent } from './pages/dashboard/settings/manage-account/manage-account.component';
 import { ChangePasswordComponent } from './pages/dashboard/settings/change-password/change-password.component';
+import { TopBarComponent } from './componenets/top-bar/top-bar.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ChangePasswordComponent } from './pages/dashboard/settings/change-passw
     AuditLogComponent,
     SettingsComponent,
     ManageAccountComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    TopBarComponent
   ],
   imports: [
     BrowserModule,

@@ -52,7 +52,7 @@ body{
 }
 
 //Typography
-$font-size-base: 0.85rem;
+$font-size-base: 0.8rem;
 
 //Form control styles
 $input-focus-box-shadow: none;
@@ -70,14 +70,6 @@ $input-focus-box-shadow: none;
 button i{
   width: 14px;
   height: 14px;
-}
-
-.btn:focus{
-  box-shadow: none !important;
-}
-
-.btn-close:focus{
-  box-shadow: none !important;
 }
 
 .btn-primary:active:focus {
@@ -173,5 +165,11 @@ $list-group-border-color: $gray-300;
   color: $dark !important;
 }
 
+//Modal styles
+
+.modal-footer{
+  border-top: none !important;
+  background-color: $light;
+}
 
 @import '../node_modules/bootstrap';

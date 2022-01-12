@@ -1,7 +1,7 @@
-<form class="card p-4" [formGroup]="form">
+<form class="card p-3" [formGroup]="form">
     <div class="card-body">
-        <h1 class="text-center mb-4">Login</h1>
-        <p class="text-center mb-4">Welcome to the Rosh Pinah CRM. Enter your email and password below to login.</p>
+        <h1 class="text-center mb-3">Login</h1>
+        <p class="text-center mb-4 text-muted">Welcome to the Rosh Pinah CRM. Enter your email and password below to login.</p>
         <div class="form-floating mb-4">
             <input 
             type="email" 
@@ -31,7 +31,7 @@
                 <div *ngIf="form.controls.email.errors?.maxlength">Exceeded the max length of 500 characters</div>
             </div>
         </div>
-        <button class="btn btn-primary w-100 mb-4" (click)="submit()" [disabled]="loading">
+        <button class="btn btn-primary w-100" (click)="submit()" [disabled]="loading">
             <span *ngIf="!loading">Login</span>
             <span *ngIf="loading">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
