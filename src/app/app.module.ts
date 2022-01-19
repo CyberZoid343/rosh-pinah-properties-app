@@ -16,6 +16,8 @@ import { SettingsComponent } from './pages/dashboard/settings/settings.component
 import { ManageAccountComponent } from './pages/dashboard/settings/manage-account/manage-account.component';
 import { ChangePasswordComponent } from './pages/dashboard/settings/change-password/change-password.component';
 import { TopBarComponent } from './componenets/top-bar/top-bar.component';
+import { MakeAdminDialogComponent } from './pages/dashboard/users/make-admin-dialog/make-admin-dialog.component';
+import { UserFormDialogComponent } from './pages/dashboard/users/user-form-dialog/user-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { TopBarComponent } from './componenets/top-bar/top-bar.component';
     SettingsComponent,
     ManageAccountComponent,
     ChangePasswordComponent,
-    TopBarComponent
+    TopBarComponent,
+    MakeAdminDialogComponent,
+    UserFormDialogComponent
   ],
   imports: [
     BrowserModule,
