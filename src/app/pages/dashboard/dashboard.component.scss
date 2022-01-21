@@ -15,7 +15,7 @@
     text-align: left;
     border: none;
     background-color: $gray-800;
-    color: $gray-300;
+    color: $gray-100;
 }
 
 .side-nav-button i {
@@ -23,11 +23,16 @@
 }
 
 .side-nav-button:hover{
-    background-color: rgba($color: $gray-900, $alpha: 0.4);
+    background-color: rgba($color: $gray-900, $alpha: 0.5);
+}
+
+.disabled{
+    background-color: transparent !important;
+    color: $gray-500;
 }
 
 .router-link-active{
-    background-color: rgba($color: $gray-900, $alpha: 0.6);
+    background-color: $gray-900;
     color: white !important;
     border-left: 4px solid $primary;
 }
