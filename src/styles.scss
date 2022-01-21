@@ -8,13 +8,13 @@ $gray-700: #495057;
 $gray-800: #343A40;
 $gray-900: #212529;
 
-$primary: #2161f8;
+$primary: #0c4c9c;
 $secondary: #E9ECEF;
 $dark: #212529;
 $light: #F8F9FA;
-$danger: #f21b3f;
-$success: #29bf12;
-$warning: #ff9914;
+$danger: #9c0c0c;
+$success: #299c0c;
+$warning: #ee9b00;
 
 $primary-focus: rgba($primary, 0.8);
 $secondary-focus: rgba($secondary, 0.8);
@@ -24,7 +24,7 @@ $light-focus: rgba($light, 0.8);
 $success-focus: rgba($success, 0.8);
 $warning-focus: rgba($warning, 0.8);
 
-$box-shadow: rgba(50, 50, 105, 0.1) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+$box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
 
 $theme-colors: (
     "primary": $primary,
@@ -33,6 +33,7 @@ $theme-colors: (
     "light": $light,
     "danger": $danger,
     "success": $success,
+    "warning": $warning,
     "gray-100": $gray-100,
     "gray-200": $gray-200,
     "gray-300": $gray-300,
@@ -93,7 +94,7 @@ button i{
 
 .btn.btn-primary:active:hover,
 .btn.btn-primary:hover {
-    background-color: #0f55fa;
+    background-color: #0b4386;
 }
 
 .btn.btn-secondary:active:hover,
@@ -113,17 +114,26 @@ button i{
 .custom-table{
   width: 100%;
   background-color: #ffffff;
-  box-shadow: $box-shadow;
 }
 
 .custom-table th, .custom-table td{
-  border-top: 1px solid $gray-400;
-  border-bottom: 1px solid $gray-400;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
   padding-top: 8px;
   padding-bottom: 8px;
   text-overflow: ellipsis
+}
+
+.custom-table tbody td{
+  border-top: 1px solid $gray-300;
+}
+
+.custom-table tbody tr:hover{
+  background-color: $gray-100 !important;
+}
+
+.custom-table thead tr:hover{
+  background-color: #ffffff;
 }
 
 //Badge styles
@@ -151,7 +161,7 @@ $dropdown-border-color: $gray-300;
   box-shadow: $box-shadow !important;
 }
 
-//Card styles 
+//Card styles
 .card{
   box-shadow: $box-shadow !important;
 }
@@ -177,7 +187,7 @@ $list-group-link-active-bg: $gray-200;
 $list-group-border-color: $gray-300;
 
 .list-group .active{
-  background-color: $gray-100 !important;
+  background-color: $gray-200 !important;
   color: $dark !important;
   border-color: $gray-300 !important;
   border-left: 4px solid $primary !important;
@@ -193,7 +203,6 @@ $list-group-border-color: $gray-300;
 }
 
 //Modal styles
-
 .modal-footer{
   border-top: none !important;
   background-color: $light;

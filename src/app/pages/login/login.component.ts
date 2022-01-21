@@ -57,7 +57,7 @@ export class LoginComponent implements OnDestroy {
       this.userSubscription = this.userService.login(auth).subscribe(
         (user) => {
           localStorage.setItem('user', JSON.stringify(user))
-          this.router.navigate(['/dashboard/clients']);
+          this.router.navigate(['/dashboard/settings']);
           this.loading = false;
         },
         (error) => {
