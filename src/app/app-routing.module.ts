@@ -1,6 +1,3 @@
-import { ChangePasswordComponent } from './pages/dashboard/settings/change-password/change-password.component';
-import { ManageAccountComponent } from './pages/dashboard/settings/manage-account/manage-account.component';
-import { SettingsComponent } from './pages/dashboard/settings/settings.component';
 import { HelpComponent } from './pages/dashboard/help/help.component';
 import { AuditLogComponent } from './pages/dashboard/audit-log/audit-log.component';
 import { CompaniesComponent } from './pages/dashboard/companies/companies.component';
@@ -12,6 +9,9 @@ import { LoginComponent } from './pages/login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './services/auth/auth.guard';
+import { AccountSettingsComponent } from './pages/dashboard/account-settings/account-settings.component';
+import { PersonalDetailsFormComponent } from './pages/dashboard/account-settings/personal-details-form/personal-details-form.component';
+import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/change-password-form/change-password-form.component';
 
 const routes: Routes = [
   {
@@ -35,12 +35,12 @@ const routes: Routes = [
         path: "audit-log", component: AuditLogComponent
       },
       {
-        path: "settings", component: SettingsComponent, children: [
+        path: "account-settings", component: AccountSettingsComponent, children: [
           {
-            path: "manage-account", component: ManageAccountComponent
+            path: "personal-details", component: PersonalDetailsFormComponent
           },
           {
-            path: "change-password", component: ChangePasswordComponent
+            path: "change-password", component: ChangePasswordFormComponent
           }
         ]
       },

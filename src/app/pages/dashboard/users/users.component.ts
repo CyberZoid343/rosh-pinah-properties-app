@@ -9,14 +9,14 @@ import { user } from 'src/app/shared/interfaces';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnDestroy {
-  
+
   users: user[] = [];
   userSubscription: Subscription = new Subscription;
   loadingUsers = true;
 
   constructor(
     public userService: UserService
-  ) { 
+  ) {
     this.getUsers();
   }
 
