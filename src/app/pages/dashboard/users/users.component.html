@@ -1,69 +1,70 @@
 <div *ngIf="loadingUsers">
-    <div class="py-5 d-flex align-items-center justify-content-center" *ngIf="loadingUsers">
-        <div class="spinner-border" role="status"></div>
-        <span class="ml-2 text-nowrap">Loading users...</span>
-    </div>
+  <div class="py-5 d-flex align-items-center justify-content-center" *ngIf="loadingUsers">
+    <div class="spinner-border" role="status"></div>
+    <span class="ml-2 text-nowrap">Loading users...</span>
+  </div>
 </div>
 <div *ngIf="!loadingUsers">
-    <div class="d-flex align-items-center px-3 pt-3">
-        <h3 class="my-0 mr-3">Users</h3>
-        <button class="btn btn-primary ml-auto" data-bs-toggle="modal" data-bs-target="#userFormModal"><i class="fas fa-plus-circle mr-2"></i>Add New User</button>
-    </div>
-    <div class="container-fluid p-3">
-        <table class="custom-table bg-white border box-shadow">
-            <thead>
-                <tr>
-                    <th scope="col">Account</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Date Added</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Status</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let user of users">
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-user-circle mr-2"></i>
-                            <div class="d-block">
-                                {{user.name}} {{user.surname}}
-                                <small class="d-flex align-items-center text-muted small"><i class="fas fa-circle text-success mr-1"></i>Online since 12, May 2022 8:57am</small>
-                            </div>
-                        </div>
-                    </td>
-                    <td>{{user.email}}</td>
-                    <td>November 11, 2021</td>
-                    <td>
-                        <span *ngIf="user.admin">Admin</span>
-                        <span *ngIf="!user.admin">User</span>
-                    </td>
-                    <td>
-                        <span class="badge rounded-pill bg-success mr-1">Activated</span>
-                    </td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary btn-circle" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-                                <button class="dropdown-item" type="button"><i class="fas fa-folder-open"></i>View All Details</button>
-                                <button class="dropdown-item" type="button"><i class="fas fa-edit"></i>Edit Details</button>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <button class="dropdown-item text-danger" type="button"><i class="fas fa-user-times"></i>Deactivate</button>
-                                <button class="dropdown-item text-danger" type="button"><i class="fas fa-trash"></i>Delete</button>
-                            </div>
-                        </div>
-                        <!-- <button class="btn btn-light text-danger mr-2"><i class="fas fa-trash mr-2"></i>Delete</button>
-                        <button class="btn btn-primary"><i class="fas fa-user-check mr-2"></i>Activate</button> -->
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+  <div class="d-flex align-items-center px-3 pt-3">
+    <h3 class="my-0 mr-3">Users</h3>
+    <button class="btn btn-primary ml-auto" data-bs-toggle="modal" data-bs-target="#userFormModal"><i
+        class="fas fa-plus-circle mr-2"></i>Add New User</button>
+  </div>
+  <div class="container-fluid p-3">
+    <table class="custom-table bg-white border box-shadow">
+      <thead>
+        <tr>
+          <th scope="col">Account</th>
+          <th scope="col">Email</th>
+          <th scope="col">Date Added</th>
+          <th scope="col">Role</th>
+          <th scope="col">Status</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>
+            <div class="d-flex align-items-center">
+              <i class="fas fa-user-circle mr-2"></i>
+              <div class="d-block">
+                {{user.name}} {{user.surname}}
+                <small class="d-flex align-items-center text-muted small"><i
+                    class="fas fa-circle text-success mr-1"></i>Online since 12, May 2022 8:57am</small>
+              </div>
+            </div>
+          </td>
+          <td>{{user.email}}</td>
+          <td>November 11, 2021</td>
+          <td>
+            <span *ngIf="user.isAdmin">Admin</span>
+            <span *ngIf="!user.isAdmin">User</span>
+          </td>
+          <td>
+            <span class="badge rounded-pill bg-success mr-1">Activated</span>
+          </td>
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-secondary btn-circle" type="button" id="userMenu" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                <button class="dropdown-item" type="button"><i class="fas fa-folder-open"></i>View All Details</button>
+                <button class="dropdown-item" type="button"><i class="fas fa-edit"></i>Edit Details</button>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <button class="dropdown-item text-danger" type="button"><i
+                    class="fas fa-user-times"></i>Deactivate</button>
+                <button class="dropdown-item text-danger" type="button"><i class="fas fa-trash"></i>Delete</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <app-user-form-dialog></app-user-form-dialog>
-

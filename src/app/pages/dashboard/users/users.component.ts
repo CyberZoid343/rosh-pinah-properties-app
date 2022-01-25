@@ -1,7 +1,7 @@
 import { UserService } from './../../../services/user/user.service';
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { user } from 'src/app/shared/interfaces';
+import { User } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-users',
@@ -10,7 +10,7 @@ import { user } from 'src/app/shared/interfaces';
 })
 export class UsersComponent implements OnDestroy {
 
-  users: user[] = [];
+  users: User[] = [];
   userSubscription: Subscription = new Subscription;
   loadingUsers = true;
 
