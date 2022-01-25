@@ -1,55 +1,39 @@
-<form class="card p-4" [formGroup]="form">
+<form class="card p-3" [formGroup]="form">
     <div class="card-body">
-        <h1 class="text-center mb-4">Login</h1>
-        <p class="text-center mb-4">Welcome to the Rosh Pinah CRM. Enter your email and password below to login.</p>
-        <div class="form-floating mb-4">
-            <input 
-            type="email" 
-            class="form-control shadow-none" 
-            formControlName="email"
-            id="email" 
-            placeholder="name@example.com" 
-            [ngClass]="{ 'is-invalid': submitted && form.controls.email.errors}">
-            <label for="email">Email address</label>
+        <h1 class="text-center mb-5">Login</h1>
+
+        <div class="mb-3">
+            <label for="email">Email</label>
+            <input type="email" class="form-control shadow-none" formControlName="email" id="email" placeholder="name@example.com" [ngClass]="{ 'is-invalid': submitted && form.controls.email.errors}">
             <div class="invalid-feedback">
                 <div *ngIf="form.controls.email.errors?.required">Required field</div>
                 <div *ngIf="form.controls.email.errors?.email">Invalid email</div>
                 <div *ngIf="form.controls.email.errors?.maxlength">Exceeded the max length of 500 characters</div>
             </div>
         </div>
-        <div class="form-floating mb-4">
-            <input 
-            type="password" 
-            class="form-control shadow-none" 
-            formControlName="password"
-            id="password" 
-            placeholder="Password"
-            [ngClass]="{ 'is-invalid': submitted && form.controls.password.errors}">
+
+        <div class="mb-5">
             <label for="password">Password</label>
+            <input type="password" class="form-control shadow-none" formControlName="password" id="password" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && form.controls.password.errors}">
             <div class="invalid-feedback">
                 <div *ngIf="form.controls.password.errors?.required">Required field</div>
                 <div *ngIf="form.controls.email.errors?.maxlength">Exceeded the max length of 500 characters</div>
             </div>
         </div>
-        <div class="d-flex mb-4">
-            <div class="form-check mr-auto">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Remember Me
-                </label>
-            </div>
-            <a [routerLink]="['/forgot-password']">Forgot Password?</a>
-        </div>
-        <button class="btn btn-primary w-100 mb-4" (click)="submit()" [disabled]="loading">
+
+        <button class="btn btn-primary w-100" (click)="submit()" [disabled]="loading">
             <span *ngIf="!loading">Login</span>
             <span *ngIf="loading">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 <span class="ml-2 text-white">Loading...</span>
             </span>
         </button>
-        <div class="text-center">
-            <span>Don't have an account? <a [routerLink]="['/sign-up']">Sign up</a></span>
-        </div>
     </div>
 </form>
 
+<div class="alert alert-danger alert-dismissible fade text-center" role="alert" [ngClass]="{'show': showFailedLoginAlert, '': !showFailedLoginAlert}">
+    <strong>Error!</strong> Email or password is incorrect. Please try again.
+    <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>

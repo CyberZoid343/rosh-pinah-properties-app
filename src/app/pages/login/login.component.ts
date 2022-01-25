@@ -14,16 +14,17 @@ export class LoginComponent implements OnDestroy {
   form: FormGroup;
   submitted = false;
   loading = false;
+  showFailedLoginAlert = false;
   userSubscription: Subscription = new Subscription;
 
   constructor(
     private userService: UserService,
     private router: Router,
-    private formBuilder: FormBuilder, 
-  ) { 
+    private formBuilder: FormBuilder,
+  ) {
     this.form = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(500)]],
-      password: ['', [Validators.required, Validators.maxLength(500)]]
+      email: ['luke2000.greyling@gmail.com', [Validators.required, Validators.email, Validators.maxLength(500)]],
+      password: ['Admin', [Validators.required, Validators.maxLength(500)]]
     });
   }
 
@@ -42,6 +43,10 @@ export class LoginComponent implements OnDestroy {
     }
   }
 
+  closeAlert(){
+    this.showFailedLoginAlert = false;
+  }
+
   login() {
     try {
       var auth = {
@@ -51,13 +56,13 @@ export class LoginComponent implements OnDestroy {
 
       this.userSubscription = this.userService.login(auth).subscribe(
         (user) => {
-          localStorage.setItem('user', JSON.stringify(user)) 
-          this.router.navigate(['/dashboard/clients']);
+          localStorage.setItem('user', JSON.stringify(user))
+          this.router.navigate(['/dashboard/account-settings']);
           this.loading = false;
         },
         (error) => {
           console.error("Login: " + error)
-          alert("Incorrect email or password. Please try agin.")
+          this.showFailedLoginAlert = true;
           this.loading = false;
         }
       );
