@@ -1,7 +1,10 @@
-import { ApiConnectionStringService } from './../api-connection-string/api-connection-string.service';
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UserAuthentication } from 'src/app/shared/interfaces';
+import { HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../api/api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +13,13 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private ApiConnectionStringService: ApiConnectionStringService
+    private apiService: ApiService
   ) { }
 
-  apiURL = this.ApiConnectionStringService.apiConnectionString + "user";
+  apiURL = this.apiService.apiConnectionString + "user";
 
   getUsers(): Observable<any> {
-    return this.http.get(this.apiURL)
+    return this.http.get(this.apiURL, this.apiService.getHttpHeaders())
   }
 
   getUser(id: number): Observable<any> {
@@ -35,8 +38,8 @@ export class UserService {
     return this.http.put<any>(this.apiURL + "/" + id, object);
   }
 
-  login(object: Object): Observable<any>{
-    return this.http.post(this.apiURL + "/login", object);
+  login(auth: Object): Observable<any>{
+    return this.http.post(this.apiURL + "/login", auth, this.apiService.getHttpHeaders());
   }
 
   isLoggedIn(){

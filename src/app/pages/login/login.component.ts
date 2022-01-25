@@ -3,6 +3,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { UserAuthentication } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ export class LoginComponent implements OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
+  //Check if the form is valid
   submit() {
     this.submitted = true;
     if (this.form.invalid) {
@@ -47,6 +49,7 @@ export class LoginComponent implements OnDestroy {
     this.showFailedLoginAlert = false;
   }
 
+  //Check if the user is authorized
   login() {
     try {
       var auth = {
@@ -54,9 +57,11 @@ export class LoginComponent implements OnDestroy {
         password: this.form.get('password')!.value,
       }
 
+      localStorage.setItem('auth', JSON.stringify(auth));
+
       this.userSubscription = this.userService.login(auth).subscribe(
         (user) => {
-          localStorage.setItem('user', JSON.stringify(user))
+          localStorage.setItem('user', JSON.stringify(user));
           this.router.navigate(['/dashboard/account-settings']);
           this.loading = false;
         },
