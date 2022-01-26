@@ -1,27 +1,47 @@
 <div class="card">
-  <div class="card-header bg-white p-3">
-      <h4>Personal Details</h4>
-      <span class="text-muted">Update your personal details by completing the form below.</span>
-  </div>
-  <div class="card-body">
-      <form>
-          <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Name</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-          </div>
-          <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Surname</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-          </div>
-          <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Email</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-          </div>
-      </form>
-  </div>
-  <div class="card-footer p-3 bg-light">
-      <div class="d-flex">
-          <button class="btn btn-primary ml-auto">Update Personal Details</button>
-      </div>
-  </div>
+    <div class="card-header bg-white p-3">
+        <h4>Personal Details</h4>
+        <span class="text-muted">Update your personal details by completing the form below.</span>
+    </div>
+    <form [formGroup]="form">
+        <div class="card-body">
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="email" class="form-control" id="name" formControlName="name" aria-describedby="emailHelp"
+                    [ngClass]="{ 'is-invalid': submitted && form.controls.name.errors}">
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.name.errors?.required">Required field</div>
+                    <div *ngIf="form.controls.name.errors?.maxlength">Exceeded the max length of 500 characters</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="surname" class="form-label">Surname</label>
+                <input type="email" class="form-control" id="surname" formControlName="surname"
+                    aria-describedby="emailHelp" [ngClass]="{ 'is-invalid': submitted && form.controls.surname.errors}">
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.surname.errors?.required">Required field</div>
+                    <div *ngIf="form.controls.surname.errors?.maxlength">Exceeded the max length of 500 characters</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" formControlName="email" aria-describedby="emailHelp"
+                    [ngClass]="{ 'is-invalid': submitted && form.controls.email.errors}">
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.email.errors?.required">Required field</div>
+                    <div *ngIf="form.controls.email.errors?.email">Invalid email</div>
+                    <div *ngIf="form.controls.email.errors?.maxlength">Exceeded the max length of 500 characters</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer p-3 bg-light">
+            <div class="d-flex">
+                <button class="btn btn-primary ml-auto" (click)="submit()">Update Personal Details</button>
+            </div>
+        </div>
+    </form>
 </div>
