@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/shared/interfaces';
+import { NewUser, User } from 'src/app/shared/interfaces';
 import { ApiService } from '../api/api.service';
 
 @Injectable({
@@ -25,8 +25,8 @@ export class UserService {
     return this.http.get(this.apiURL + "/" + id, this.apiService.getHttpHeaders())
   }
 
-  addUser(user: User): Observable<any> {
-    return this.http.post(this.apiURL, user, this.apiService.getHttpHeaders());
+  addUser(newUser: NewUser): Observable<any> {
+    return this.http.post(this.apiURL, newUser, this.apiService.getHttpHeaders());
   }
 
   deleteUser(id: number): Observable<any> {

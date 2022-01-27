@@ -17,6 +17,9 @@ import { UserFormDialogComponent } from './pages/dashboard/users/user-form-dialo
 import { AccountSettingsComponent } from './pages/dashboard/account-settings/account-settings.component';
 import { PersonalDetailsFormComponent } from './pages/dashboard/account-settings/personal-details-form/personal-details-form.component';
 import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/change-password-form/change-password-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeactivateUserDialogComponent } from './pages/dashboard/users/deactivate-user-dialog/deactivate-user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,15 +37,18 @@ import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/
     AccountSettingsComponent,
     PersonalDetailsFormComponent,
     ChangePasswordFormComponent,
+    DeactivateUserDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule,
+    BrowserAnimationsModule
   ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

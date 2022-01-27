@@ -1,3 +1,14 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
 $gray-100: #F8F9FA;
 $gray-200: #E9ECEF;
 $gray-300: #DEE2E6;
@@ -84,7 +95,7 @@ button i{
   height: 14px;
 }
 
-.btn:focus {
+.btn:focus, .btn-close:focus {
   box-shadow: none !important;
 }
 
@@ -208,3 +219,9 @@ $list-group-border-color: $gray-300;
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
