@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators, FormGroupDirective, NgForm} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { PasswordService } from 'src/app/services/password/password.service';
 
 @Component({
   selector: 'app-change-password-form',
@@ -12,11 +13,16 @@ export class ChangePasswordFormComponent implements OnInit {
   submitted = false;
   loading = false;
 
-  constructor(public formBuilder: FormBuilder) { 
+  constructor(
+    private formBuilder: FormBuilder,
+    private passwordService: PasswordService
+  ) {
     this.form = this.formBuilder.group({
       currentPassword: ['', Validators.required],
       newPassword: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')]],
       confirmPassword: ['', Validators.required]
+    }, {
+      validator: passwordService.mustMatch('newPassword', 'confirmPassword')
     });
   }
 

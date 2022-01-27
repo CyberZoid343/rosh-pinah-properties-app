@@ -79,10 +79,6 @@ $btn-active-border-shade-amount:  5%;
   height: 14px;
 }
 
-.btn-secondary{
-  border: 1px solid $gray-400 !important;
-}
-
 button i{
   width: 14px;
   height: 14px;
@@ -209,3 +205,6 @@ $list-group-border-color: $gray-300;
 }
 
 @import '../node_modules/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
