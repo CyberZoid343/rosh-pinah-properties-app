@@ -17,6 +17,7 @@
           <th scope="col">Account</th>
           <th scope="col">Email</th>
           <th scope="col">Date Added</th>
+          <th scope="col">Date Last Modified</th>
           <th scope="col">Role</th>
           <th scope="col">Status</th>
           <th scope="col"></th>
@@ -29,19 +30,23 @@
               <i class="fas fa-user-circle mr-2"></i>
               <div class="d-block">
                 {{user.name}} {{user.surname}}
-                <small class="d-flex align-items-center text-muted small"><i
-                    class="fas fa-circle text-success mr-1"></i>Online since 12, May 2022 8:57am</small>
+                <small class="d-flex align-items-center text-muted small" *ngIf="user.isOnline"><i
+                    class="fas fa-circle text-success mr-1"></i>Online since {{user.dateLastLogin | date:'medium'}}</small>
+                <small class="d-flex align-items-center text-muted small" *ngIf="!user.isOnline"><i
+                    class="fas fa-circle text-warning mr-1"></i>Offline since {{user.dateLastLogoff | date:'medium'}}</small>
               </div>
             </div>
           </td>
           <td>{{user.email}}</td>
-          <td>November 11, 2021</td>
+          <td>{{user.dateAdded | date:'longDate'}}</td>
+          <td>{{user.dateLastUpdated | date:'longDate'}}</td>
           <td>
             <span *ngIf="user.isAdmin">Admin</span>
             <span *ngIf="!user.isAdmin">User</span>
           </td>
           <td>
-            <span class="badge rounded-pill bg-success mr-1">Activated</span>
+            <span *ngIf="user.isActivated" class="badge rounded-pill bg-success mr-1">Activated</span>
+            <span *ngIf="!user.isActivated" class="badge rounded-pill bg-warning mr-1">Deactivated</span>
           </td>
           <td>
             <div class="dropdown">
@@ -51,7 +56,7 @@
               </button>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
                 <button class="dropdown-item" type="button"><i class="fas fa-folder-open"></i>View All Details</button>
-                <button class="dropdown-item" type="button"><i class="fas fa-edit"></i>Edit Details</button>
+                <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#userFormModal"><i class="fas fa-edit"></i>Edit Details</button>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -68,5 +73,3 @@
 </div>
 
 <app-user-form-dialog></app-user-form-dialog>
-
-

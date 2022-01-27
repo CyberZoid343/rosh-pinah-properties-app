@@ -17,7 +17,6 @@ import { UserFormDialogComponent } from './pages/dashboard/users/user-form-dialo
 import { AccountSettingsComponent } from './pages/dashboard/account-settings/account-settings.component';
 import { PersonalDetailsFormComponent } from './pages/dashboard/account-settings/personal-details-form/personal-details-form.component';
 import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/change-password-form/change-password-form.component';
-import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
