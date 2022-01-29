@@ -1,6 +1,7 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user/user.service';
 import { NewUser, User } from 'src/app/shared/interfaces';
@@ -17,12 +18,16 @@ export class UserFormDialogComponent implements OnDestroy {
   userId = 1;
   userSubscription: Subscription = new Subscription;
   user!: User;
+  gettingUser = false;
+  addingUser = false;
+  updatingUser = false;
 
   constructor(
     public formBuilder: FormBuilder,
     public userService: UserService,
+    public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<UserFormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {id: number},
+    @Inject(MAT_DIALOG_DATA) public data: { id: number },
   ) {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(500)]],
@@ -30,7 +35,7 @@ export class UserFormDialogComponent implements OnDestroy {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(500)]]
     });
 
-    if (data.id > 0){
+    if (data.id > 0) {
       this.getUser(data.id);
     }
   }
@@ -45,10 +50,10 @@ export class UserFormDialogComponent implements OnDestroy {
       return;
     }
     else {
-      if (this.data.id == 0){
+      if (this.data.id == 0) {
         this.addUser();
       }
-      else{
+      else {
         this.updateUser();
       }
     }
@@ -58,7 +63,8 @@ export class UserFormDialogComponent implements OnDestroy {
     this.dialogRef.close(result);
   }
 
-  getUser(id: number){
+  getUser(id: number) {
+    this.gettingUser = true;
     this.userSubscription = this.userService.getUser(id).subscribe(
       (response) => {
         this.user = response;
@@ -66,15 +72,24 @@ export class UserFormDialogComponent implements OnDestroy {
         this.form.controls['surname'].setValue(this.user?.surname);
         this.form.controls['email'].setValue(this.user?.email);
         console.log(response);
+        this.gettingUser = false;
       },
       (error) => {
         console.log(error);
+        this.snackBar.open(error.error, 'Close', {
+          duration: 5000,
+          panelClass: ['alert', 'alert-danger'],
+        });
+        this.gettingUser = false;
       }
     )
   }
 
-  addUser(){
-    var newUser: NewUser = {
+  addUser() {
+    this.addingUser = true;
+
+    var user: User = {
+      id: 0,
       name: this.form.controls['name'].value,
       surname: this.form.controls['surname'].value,
       email: this.form.controls['email'].value,
@@ -87,33 +102,51 @@ export class UserFormDialogComponent implements OnDestroy {
       isActivated: true
     }
 
-    this.userSubscription = this.userService.addUser(newUser).subscribe(
+    this.userSubscription = this.userService.addUser(user).subscribe(
       (response) => {
-        alert("User successfully added!")
         console.log(response)
-        this.closeDialog('added');
+        this.addingUser = false;
+        this.snackBar.open("User successfully added.", 'Close', {
+          duration: 5000,
+          panelClass: ['alert', 'alert-success'],
+        });
+        this.closeDialog('success');
       },
       (error) => {
-        alert("Error!")
         console.log(error)
+        this.addingUser = false;
+        this.snackBar.open(error.error, 'Close', {
+          duration: 5000,
+          panelClass: ['alert', 'alert-danger'],
+        });
       }
     )
   }
 
-  updateUser(){
+  updateUser() {
+    this.updatingUser = true;
+
     this.user.name = this.form.controls['name'].value;
     this.user.surname = this.form.controls['surname'].value;
     this.user.email = this.form.controls['email'].value;
 
     this.userSubscription = this.userService.updateUser(this.user, this.data.id).subscribe(
       (response) => {
-        alert("User successfully updated!")
-        console.log(response)
-        this.closeDialog('updated');
+        console.log(response);
+        this.updatingUser = false;
+        this.snackBar.open("User successfully updated.", 'Close', {
+          duration: 5000,
+          panelClass: ['alert', 'alert-success'],
+        });
+        this.closeDialog('success');
       },
       (error) => {
-        alert("Error!")
-        console.log(error)
+        console.log(error);
+        this.updatingUser = false;
+        this.snackBar.open(error.error, 'Close', {
+          duration: 5000,
+          panelClass: ['alert', 'alert-danger'],
+        });
       }
     )
   }

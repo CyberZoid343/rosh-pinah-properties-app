@@ -20,6 +20,10 @@ import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeactivateUserDialogComponent } from './pages/dashboard/users/deactivate-user-dialog/deactivate-user-dialog.component';
+import { ActivateUserDialogComponent } from './pages/dashboard/users/activate-user-dialog/activate-user-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DeleteUserDialogComponent } from './pages/dashboard/users/delete-user-dialog/delete-user-dialog.component';
+import { ReloadPageWarningComponent } from './componenets/reload-page-warning/reload-page-warning.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,10 @@ import { DeactivateUserDialogComponent } from './pages/dashboard/users/deactivat
     AccountSettingsComponent,
     PersonalDetailsFormComponent,
     ChangePasswordFormComponent,
-    DeactivateUserDialogComponent
+    DeactivateUserDialogComponent,
+    ActivateUserDialogComponent,
+    DeleteUserDialogComponent,
+    ReloadPageWarningComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +53,8 @@ import { DeactivateUserDialogComponent } from './pages/dashboard/users/deactivat
     ReactiveFormsModule,
     FormsModule,
     MatDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

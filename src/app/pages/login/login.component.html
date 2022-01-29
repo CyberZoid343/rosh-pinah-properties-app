@@ -7,7 +7,7 @@
           style="width: 100px;">
       </div>
 
-      <p class="text-muted text-center mb-4">Welcome to the Rosh Pinah CRM. Enter your login details below to sign in.</p>
+      <p class="text-center mb-4">Welcome to the Rosh Pinah CRM. Enter your login details below to sign in.</p>
 
       <div class="form-floating mb-4">
         <input type="email" class="form-control" formControlName="email" id="floatingInput"
@@ -30,21 +30,14 @@
         </div>
       </div>
 
-      <button class="btn btn-primary w-100 py-3" (click)="submit()" [disabled]="loading">
-        <span *ngIf="!loading">Login<i class="fas fa-sign-in-alt ml-2"></i></span>
-        <span *ngIf="loading">
+      <button class="btn btn-primary w-100 py-3" (click)="submit()" [disabled]="loggingIn">
+        <span *ngIf="!loggingIn">Login<i class="fas fa-sign-in-alt ml-2"></i></span>
+        <span *ngIf="loggingIn">
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          <span class="ml-2 text-white">Loading...</span>
+          <span class="ml-2 text-white">Logging In...</span>
         </span>
       </button>
     </div>
   </form>
-
-  <div class="alert alert-danger alert-dismissible fade text-center" role="alert"
-    [ngClass]="{'show': showFailedLoginAlert, '': !showFailedLoginAlert}">
-    <strong>Error!</strong> Email or password is incorrect. Please try again.
-    <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
 </div>
+

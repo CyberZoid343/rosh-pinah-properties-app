@@ -6,7 +6,11 @@
     <button disabled class="side-nav-button px-3 py-2 disabled" [routerLink]="['properties']" routerLinkActive="router-link-active"><i class="fas fa-lock mr-2"></i>Properties</button>
     <p class="small text-gray-500 pl-3 mb-1 mt-3">Admin</p>
     <button disabled class="side-nav-button px-3 py-2 disabled" [routerLink]="['audit-log']" routerLinkActive="router-link-active"><i class="fas fa-lock mr-2"></i>Audit Log</button>
-    <button class="side-nav-button px-3 py-2" [routerLink]="['users']" routerLinkActive="router-link-active"><i class="fas fa-users mr-2"></i>Users</button>
+    <button class="side-nav-button px-3 py-2" [routerLink]="['users']" routerLinkActive="router-link-active" [disabled]="!admin" [ngClass]="{'disabled': !admin}">
+      <i class="fas fa-lock mr-2" *ngIf="!admin"></i>
+      <i class="fas fa-users mr-2" *ngIf="admin"></i>
+      <span>Users</span>
+    </button>
     <p class="small text-gray-500 pl-3 mb-1 mt-3">General</p>
     <button class="side-nav-button px-3 py-2" [routerLink]="['account-settings']" routerLinkActive="router-link-active"><i class="fas fa-user-cog mr-2"></i>Account Settings</button>
     <button disabled class="side-nav-button px-3 py-2 disabled" [routerLink]="['help']" routerLinkActive="router-link-active"><i class="fas fa-lock mr-2"></i>Help</button>

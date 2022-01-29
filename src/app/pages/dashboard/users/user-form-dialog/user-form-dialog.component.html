@@ -1,9 +1,15 @@
 <div class="modal-dialog">
-  <form class="modal-content" [formGroup]="form">
+  <div class="modal-content" *ngIf="gettingUser">
+    <div class="py-5 d-flex align-items-center justify-content-center">
+      <div class="spinner-border" role="status"></div>
+      <span class="ml-2 text-nowrap">Loading user details...</span>
+    </div>
+  </div>
+  <form class="modal-content" [formGroup]="form" *ngIf="!gettingUser">
     <div class="modal-header">
       <h5 class="modal-title" *ngIf="data.id == 0">Add New User</h5>
       <h5 class="modal-title" *ngIf="data.id > 0">Edit User</h5>
-      <button type="button" class="btn-close" (click)="closeDialog('closed')" style="transform: translateX(-6px);"></button>
+      <button type="button" class="btn-close" (click)="closeDialog('closed')"></button>
     </div>
     <div class="modal-body">
 
@@ -49,9 +55,15 @@
 
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="closeDialog('closed')">Cancel</button>
-      <button type="button" class="btn btn-primary" (click)="submit()">
-        <span *ngIf="data.id == 0">Add User</span>
-        <span *ngIf="data.id > 0">Update User</span>
+      <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="updatingUser || addingUser">
+        <span *ngIf="data.id == 0">
+          <span *ngIf="!addingUser">Add User</span>
+          <span *ngIf="addingUser"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="ml-2">Adding User</span></span>
+        </span>
+        <span *ngIf="data.id > 0">
+          <span *ngIf="!updatingUser">Update User</span>
+          <span *ngIf="updatingUser"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="ml-2">Updating User</span></span>
+        </span>
       </button>
     </div>
   </form>

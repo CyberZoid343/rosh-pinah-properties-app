@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
@@ -6,20 +6,20 @@ import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/shared/interfaces';
 
 @Component({
-  selector: 'app-deactivate-user-dialog',
-  templateUrl: './deactivate-user-dialog.component.html',
-  styleUrls: ['./deactivate-user-dialog.component.scss']
+  selector: 'app-activate-user-dialog',
+  templateUrl: './activate-user-dialog.component.html',
+  styleUrls: ['./activate-user-dialog.component.scss']
 })
-export class DeactivateUserDialogComponent implements OnDestroy {
+export class ActivateUserDialogComponent implements OnDestroy {
 
   userSubscription: Subscription = new Subscription;
   user!: User;
-  deactivatingUser = false;
+  activatingUser = false;
 
   constructor(
     public userService: UserService,
     public snackBar: MatSnackBar,
-    public dialogRef: MatDialogRef<DeactivateUserDialogComponent>,
+    public dialogRef: MatDialogRef<ActivateUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {id: number}
   ) {
     this.getUser(data.id);
@@ -36,7 +36,6 @@ export class DeactivateUserDialogComponent implements OnDestroy {
   getUser(id: number){
     this.userSubscription = this.userService.getUser(id).subscribe(
       (response) => {
-        console.log(response);
         this.user = response;
       },
       (error) => {
@@ -49,14 +48,14 @@ export class DeactivateUserDialogComponent implements OnDestroy {
     )
   }
 
-  deactivateUser(){
-    this.deactivatingUser = true;
-    this.user.isActivated = false;
+  activateUser(){
+    this.activatingUser = true;
+    this.user.isActivated = true;
     this.userSubscription = this.userService.updateUser(this.user, this.data.id,).subscribe(
       (response) => {
         console.log(response);
-        this.deactivatingUser = false;
-        this.snackBar.open("User successfully deactivated.", 'Close', {
+        this.activatingUser = false;
+        this.snackBar.open("User successfully activated.", 'Close', {
           duration: 5000,
           panelClass: ['alert', 'alert-success'],
         });
@@ -64,7 +63,7 @@ export class DeactivateUserDialogComponent implements OnDestroy {
       },
       (error) => {
         console.log(error);
-        this.deactivatingUser = false;
+        this.activatingUser = false;
         this.snackBar.open(error.error, 'Close', {
           duration: 5000,
           panelClass: ['alert', 'alert-danger'],

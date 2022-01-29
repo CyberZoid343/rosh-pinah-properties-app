@@ -215,6 +215,19 @@ $list-group-border-color: $gray-300;
   background-color: $light;
 }
 
+.modal-header .btn-close{
+  transform: translateX(-6px);
+}
+
+//alert styles
+.alert button{
+  background-color: transparent !important;
+}
+
+.alert{
+  color: $dark !important;
+}
+
 @import '../node_modules/bootstrap';
 
 /* Importing Bootstrap SCSS file. */
