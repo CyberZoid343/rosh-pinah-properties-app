@@ -15,7 +15,7 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.navigateByUrl("/dashboard/account-settings/personal-details");
+    this.router.navigateByUrl("/dashboard/account-settings/account-overview");
   }
 
 }

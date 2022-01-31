@@ -12,6 +12,7 @@ import { AuthGuard } from './services/auth/auth.guard';
 import { AccountSettingsComponent } from './pages/dashboard/account-settings/account-settings.component';
 import { PersonalDetailsFormComponent } from './pages/dashboard/account-settings/personal-details-form/personal-details-form.component';
 import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/change-password-form/change-password-form.component';
+import { AccountOverviewComponent } from './pages/dashboard/account-settings/account-overview/account-overview.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,9 @@ const routes: Routes = [
       },
       {
         path: "account-settings", component: AccountSettingsComponent, children: [
+          {
+            path: "account-overview", component: AccountOverviewComponent
+          },
           {
             path: "personal-details", component: PersonalDetailsFormComponent
           },
