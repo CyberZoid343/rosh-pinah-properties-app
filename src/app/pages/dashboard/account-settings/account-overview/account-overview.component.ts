@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
+import { User } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-account-overview',
@@ -8,56 +11,42 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class AccountOverviewComponent implements OnInit {
 
-  id: number = 1;
-  role: any = "";
-  name: any = "Loading...";
-  surname: any = "";
-  email: any = "Loading...";
-  dateAdded: any = "Loading...";
+  users: User[] = [];
+  userSubscription: Subscription = new Subscription;
+  user!: User;
 
+  gettingUser = false;
   loading = true;
-  userId = null;
-  roleId = null;
 
   constructor(
-    public userService: UserService
+    public userService: UserService,
+    public snackBar: MatSnackBar,
     ) { 
-    this.getLoggedInUser(this.userService.getUser(this.id))
+    this.getUser(this.userService.getLoggedInUserId())
   }
 
   ngOnInit(): void {
   }
 
-  getLoggedInUser(id:any){
-    this.loading = true;
-    this.userService.getUser(id)
-      .subscribe(
-        (response) => {
+  getUser(id: number) {
+    this.gettingUser = true;
+    this.userSubscription = this.userService.getUser(id).subscribe(
+      (response) => {
+        this.user = response;
 
-          let {
-            Id,
-            userRole,
-            name,
-            surname,
-            email,
-            dateAdded,
-          } = response;
+        console.log(response);
 
-          console.log(response)
-
-          this.id = Id;
-          this.role = userRole.userRoleName;
-          this.name = name;
-          this.surname = surname;
-          this.email = email;
-          this.dateAdded = dateAdded;
-
-          this.loading = false;
-        },
-        (error) => {
-          console.error('error caught in component')
-        }
-      )
+        this.gettingUser = false;
+      },
+      (error) => {
+        console.log(error);
+        this.snackBar.open(error.error, 'Close', {
+          duration: 5000,
+          panelClass: ['alert', 'alert-danger'],
+        });
+        this.gettingUser = false;
+      }
+    )
   }
 
 }

@@ -1,0 +1,22 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Activate User</h5>
+      <button type="button" class="btn-close" (click)="closeDialog('closed')"></button>
+    </div>
+    <div class="modal-body">
+      <p class="mb-0">Are you sure you want to activate this user. The user will be granted access to the system.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeDialog('Closed')">Cancel</button>
+      <button type="button" class="btn btn-success text-white" (click)="activateUser()" [disabled]="activatingUser">
+        <span *ngIf="!activatingUser">Activate User</span>
+        <span *ngIf="activatingUser">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span class="ml-2">Activating User</span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+

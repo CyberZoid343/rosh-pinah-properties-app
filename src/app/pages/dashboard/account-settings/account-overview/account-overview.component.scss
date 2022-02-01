@@ -1,7 +1,8 @@
 //@import 'C:\Users\james\Documents\VisualStudioCode\Rosh Pinah CRM\rosh-pinah-properties-app\src\styles.scss';
 //@import 'rosh-pinah-properties-app\src\styles.scss';
 //@import '../../../styles.scss';
+@import '../../../../../styles.scss';
 
 .account-info-text{
-    color: #0c4c9c;
+    color: $primary;
 }

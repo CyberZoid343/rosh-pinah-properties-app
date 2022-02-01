@@ -18,6 +18,13 @@ import { AccountSettingsComponent } from './pages/dashboard/account-settings/acc
 import { PersonalDetailsFormComponent } from './pages/dashboard/account-settings/personal-details-form/personal-details-form.component';
 import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/change-password-form/change-password-form.component';
 import { AccountOverviewComponent } from './pages/dashboard/account-settings/account-overview/account-overview.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeactivateUserDialogComponent } from './pages/dashboard/users/deactivate-user-dialog/deactivate-user-dialog.component';
+import { ActivateUserDialogComponent } from './pages/dashboard/users/activate-user-dialog/activate-user-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DeleteUserDialogComponent } from './pages/dashboard/users/delete-user-dialog/delete-user-dialog.component';
+import { ReloadPageWarningComponent } from './componenets/reload-page-warning/reload-page-warning.component';
 
 @NgModule({
   declarations: [
@@ -36,15 +43,22 @@ import { AccountOverviewComponent } from './pages/dashboard/account-settings/acc
     PersonalDetailsFormComponent,
     ChangePasswordFormComponent,
     AccountOverviewComponent,
+    DeactivateUserDialogComponent,
+    ActivateUserDialogComponent,
+    DeleteUserDialogComponent,
+    ReloadPageWarningComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule
   ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
