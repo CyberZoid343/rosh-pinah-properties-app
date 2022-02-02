@@ -17,6 +17,7 @@ import { UserFormDialogComponent } from './pages/dashboard/users/user-form-dialo
 import { AccountSettingsComponent } from './pages/dashboard/account-settings/account-settings.component';
 import { PersonalDetailsFormComponent } from './pages/dashboard/account-settings/personal-details-form/personal-details-form.component';
 import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/change-password-form/change-password-form.component';
+import { AccountOverviewComponent } from './pages/dashboard/account-settings/account-overview/account-overview.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeactivateUserDialogComponent } from './pages/dashboard/users/deactivate-user-dialog/deactivate-user-dialog.component';
@@ -41,6 +42,7 @@ import { ReloadPageWarningComponent } from './componenets/reload-page-warning/re
     AccountSettingsComponent,
     PersonalDetailsFormComponent,
     ChangePasswordFormComponent,
+    AccountOverviewComponent,
     DeactivateUserDialogComponent,
     ActivateUserDialogComponent,
     DeleteUserDialogComponent,
