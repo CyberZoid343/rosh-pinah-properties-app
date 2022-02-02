@@ -17,6 +17,7 @@ export class ApiService {
 
   getHttpHeaders() {
     this.auth = JSON.parse(localStorage.getItem('auth')!);
+
     this.authorizationData = 'Basic ' + btoa(this.auth.email + ':' + this.auth.password);
     this.headerOptions = {
       headers: new HttpHeaders({

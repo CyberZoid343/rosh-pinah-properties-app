@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { NewUser, User } from 'src/app/shared/interfaces';
+import { NewUser, User, UserNewPassword } from 'src/app/shared/interfaces';
 import { ApiService } from '../api/api.service';
 
 @Injectable({
@@ -63,5 +63,9 @@ export class UserService {
   checkIfUserIsAdmin(){
     var user: User = JSON.parse(localStorage.getItem('user')!);
     return user.isAdmin;
+  }
+
+  updatePassword(userNewPassword: UserNewPassword, id: number): Observable<any> {
+    return this.http.put<any>(this.apiURL + "/changePassword/" + id, userNewPassword, this.apiService.getHttpHeaders());
   }
 }

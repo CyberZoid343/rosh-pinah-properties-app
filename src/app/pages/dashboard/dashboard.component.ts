@@ -36,24 +36,27 @@ export class DashboardComponent implements OnDestroy {
   }
 
   logout() {
-    var user: User = JSON.parse(localStorage.getItem('user')!);
+    localStorage.removeItem('user');
+    this.router.navigate(['']);
 
-    user.isOnline = false;
-    user.dateLastLogoff = new Date();
+    // var user: User = JSON.parse(localStorage.getItem('user')!);
 
-    console.log(user);
+    // user.isOnline = false;
+    // user.dateLastLogoff = new Date();
 
-    this.userSubscription = this.userService.updateUser(user, user.id).subscribe(
-      (result) => {
-        console.log(result);
-        localStorage.removeItem('user');
-        this.router.navigate(['']);
-      },
-      (error) => {
-        console.log(error);
-        localStorage.removeItem('user');
-        this.router.navigate(['']);
-      }
-    )
+    // console.log(user);
+
+    // this.userSubscription = this.userService.updateUser(user, user.id).subscribe(
+    //   (result) => {
+    //     console.log(result);
+    //     localStorage.removeItem('user');
+    //     this.router.navigate(['']);
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //     localStorage.removeItem('user');
+    //     this.router.navigate(['']);
+    //   }
+    // )
   }
 }

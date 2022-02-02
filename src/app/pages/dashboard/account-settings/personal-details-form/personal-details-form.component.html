@@ -40,7 +40,13 @@
         </div>
         <div class="card-footer p-3 bg-light">
             <div class="d-flex">
-                <button class="btn btn-primary ml-auto" (click)="submit()">Update Personal Details</button>
+              <button type="button" class="btn btn-primary ml-auto" (click)="submit()" [disabled]="updatingPersonalDetails">
+                <span *ngIf="!updatingPersonalDetails">Update Personal Details</span>
+                <span *ngIf="updatingPersonalDetails">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <span class="ml-2">Updating Personal Details</span>
+                </span>
+              </button>
             </div>
         </div>
     </form>

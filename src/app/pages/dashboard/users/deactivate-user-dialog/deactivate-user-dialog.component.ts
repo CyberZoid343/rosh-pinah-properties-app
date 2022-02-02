@@ -64,11 +64,11 @@ export class DeactivateUserDialogComponent implements OnDestroy {
       },
       (error) => {
         console.log(error);
-        this.deactivatingUser = false;
         this.snackBar.open(error.error, 'Close', {
           duration: 5000,
           panelClass: ['alert', 'alert-danger'],
         });
+        this.deactivatingUser = false;
       }
     )
   }

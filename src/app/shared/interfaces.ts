@@ -29,3 +29,8 @@ export interface UserAuthentication {
   email: string,
   password: string
 }
+
+export interface UserNewPassword {
+  newPassword: string,
+  confirmPassword: string
+}

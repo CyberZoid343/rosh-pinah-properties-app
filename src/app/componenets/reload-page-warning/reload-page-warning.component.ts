@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reload-page-warning',
@@ -7,10 +8,15 @@ import { Component } from '@angular/core';
 })
 export class ReloadPageWarningComponent {
 
-  constructor() { }
+  constructor(
+    public router: Router
+  ) { }
 
   reloadPage(){
-    window.location.reload();
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
   }
 
 }

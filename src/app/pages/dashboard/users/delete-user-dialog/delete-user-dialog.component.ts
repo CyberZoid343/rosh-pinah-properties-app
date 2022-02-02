@@ -43,11 +43,11 @@ export class DeleteUserDialogComponent implements OnDestroy {
       },
       (error) => {
         console.log(error);
-        this.deletingUser = false;
         this.snackBar.open(error.error, 'Close', {
           duration: 5000,
           panelClass: ['alert', 'alert-danger'],
         });
+        this.deletingUser = false;
       }
     )
   }

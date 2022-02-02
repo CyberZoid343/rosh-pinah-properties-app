@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user/user.service';
-import { NewUser, User } from 'src/app/shared/interfaces';
+import { User } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-user-form-dialog',
@@ -114,11 +114,11 @@ export class UserFormDialogComponent implements OnDestroy {
       },
       (error) => {
         console.log(error)
-        this.addingUser = false;
         this.snackBar.open(error.error, 'Close', {
           duration: 5000,
           panelClass: ['alert', 'alert-danger'],
         });
+        this.addingUser = false;
       }
     )
   }
@@ -133,7 +133,7 @@ export class UserFormDialogComponent implements OnDestroy {
     this.userSubscription = this.userService.updateUser(this.user, this.data.id).subscribe(
       (response) => {
         console.log(response);
-        this.updatingUser = false;
+
         this.snackBar.open("User successfully updated.", 'Close', {
           duration: 5000,
           panelClass: ['alert', 'alert-success'],
@@ -142,11 +142,11 @@ export class UserFormDialogComponent implements OnDestroy {
       },
       (error) => {
         console.log(error);
-        this.updatingUser = false;
         this.snackBar.open(error.error, 'Close', {
           duration: 5000,
           panelClass: ['alert', 'alert-danger'],
         });
+        this.updatingUser = false;
       }
     )
   }

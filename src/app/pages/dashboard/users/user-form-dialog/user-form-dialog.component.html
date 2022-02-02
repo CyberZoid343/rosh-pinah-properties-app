@@ -6,11 +6,11 @@
     </div>
   </div>
   <form class="modal-content" [formGroup]="form" *ngIf="!gettingUser">
-    <div class="modal-header">
-      <h5 class="modal-title" *ngIf="data.id == 0">Add New User</h5>
-      <h5 class="modal-title" *ngIf="data.id > 0">Edit User</h5>
-      <button type="button" class="btn-close" (click)="closeDialog('closed')"></button>
-    </div>
+      <div class="modal-header">
+        <h4 class="my-auto" *ngIf="data.id == 0">Add New User</h4>
+        <h4 class="my-auto" *ngIf="data.id > 0">Edit User</h4>
+        <button type="button" class="btn-close" (click)="closeDialog('closed')"></button>
+      </div>
     <div class="modal-body">
 
       <div class="mb-3">
@@ -46,11 +46,11 @@
     </div>
 
     <div class="px-3" *ngIf="data.id == 0">
+
       <p>The default password will be set to "initpass".</p>
 
       <p>Request the user to change their account password when they login in for the first time.</p>
 
-      <p>You can also manually reset the password for the user.</p>
     </div>
 
     <div class="modal-footer">
