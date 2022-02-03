@@ -13,3 +13,18 @@ tr td:last-of-type{
 .fa-user-circle{
     font-size: 32px;
 }
+
+.table-container{
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  bottom: 16px;
+  background-color: white;
+  left: 236px;
+  overflow: hidden;
+}
+
+.table-wrapper{
+  width: 100%;
+  overflow: auto;
+}

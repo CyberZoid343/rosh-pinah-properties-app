@@ -63,7 +63,8 @@ export class UsersComponent implements OnDestroy {
   openDeactivateUserDialog(id: number) {
     const dialogRef = this.dialog.open(DeactivateUserDialogComponent, {
       width: '400px',
-      data: { id: id }
+      data: { id: id },
+      panelClass: 'dialog'
     });
 
     dialogRef.afterClosed().subscribe(result => {

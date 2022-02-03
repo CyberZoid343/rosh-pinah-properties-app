@@ -139,10 +139,6 @@ button i{
   background-color: $gray-100 !important;
 }
 
-.custom-table thead tr:hover{
-  background-color: #ffffff;
-}
-
 //Badge styles
 .badge{
   padding: 4px 8px !important;
@@ -178,7 +174,6 @@ $dropdown-border-color: $gray-300;
 }
 
 .card-footer{
-  border-top: none !important;
   border-color: $gray-300 !important;
 }
 
@@ -211,7 +206,6 @@ $list-group-border-color: $gray-300;
 
 //Modal styles
 .modal-footer{
-  border-top: none !important;
   background-color: $light;
 }
 
@@ -222,14 +216,22 @@ $list-group-border-color: $gray-300;
 //alert styles
 .alert button{
   background-color: transparent !important;
+  color: $dark !important;
 }
 
 .alert{
   color: $dark !important;
 }
 
+.dialog{
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
 @import '../node_modules/bootstrap';
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+
 

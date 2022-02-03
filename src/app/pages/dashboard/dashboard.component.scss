@@ -8,6 +8,8 @@
     left: 0;
     bottom: 0;
     overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 10;
 }
 
 .side-nav-button{
@@ -44,6 +46,7 @@
 .main{
     height: 100vh;
     padding-left: 220px;
+    overflow: hidden;
 }
 
 .top-nav{
