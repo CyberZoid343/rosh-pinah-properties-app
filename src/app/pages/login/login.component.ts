@@ -3,6 +3,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -13,14 +14,14 @@ export class LoginComponent implements OnDestroy {
 
   form: FormGroup;
   submitted = false;
-  loading = false;
-  showFailedLoginAlert = false;
+  loggingIn = false;
   userSubscription: Subscription = new Subscription;
 
   constructor(
-    private userService: UserService,
-    private router: Router,
-    private formBuilder: FormBuilder,
+    public userService: UserService,
+    public router: Router,
+    public formBuilder: FormBuilder,
+    public snackBar: MatSnackBar
   ) {
     this.form = this.formBuilder.group({
       email: ['luke2000.greyling@gmail.com', [Validators.required, Validators.email, Validators.maxLength(500)]],
@@ -32,38 +33,43 @@ export class LoginComponent implements OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
+  //Check if the form is valid
   submit() {
     this.submitted = true;
     if (this.form.invalid) {
       return;
     }
     else {
-      this.loading = true;
       this.login();
     }
   }
 
-  closeAlert(){
-    this.showFailedLoginAlert = false;
-  }
-
+  //Check if the user is authorized
   login() {
     try {
+      this.loggingIn = true;
+
       var auth = {
         email: this.form.get('email')!.value,
         password: this.form.get('password')!.value,
       }
 
+      localStorage.setItem('auth', JSON.stringify(auth));
+
       this.userSubscription = this.userService.login(auth).subscribe(
         (user) => {
-          localStorage.setItem('user', JSON.stringify(user))
-          this.router.navigate(['/dashboard/settings']);
-          this.loading = false;
+          console.log(user);
+          localStorage.setItem('user', JSON.stringify(user));
+          this.router.navigate(['/dashboard/account-settings']);
+          this.loggingIn = false;
         },
         (error) => {
-          console.error("Login: " + error)
-          this.showFailedLoginAlert = true;
-          this.loading = false;
+          console.error(error);
+          this.snackBar.open(error.error, 'Close', {
+            duration: 5000,
+            panelClass: ['alert', 'alert-danger'],
+          });
+          this.loggingIn = false;
         }
       );
     } catch (error) {

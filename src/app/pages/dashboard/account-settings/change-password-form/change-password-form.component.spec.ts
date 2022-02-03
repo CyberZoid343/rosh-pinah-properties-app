@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsComponent } from './settings.component';
+import { ChangePasswordFormComponent } from './change-password-form.component';
 
-describe('SettingsComponent', () => {
-  let component: SettingsComponent;
-  let fixture: ComponentFixture<SettingsComponent>;
+describe('ChangePasswordFormComponent', () => {
+  let component: ChangePasswordFormComponent;
+  let fixture: ComponentFixture<ChangePasswordFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SettingsComponent ]
+      declarations: [ ChangePasswordFormComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SettingsComponent);
+    fixture = TestBed.createComponent(ChangePasswordFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

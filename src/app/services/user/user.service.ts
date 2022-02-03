@@ -1,42 +1,48 @@
-import { ApiConnectionStringService } from './../api-connection-string/api-connection-string.service';
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { NewUser, User, UserNewPassword } from 'src/app/shared/interfaces';
+import { ApiService } from '../api/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
+  user!: User;
+
   constructor(
-    private http: HttpClient,
-    private ApiConnectionStringService: ApiConnectionStringService
+    public http: HttpClient,
+    public apiService: ApiService,
+    public router: Router
   ) { }
 
-  apiURL = this.ApiConnectionStringService.apiConnectionString + "user";
+  apiURL = this.apiService.apiConnectionString + "user";
 
   getUsers(): Observable<any> {
-    return this.http.get(this.apiURL)
+    return this.http.get(this.apiURL, this.apiService.getHttpHeaders())
   }
 
   getUser(id: number): Observable<any> {
-    return this.http.get(this.apiURL + "/" + id)
+    return this.http.get(this.apiURL + "/" + id, this.apiService.getHttpHeaders())
   }
 
-  addUser(client: Object): Observable<any> {
-    return this.http.post(this.apiURL, client);
+  addUser(user: User): Observable<any> {
+    return this.http.post(this.apiURL, user, this.apiService.getHttpHeaders());
   }
 
   deleteUser(id: number): Observable<any> {
-    return this.http.delete(this.apiURL + "/" + id)
+    return this.http.delete(this.apiURL + "/" + id, this.apiService.getHttpHeaders())
   }
 
-  updateUser(object: object, id: number): Observable<any> {
-    return this.http.put<any>(this.apiURL + "/" + id, object);
+  updateUser(user: User, id: number): Observable<any> {
+    return this.http.put<any>(this.apiURL + "/" + id, user, this.apiService.getHttpHeaders());
   }
 
-  login(object: Object): Observable<any>{
-    return this.http.post(this.apiURL + "/login", object);
+  login(auth: Object): Observable<any>{
+    return this.http.post(this.apiURL + "/login", auth);
   }
 
   isLoggedIn(){
@@ -47,5 +53,19 @@ export class UserService {
     else{
       return true
     }
+  }
+
+  getLoggedInUserId(){
+    var user: User = JSON.parse(localStorage.getItem('user')!);
+    return user.id;
+  }
+
+  checkIfUserIsAdmin(){
+    var user: User = JSON.parse(localStorage.getItem('user')!);
+    return user.isAdmin;
+  }
+
+  updatePassword(userNewPassword: UserNewPassword, id: number): Observable<any> {
+    return this.http.put<any>(this.apiURL + "/changePassword/" + id, userNewPassword, this.apiService.getHttpHeaders());
   }
 }

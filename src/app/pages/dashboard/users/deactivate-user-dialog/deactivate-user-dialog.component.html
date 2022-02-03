@@ -1,0 +1,21 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Deactivate User</h4>
+      <button type="button" class="btn-close" (click)="closeDialog('closed')"></button>
+    </div>
+    <div class="modal-body">
+      <p class="mb-0">Are you sure you want to deactive this user? The user's data will not be deleted but, the user will be denied access to the system.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeDialog('Closed')">Cancel</button>
+      <button type="button" class="btn btn-danger" (click)="deactivateUser()" [disabled]="deactivatingUser">
+        <span *ngIf="!deactivatingUser">Deactivate User</span>
+        <span *ngIf="deactivatingUser">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span class="ml-2">Deactivating User</span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>

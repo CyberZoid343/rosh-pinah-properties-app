@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChangePasswordComponent } from './change-password.component';
+import { ReloadPageWarningComponent } from './reload-page-warning.component';
 
-describe('ChangePasswordComponent', () => {
-  let component: ChangePasswordComponent;
-  let fixture: ComponentFixture<ChangePasswordComponent>;
+describe('ReloadPageWarningComponent', () => {
+  let component: ReloadPageWarningComponent;
+  let fixture: ComponentFixture<ReloadPageWarningComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChangePasswordComponent ]
+      declarations: [ ReloadPageWarningComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChangePasswordComponent);
+    fixture = TestBed.createComponent(ReloadPageWarningComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

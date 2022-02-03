@@ -12,12 +12,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CompaniesComponent } from './pages/dashboard/companies/companies.component';
 import { HelpComponent } from './pages/dashboard/help/help.component';
 import { AuditLogComponent } from './pages/dashboard/audit-log/audit-log.component';
-import { SettingsComponent } from './pages/dashboard/settings/settings.component';
-import { ManageAccountComponent } from './pages/dashboard/settings/manage-account/manage-account.component';
-import { ChangePasswordComponent } from './pages/dashboard/settings/change-password/change-password.component';
 import { TopBarComponent } from './componenets/top-bar/top-bar.component';
-import { MakeAdminDialogComponent } from './pages/dashboard/users/make-admin-dialog/make-admin-dialog.component';
 import { UserFormDialogComponent } from './pages/dashboard/users/user-form-dialog/user-form-dialog.component';
+import { AccountSettingsComponent } from './pages/dashboard/account-settings/account-settings.component';
+import { PersonalDetailsFormComponent } from './pages/dashboard/account-settings/personal-details-form/personal-details-form.component';
+import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/change-password-form/change-password-form.component';
+import { AccountOverviewComponent } from './pages/dashboard/account-settings/account-overview/account-overview.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeactivateUserDialogComponent } from './pages/dashboard/users/deactivate-user-dialog/deactivate-user-dialog.component';
+import { ActivateUserDialogComponent } from './pages/dashboard/users/activate-user-dialog/activate-user-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DeleteUserDialogComponent } from './pages/dashboard/users/delete-user-dialog/delete-user-dialog.component';
+import { ReloadPageWarningComponent } from './componenets/reload-page-warning/reload-page-warning.component';
+import { ViewUserDetailsDialogComponent } from './pages/dashboard/users/view-user-details-dialog/view-user-details-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -30,12 +39,17 @@ import { UserFormDialogComponent } from './pages/dashboard/users/user-form-dialo
     CompaniesComponent,
     HelpComponent,
     AuditLogComponent,
-    SettingsComponent,
-    ManageAccountComponent,
-    ChangePasswordComponent,
     TopBarComponent,
-    MakeAdminDialogComponent,
-    UserFormDialogComponent
+    UserFormDialogComponent,
+    AccountSettingsComponent,
+    PersonalDetailsFormComponent,
+    ChangePasswordFormComponent,
+    AccountOverviewComponent,
+    DeactivateUserDialogComponent,
+    ActivateUserDialogComponent,
+    DeleteUserDialogComponent,
+    ReloadPageWarningComponent,
+    ViewUserDetailsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +57,10 @@ import { UserFormDialogComponent } from './pages/dashboard/users/user-form-dialo
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

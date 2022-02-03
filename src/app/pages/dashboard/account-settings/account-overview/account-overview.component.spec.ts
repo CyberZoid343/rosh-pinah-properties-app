@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MakeAdminDialogComponent } from './make-admin-dialog.component';
+import { AccountOverviewComponent } from './account-overview.component';
 
-describe('MakeAdminDialogComponent', () => {
-  let component: MakeAdminDialogComponent;
-  let fixture: ComponentFixture<MakeAdminDialogComponent>;
+describe('AccountOverviewComponent', () => {
+  let component: AccountOverviewComponent;
+  let fixture: ComponentFixture<AccountOverviewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MakeAdminDialogComponent ]
+      declarations: [ AccountOverviewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MakeAdminDialogComponent);
+    fixture = TestBed.createComponent(AccountOverviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
