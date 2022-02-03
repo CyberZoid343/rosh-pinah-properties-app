@@ -7,7 +7,7 @@ import { UserAuthentication } from 'src/app/shared/interfaces';
 })
 export class ApiService {
 
-  apiConnectionString = "https://localhost:44303/api/";
+  apiConnectionString = "https://roshpinahpropertieswebapi20211206152720.azurewebsites.net/api/";
 
   auth: any;
   authorizationData: any;
@@ -17,6 +17,7 @@ export class ApiService {
 
   getHttpHeaders() {
     this.auth = JSON.parse(localStorage.getItem('auth')!);
+
     this.authorizationData = 'Basic ' + btoa(this.auth.email + ':' + this.auth.password);
     this.headerOptions = {
       headers: new HttpHeaders({

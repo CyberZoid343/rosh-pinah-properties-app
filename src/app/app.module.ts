@@ -17,6 +17,16 @@ import { UserFormDialogComponent } from './pages/dashboard/users/user-form-dialo
 import { AccountSettingsComponent } from './pages/dashboard/account-settings/account-settings.component';
 import { PersonalDetailsFormComponent } from './pages/dashboard/account-settings/personal-details-form/personal-details-form.component';
 import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/change-password-form/change-password-form.component';
+import { AccountOverviewComponent } from './pages/dashboard/account-settings/account-overview/account-overview.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeactivateUserDialogComponent } from './pages/dashboard/users/deactivate-user-dialog/deactivate-user-dialog.component';
+import { ActivateUserDialogComponent } from './pages/dashboard/users/activate-user-dialog/activate-user-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DeleteUserDialogComponent } from './pages/dashboard/users/delete-user-dialog/delete-user-dialog.component';
+import { ReloadPageWarningComponent } from './componenets/reload-page-warning/reload-page-warning.component';
+import { ViewUserDetailsDialogComponent } from './pages/dashboard/users/view-user-details-dialog/view-user-details-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -33,7 +43,13 @@ import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/
     UserFormDialogComponent,
     AccountSettingsComponent,
     PersonalDetailsFormComponent,
-    ChangePasswordFormComponent
+    ChangePasswordFormComponent,
+    AccountOverviewComponent,
+    DeactivateUserDialogComponent,
+    ActivateUserDialogComponent,
+    DeleteUserDialogComponent,
+    ReloadPageWarningComponent,
+    ViewUserDetailsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +57,10 @@ import { ChangePasswordFormComponent } from './pages/dashboard/account-settings/
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

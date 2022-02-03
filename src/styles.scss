@@ -1,3 +1,14 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
 $gray-100: #F8F9FA;
 $gray-200: #E9ECEF;
 $gray-300: #DEE2E6;
@@ -79,16 +90,12 @@ $btn-active-border-shade-amount:  5%;
   height: 14px;
 }
 
-.btn-secondary{
-  border: 1px solid $gray-400 !important;
-}
-
 button i{
   width: 14px;
   height: 14px;
 }
 
-.btn:focus {
+.btn:focus, .btn-close:focus {
   box-shadow: none !important;
 }
 
@@ -132,10 +139,6 @@ button i{
   background-color: $gray-100 !important;
 }
 
-.custom-table thead tr:hover{
-  background-color: #ffffff;
-}
-
 //Badge styles
 .badge{
   padding: 4px 8px !important;
@@ -157,13 +160,17 @@ $dropdown-border-color: $gray-300;
   height: 1px !important;
 }
 
-.dropdown-menu{
+.custom-dropdown{
   box-shadow: $box-shadow !important;
+  border: 1px solid $gray-300;
+  border-radius: .25rem;
+  background-color: white !important;
 }
 
 //Card styles
 .card{
   box-shadow: $box-shadow !important;
+  border-color: $gray-300 !important;
 }
 
 .card-header{
@@ -171,7 +178,6 @@ $dropdown-border-color: $gray-300;
 }
 
 .card-footer{
-  border-top: none !important;
   border-color: $gray-300 !important;
 }
 
@@ -204,8 +210,32 @@ $list-group-border-color: $gray-300;
 
 //Modal styles
 .modal-footer{
-  border-top: none !important;
   background-color: $light;
 }
 
+.modal-header .btn-close{
+  transform: translateX(-6px);
+}
+
+//alert styles
+.alert button{
+  background-color: transparent !important;
+  color: $dark !important;
+}
+
+.alert{
+  color: $dark !important;
+}
+
+.dialog{
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
 @import '../node_modules/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+
+
