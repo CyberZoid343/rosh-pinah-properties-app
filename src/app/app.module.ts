@@ -26,6 +26,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DeleteUserDialogComponent } from './pages/dashboard/users/delete-user-dialog/delete-user-dialog.component';
 import { ReloadPageWarningComponent } from './componenets/reload-page-warning/reload-page-warning.component';
 import { ViewUserDetailsDialogComponent } from './pages/dashboard/users/view-user-details-dialog/view-user-details-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { ViewUserDetailsDialogComponent } from './pages/dashboard/users/view-use
     FormsModule,
     MatDialogModule,
     BrowserAnimationsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]
