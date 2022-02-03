@@ -38,11 +38,11 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.1",
-    "@angular/cli": "~12.2.1",
+    "@angular/cli": "^12.2.16",
     "@angular/compiler-cli": "~12.2.0",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
-    "electron": "^16.0.7",
+    "electron": "^17.0.0",
     "electron-builder": "^22.14.5",
     "electron-packager": "^15.4.0",
     "jasmine-core": "~3.8.0",
