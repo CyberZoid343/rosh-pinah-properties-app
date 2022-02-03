@@ -7,7 +7,7 @@ import { UserAuthentication } from 'src/app/shared/interfaces';
 })
 export class ApiService {
 
-  apiConnectionString = "https://localhost:44303/api/";
+  apiConnectionString = "https://roshpinahpropertieswebapi20211206152720.azurewebsites.net/api/";
 
   auth: any;
   authorizationData: any;
