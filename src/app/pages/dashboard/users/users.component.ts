@@ -7,6 +7,7 @@ import { DeactivateUserDialogComponent } from './deactivate-user-dialog/deactiva
 import { UserFormDialogComponent } from './user-form-dialog/user-form-dialog.component';
 import { ActivateUserDialogComponent } from './activate-user-dialog/activate-user-dialog.component';
 import { DeleteUserDialogComponent } from './delete-user-dialog/delete-user-dialog.component';
+import { ViewUserDetailsDialogComponent } from './view-user-details-dialog/view-user-details-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -90,6 +91,19 @@ export class UsersComponent implements OnDestroy {
   openDeleteUserDialog(id: number) {
     const dialogRef = this.dialog.open(DeleteUserDialogComponent, {
       width: '400px',
+      data: { id: id }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'success') {
+        this.getUsers();
+      }
+    });
+  }
+
+  openViewUserDetailsDialog(id: number) {
+    const dialogRef = this.dialog.open(ViewUserDetailsDialogComponent, {
+      width: '600px',
       data: { id: id }
     });
 
