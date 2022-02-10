@@ -73,10 +73,13 @@ body{
 }
 
 //Typography
-$font-size-base: 0.85rem;
+$font-size-base: 0.8rem;
 
 //Form control styles
 $input-focus-box-shadow: none;
+
+//Form select styles
+$form-select-focus-box-shadow: none;
 
 //button styles
 $btn-active-border-shade-amount:  5%;
