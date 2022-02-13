@@ -31,10 +31,10 @@
       </div>
 
       <button class="btn btn-primary w-100 py-3" (click)="submit()" [disabled]="loggingIn">
-        <span *ngIf="!loggingIn">Login<i class="fas fa-sign-in-alt ml-2"></i></span>
+        <span *ngIf="!loggingIn">Login<i class="fas fa-sign-in-alt ms-2"></i></span>
         <span *ngIf="loggingIn">
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          <span class="ml-2 text-white">Logging In...</span>
+          <span class="ms-2 text-white">Logging In...</span>
         </span>
       </button>
     </div>

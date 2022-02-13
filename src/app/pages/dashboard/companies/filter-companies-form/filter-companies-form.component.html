@@ -1,0 +1,33 @@
+<form [formGroup]="form" class="d-flex flex-column border-end" style="width: 400px; height: calc(100vh - 100px)"
+  [ngClass]="{'d-block': showFilters, 'd-none' : !showFilters }">
+  <div class="p-3 overflow-auto">
+
+    <label class="form-label">Search</label>
+    <input type="text" class="form-control mb-3" id="search" formControlName="search">
+
+    <label class="form-label">Added Date Range</label>
+    <div class="d-flex mb-3">
+      <input type="date" class="form-control me-2" id="dateAddedMin" formControlName="dateAddedMin">
+      <input type="date" class="form-control" id="dateAddedMax" formControlName="dateAddedMax">
+    </div>
+
+    <label class="form-label">Updated Date Range</label>
+    <div class="d-flex mb-3">
+      <input type="date" class="form-control me-2" id="dateLastUpdatedMin" formControlName="dateLastUpdatedMin">
+      <input type="date" class="form-control" id="dateLastUpdatedMax" formControlName="dateLastUpdatedMax">
+    </div>
+
+    <label class="form-label">Last Editor</label>
+    <select class="form-select mb-3">
+      <option selected></option>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    </select>
+  </div>
+
+  <div class="d-flex border-top mt-auto p-3 bg-light">
+    <button class="btn btn-secondary w-100 me-2">Clear All</button>
+    <button type="button" class="btn btn-primary w-100" (click)="submit()">Filter List</button>
+  </div>
+</form>

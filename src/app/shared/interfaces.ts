@@ -34,3 +34,11 @@ export interface UserNewPassword {
   newPassword: string,
   confirmPassword: string
 }
+
+export interface Company{
+  id: number,
+  name: string,
+  dateAdded: Date,
+  dateLastUpdated: Date,
+  lastEditor: string
+}
