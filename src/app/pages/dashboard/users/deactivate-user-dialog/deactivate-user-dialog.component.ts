@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/shared/interfaces';
 
@@ -18,7 +18,7 @@ export class DeactivateUserDialogComponent implements OnDestroy {
 
   constructor(
     public userService: UserService,
-    public snackBar: MatSnackBar,
+    public snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<DeactivateUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {id: number}
   ) {
@@ -41,10 +41,7 @@ export class DeactivateUserDialogComponent implements OnDestroy {
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
       }
     )
   }
@@ -55,19 +52,12 @@ export class DeactivateUserDialogComponent implements OnDestroy {
     this.userSubscription = this.userService.updateUser(this.user, this.data.id,).subscribe(
       (response) => {
         console.log(response);
-        this.deactivatingUser = false;
-        this.snackBar.open("User successfully deactivated.", 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-success'],
-        });
+        this.snackBarService.showSuccessSnackBar("User successfully deactivated.")
         this.closeDialog('success');
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
         this.deactivatingUser = false;
       }
     )

@@ -1,21 +1,20 @@
-<div class="py-5 d-flex align-items-center justify-content-center" *ngIf="gettingUsers" style="height: 100vh;">
-  <div class="spinner-border spinner-border-sm" role="status"></div>
-  <span class="ms-2 text-nowrap">Loading Users...</span>
-</div>
+<div class="card overflow-hidden">
 
-<div class="py-5 d-flex align-items-center justify-content-center" *ngIf="gettingUsersError" style="height: 100vh;">
-  <app-reload-page-warning></app-reload-page-warning>
-</div>
-
-<div class="card m-3 overflow-hidden" *ngIf="!gettingUsers && !gettingUsersError">
-  <div class="d-flex p-3 align-items-center">
+  <div class="d-flex p-3 align-items-center border-bottom">
     <h4 class="mb-0 me-3">Users</h4>
     <button class="btn btn-primary ms-auto text-nowrap" (click)="openUserFormDialog(0)"><i
       class="fas fa-plus-circle me-2 text-nowrap"></i>Add New User</button>
   </div>
-  <div class="overflow-auto">
-    <table class="custom-table border-top text-nowrap">
-      <thead class="bg-light">
+
+  <div class="d-flex flex-column overflow-auto" style="height: calc(100vh - 100px)">
+
+    <div class="py-5 d-flex align-items-center justify-content-center" *ngIf="gettingUsers">
+      <div class="spinner-border spinner-border-sm" role="status"></div>
+      <span class="ms-2 text-nowrap">Loading Users...</span>
+    </div>
+
+    <table class="custom-table text-nowrap" *ngIf="!gettingUsers">
+      <thead class="bg-light sticky-top">
         <tr>
           <th scope="col">Account</th>
           <th scope="col">Email</th>
@@ -33,12 +32,6 @@
               <i class="fas fa-user-circle me-2"></i>
               <div class="d-block">
                 {{user.name}} {{user.surname}}
-                <!-- <small class="d-flex align-items-center text-muted small" *ngIf="user.isOnline"><i
-                    class="fas fa-circle text-success mr-1"></i>Online since {{user.dateLastLogin |
-                  date:'longDate'}}</small>
-                <small class="d-flex align-items-center text-muted small" *ngIf="!user.isOnline"><i
-                    class="fas fa-circle text-danger mr-1"></i>Offline since {{user.dateLastLogoff |
-                  date:'longDate'}}</small> -->
               </div>
             </div>
           </td>
@@ -67,6 +60,7 @@
         </tr>
       </tbody>
     </table>
+
   </div>
 </div>
 

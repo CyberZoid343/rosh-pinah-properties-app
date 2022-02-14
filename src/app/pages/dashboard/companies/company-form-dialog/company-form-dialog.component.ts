@@ -1,9 +1,9 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { CompanyService } from 'src/app/services/company/company.service';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { Company } from 'src/app/shared/interfaces';
 
@@ -27,7 +27,7 @@ export class CompanyFormDialogComponent implements OnDestroy {
     public formBuilder: FormBuilder,
     public companyService: CompanyService,
     public userService: UserService,
-    public snackBar: MatSnackBar,
+    public snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<CompanyFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
   ) {
@@ -67,18 +67,14 @@ export class CompanyFormDialogComponent implements OnDestroy {
     this.gettingCompany = true;
     this.companySubscription = this.companyService.getCompany(id).subscribe(
       (response) => {
+        console.log(response);
         this.company = response;
         this.form.controls['name'].setValue(this.company?.name);
-        console.log(response);
         this.gettingCompany = false;
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
-        this.gettingCompany = false;
+        this.snackBarService.showErrorSnackBar(error.error)
       }
     )
   }
@@ -97,19 +93,12 @@ export class CompanyFormDialogComponent implements OnDestroy {
     this.companySubscription = this.companyService.addCompany(company).subscribe(
       (response) => {
         console.log(response)
-        this.addingCompany = false;
-        this.snackBar.open("Company successfully added.", 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-success'],
-        });
+        this.snackBarService.showSuccessSnackBar("Company successfully added.")
         this.closeDialog('success')
       },
       (error) => {
-        console.log(error)
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        console.log(error);
+        this.snackBarService.showErrorSnackBar(error.error)
         this.addingCompany = false
       }
     )
@@ -124,18 +113,12 @@ export class CompanyFormDialogComponent implements OnDestroy {
     this.companySubscription = this.companyService.updateCompany(this.company, this.data.id).subscribe(
       (response) => {
         console.log(response)
-        this.snackBar.open("Company successfully updated.", 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-success'],
-        });
+        this.snackBarService.showSuccessSnackBar("Company successfully updated.")
         this.closeDialog('success')
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
         this.updatingCompany = false;
       }
     )

@@ -1,9 +1,10 @@
 import { OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CompanyService } from 'src/app/services/company/company.service';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { Company } from 'src/app/shared/interfaces';
 import { CompanyFormDialogComponent } from './company-form-dialog/company-form-dialog.component';
 import { DeleteCompanyDialogComponent } from './delete-company-dialog/delete-company-dialog.component';
@@ -25,10 +26,14 @@ export class CompaniesComponent implements OnDestroy {
     public companyService: CompanyService,
     public dialog: MatDialog,
     public router: Router,
-    private route: ActivatedRoute
+    public snackBarService: SnackBarService
   ) {
 
-    this.getCompanies()
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.getCompanies()
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -45,7 +50,6 @@ export class CompaniesComponent implements OnDestroy {
   }
 
   getCompanies() {
-    this.gettingCompaniesError = false;
     this.gettingCompanies = true;
     this.companySubscription = this.companyService.getCompanySet().subscribe(
       (respone) => {
@@ -55,8 +59,7 @@ export class CompaniesComponent implements OnDestroy {
       },
       (error) => {
         console.log(error)
-        this.gettingCompanies = false
-        this.gettingCompaniesError = true
+        this.snackBarService.showErrorSnackBar(error.error)
       }
     )
   }

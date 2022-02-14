@@ -1,8 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { CompanyService } from 'src/app/services/company/company.service';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 
 @Component({
   selector: 'app-delete-company-dialog',
@@ -16,7 +16,7 @@ export class DeleteCompanyDialogComponent implements OnDestroy {
 
   constructor(
     public companyService: CompanyService,
-    public snackBar: MatSnackBar,
+    public snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<DeleteCompanyDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {id: number}
   ) { }
@@ -34,19 +34,12 @@ export class DeleteCompanyDialogComponent implements OnDestroy {
     this.companySubscripteion = this.companyService.deleteCompany(this.data.id).subscribe(
       (response) => {
         console.log(response);
-        this.deletingCompany = false;
-        this.snackBar.open("Company successfully deleted.", 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-success'],
-        });
+        this.snackBarService.showSuccessSnackBar("Company successfully deleted.")
         this.closeDialog('success');
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
         this.deletingCompany = false;
       }
     )
