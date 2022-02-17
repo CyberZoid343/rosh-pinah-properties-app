@@ -1,28 +1,27 @@
-<div class="py-5 d-flex align-items-center justify-content-center" *ngIf="gettingUsers" style="height: 100vh;">
-  <div class="spinner-border spinner-border-sm" role="status"></div>
-  <span class="ml-2 text-nowrap">Loading Users...</span>
-</div>
+<div class="card overflow-hidden">
 
-<div class="py-5 d-flex align-items-center justify-content-center" *ngIf="gettingUsersError" style="height: 100vh;">
-  <app-reload-page-warning></app-reload-page-warning>
-</div>
-
-<div class="card m-3 overflow-hidden" *ngIf="!gettingUsers && !gettingUsersError">
-  <div class="d-flex p-3 align-items-center">
-    <h4 class="mb-0 mr-3">Users</h4>
-    <button class="btn btn-primary ml-auto text-nowrap" (click)="openUserFormDialog(0)"><i
-      class="fas fa-plus-circle mr-2 text-nowrap"></i>Add New User</button>
+  <div class="d-flex p-3 align-items-center border-bottom">
+    <h4 class="mb-0 me-3">Users</h4>
+    <button class="btn btn-primary ms-auto text-nowrap" (click)="openUserFormDialog(0)"><i
+      class="fas fa-plus-circle me-2 text-nowrap"></i>Add New User</button>
   </div>
-  <div class="overflow-auto">
-    <table class="custom-table border-top text-nowrap">
-      <thead class="bg-light">
+
+  <div class="d-flex flex-column overflow-auto" style="height: calc(100vh - 100px)">
+
+    <div class="py-5 d-flex align-items-center justify-content-center" *ngIf="gettingUsers">
+      <div class="spinner-border spinner-border-sm" role="status"></div>
+      <span class="ms-2 text-nowrap">Loading Users...</span>
+    </div>
+
+    <table class="custom-table text-nowrap" *ngIf="!gettingUsers">
+      <thead class="bg-light sticky-top">
         <tr>
           <th scope="col">Account</th>
           <th scope="col">Email</th>
-          <th scope="col">Date Added</th>
-          <th scope="col">Date Last Modified</th>
+          <th scope="col">Added</th>
+          <th scope="col">Updated</th>
           <th scope="col">Role</th>
-          <th scope="col">Account Status</th>
+          <th scope="col">Status</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -30,15 +29,9 @@
         <tr *ngFor="let user of users">
           <td>
             <div class="d-flex align-items-center">
-              <i class="fas fa-user-circle mr-2"></i>
+              <i class="fas fa-user-circle me-2"></i>
               <div class="d-block">
                 {{user.name}} {{user.surname}}
-                <!-- <small class="d-flex align-items-center text-muted small" *ngIf="user.isOnline"><i
-                    class="fas fa-circle text-success mr-1"></i>Online since {{user.dateLastLogin |
-                  date:'longDate'}}</small>
-                <small class="d-flex align-items-center text-muted small" *ngIf="!user.isOnline"><i
-                    class="fas fa-circle text-danger mr-1"></i>Offline since {{user.dateLastLogoff |
-                  date:'longDate'}}</small> -->
               </div>
             </div>
           </td>
@@ -56,10 +49,10 @@
           <td>
             <button  class="btn btn-secondary btn-circle" [matMenuTriggerFor]="menu"><i class="fas fa-ellipsis-v"></i></button>
             <mat-menu #menu="matMenu" class="custom-dropdown">
-              <button class="dropdown-item" type="button" (click)="openViewUserDetailsDialog(user.id)"><i class="fas fa-folder-open"></i>View All Details</button>
-              <button class="dropdown-item" type="button" (click)="openUserFormDialog(user.id)"><i class="fas fa-edit"></i>Edit Details</button>
+              <button class="dropdown-item" type="button" (click)="openViewUserDetailsDialog(user.id)"><i class="fas fa-folder-open"></i>Details</button>
+              <button class="dropdown-item" type="button" (click)="openUserFormDialog(user.id)"><i class="fas fa-edit"></i>Edit</button>
               <button class="dropdown-item" type="button" (click)="openActivateUserDialog(user.id)" *ngIf="!user.isActivated"><i class="fas fa-user-check"></i>Activate</button>
-              <hr class="dropdown-divider">
+              <hr class="my-2">
               <button class="dropdown-item text-danger" type="button" (click)="openDeactivateUserDialog(user.id)" *ngIf="user.isActivated"><i class="fas fa-user-times"></i>Deactivate</button>
               <button class="dropdown-item text-danger" type="button" (click)="openDeleteUserDialog(user.id)"><i class="fas fa-trash"></i>Delete</button>
             </mat-menu>
@@ -67,6 +60,7 @@
         </tr>
       </tbody>
     </table>
+
   </div>
 </div>
 

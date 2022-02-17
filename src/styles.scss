@@ -68,53 +68,38 @@ body{
     color: $dark !important;
 }
 
+hr{
+  background-color: $gray-600 !important;
+}
+
 .box-shadow{
   box-shadow: $box-shadow;
 }
 
 //Typography
-$font-size-base: 0.85rem;
+$font-size-base: 0.8rem;
 
 //Form control styles
 $input-focus-box-shadow: none;
 
+//Form select styles
+$form-select-focus-box-shadow: none;
+
 //button styles
-$btn-active-border-shade-amount:  5%;
+$btn-active-border-shade-amount:  50%;
 
 .btn-circle{
   border-radius: 50% !important;
 }
 
 .btn-circle i {
-  width: 14px;
+  width: 12px;
   height: 14px;
 }
 
 button i{
   width: 14px;
   height: 14px;
-}
-
-.btn:focus, .btn-close:focus {
-  box-shadow: none !important;
-}
-
-.btn.btn-primary:active:hover,
-.btn.btn-primary:hover {
-    background-color: #0b4386;
-}
-
-.btn.btn-secondary:active:hover,
-.btn.btn-secondary:hover {
-    background-color: $gray-300;
-    color: $dark !important;
-}
-
-.btn.btn-light:active:hover,
-.btn.btn-light:hover {
-    background-color: $gray-200;
-    border-color: $gray-200 !important;
-    color: $dark !important;
 }
 
 //table styles
@@ -232,10 +217,8 @@ $list-group-border-color: $gray-300;
   margin: 0px !important;
 }
 
-@import '../node_modules/bootstrap';
+@import "../node_modules/bootstrap/scss/bootstrap";
 
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
 
 
 
