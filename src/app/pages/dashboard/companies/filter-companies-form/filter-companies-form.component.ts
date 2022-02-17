@@ -85,7 +85,6 @@ export class FilterCompaniesFormComponent {
         }
       }
     );
-    this.companies.getCompanies();
   }
 
   updateCompanyFilters() {
@@ -102,6 +101,5 @@ export class FilterCompaniesFormComponent {
         }
       }
     );
-    this.companies.getCompanies();
   }
 }
