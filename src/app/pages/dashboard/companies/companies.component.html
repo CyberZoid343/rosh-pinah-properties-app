@@ -43,7 +43,6 @@
             <td>
               <button  class="btn btn-secondary btn-circle" [matMenuTriggerFor]="menu"><i class="fas fa-ellipsis-v"></i></button>
               <mat-menu #menu="matMenu" class="custom-dropdown">
-                <button class="dropdown-item"><i class="fas fa-folder-open"></i>Details</button>
                 <button class="dropdown-item" (click)="openCompanyFormDialog(company.id)"><i class="fas fa-edit"></i>Edit</button>
                 <hr class="my-2">
                 <button class="dropdown-item text-danger" (click)="openDeleteCompanyDialog(company.id)"><i class="fas fa-trash"></i>Delete</button>
