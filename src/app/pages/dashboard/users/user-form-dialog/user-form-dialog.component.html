@@ -2,7 +2,7 @@
   <div class="modal-content" *ngIf="gettingUser">
     <div class="py-5 d-flex align-items-center justify-content-center">
       <div class="spinner-border" role="status"></div>
-      <span class="ml-2 text-nowrap">Loading user details...</span>
+      <span class="ms-2 text-nowrap">Loading user details...</span>
     </div>
   </div>
   <form class="modal-content" [formGroup]="form" *ngIf="!gettingUser">
@@ -58,11 +58,11 @@
       <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="updatingUser || addingUser">
         <span *ngIf="data.id == 0">
           <span *ngIf="!addingUser">Add User</span>
-          <span *ngIf="addingUser"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="ml-2">Adding User</span></span>
+          <span *ngIf="addingUser"><span class="spinner-border spinner-border-sm" role="status"></span><span class="ms-2">Adding User</span></span>
         </span>
         <span *ngIf="data.id > 0">
           <span *ngIf="!updatingUser">Update User</span>
-          <span *ngIf="updatingUser"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="ml-2">Updating User</span></span>
+          <span *ngIf="updatingUser"><span class="spinner-border spinner-border-sm" role="status"></span><span class="ms-2">Updating User</span></span>
         </span>
       </button>
     </div>

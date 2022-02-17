@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class DeleteUserDialogComponent implements OnDestroy {
 
   constructor(
     public userService: UserService,
-    public snackBar: MatSnackBar,
+    public snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<DeleteUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {id: number}
   ) { }
@@ -34,22 +34,14 @@ export class DeleteUserDialogComponent implements OnDestroy {
     this.userSubscription = this.userService.deleteUser(this.data.id).subscribe(
       (response) => {
         console.log(response);
-        this.deletingUser = false;
-        this.snackBar.open("User successfully deleted.", 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-success'],
-        });
+        this.snackBarService.showSuccessSnackBar("User successfully deleted.")
         this.closeDialog('success');
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
         this.deletingUser = false;
       }
     )
   }
-
 }
