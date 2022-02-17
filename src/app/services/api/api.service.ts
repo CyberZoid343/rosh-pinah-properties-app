@@ -1,6 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserAuthentication } from 'src/app/shared/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,6 @@ export class ApiService {
 
   getHttpHeaders() {
     this.auth = JSON.parse(localStorage.getItem('auth')!);
-
     this.authorizationData = 'Basic ' + btoa(this.auth.email + ':' + this.auth.password);
     this.headerOptions = {
       headers: new HttpHeaders({
@@ -25,7 +23,6 @@ export class ApiService {
         'Authorization': this.authorizationData
       })
     };
-
     return this.headerOptions;
   }
 }

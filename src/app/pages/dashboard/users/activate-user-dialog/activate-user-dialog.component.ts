@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/shared/interfaces';
 
@@ -18,7 +18,7 @@ export class ActivateUserDialogComponent implements OnDestroy {
 
   constructor(
     public userService: UserService,
-    public snackBar: MatSnackBar,
+    public snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<ActivateUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {id: number}
   ) {
@@ -40,10 +40,7 @@ export class ActivateUserDialogComponent implements OnDestroy {
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
       }
     )
   }
@@ -54,19 +51,12 @@ export class ActivateUserDialogComponent implements OnDestroy {
     this.userSubscription = this.userService.updateUser(this.user, this.data.id,).subscribe(
       (response) => {
         console.log(response);
-        this.activatingUser = false;
-        this.snackBar.open("User successfully activated.", 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-success'],
-        });
+        this.snackBarService.showSuccessSnackBar("User successfully activated.")
         this.closeDialog('success');
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
         this.activatingUser = false;
       }
     )

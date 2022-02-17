@@ -3,13 +3,14 @@ import { UserService } from 'src/app/services/user/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/shared/interfaces';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 
 @Component({
   selector: 'app-account-overview',
   templateUrl: './account-overview.component.html',
   styleUrls: ['./account-overview.component.scss']
 })
-export class AccountOverviewComponent implements OnInit {
+export class AccountOverviewComponent {
 
   users: User[] = [];
   userSubscription: Subscription = new Subscription;
@@ -20,12 +21,9 @@ export class AccountOverviewComponent implements OnInit {
 
   constructor(
     public userService: UserService,
-    public snackBar: MatSnackBar,
+    public snackBarService: SnackBarService,
     ) {
     this.getUser(this.userService.getLoggedInUserId())
-  }
-
-  ngOnInit(): void {
   }
 
   getUser(id: number) {
@@ -33,20 +31,14 @@ export class AccountOverviewComponent implements OnInit {
     this.userSubscription = this.userService.getUser(id).subscribe(
       (response) => {
         this.user = response;
-
         console.log(response);
-
         this.gettingUser = false;
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
         this.gettingUser = false;
       }
     )
   }
-
 }

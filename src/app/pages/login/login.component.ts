@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnDestroy {
     public userService: UserService,
     public router: Router,
     public formBuilder: FormBuilder,
-    public snackBar: MatSnackBar
+    public snackBarService: SnackBarService
   ) {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.maxLength(500)]],
@@ -65,15 +66,12 @@ export class LoginComponent implements OnDestroy {
         },
         (error) => {
           console.error(error);
-          this.snackBar.open(error.error, 'Close', {
-            duration: 5000,
-            panelClass: ['alert', 'alert-danger'],
-          });
+          this.snackBarService.showErrorSnackBar(error.error)
           this.loggingIn = false;
         }
       );
     } catch (error) {
-      alert("Oops! Something went wrong. Please try agin or contact IT support for assistance.")
+      this.snackBarService.showErrorSnackBar("Oops! Something went wrong. Please try agin or contact IT support for assistance.")
     }
   }
 }

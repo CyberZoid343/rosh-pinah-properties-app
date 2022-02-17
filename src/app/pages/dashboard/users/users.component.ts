@@ -8,6 +8,7 @@ import { UserFormDialogComponent } from './user-form-dialog/user-form-dialog.com
 import { ActivateUserDialogComponent } from './activate-user-dialog/activate-user-dialog.component';
 import { DeleteUserDialogComponent } from './delete-user-dialog/delete-user-dialog.component';
 import { ViewUserDetailsDialogComponent } from './view-user-details-dialog/view-user-details-dialog.component';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 
 @Component({
   selector: 'app-users',
@@ -19,11 +20,11 @@ export class UsersComponent implements OnDestroy {
   users: User[] = [];
   userSubscription: Subscription = new Subscription;
   gettingUsers = true;
-  gettingUsersError = false;
 
   constructor(
     public userService: UserService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public snackBarService: SnackBarService
   ) {
     this.getUsers();
   }
@@ -33,7 +34,6 @@ export class UsersComponent implements OnDestroy {
   }
 
   getUsers() {
-    this.gettingUsersError = false;
     this.gettingUsers = true;
     this.userSubscription = this.userService.getUsers().subscribe(
       (users) => {
@@ -42,8 +42,7 @@ export class UsersComponent implements OnDestroy {
       },
       (error) => {
         console.log(error);
-        this.gettingUsers = false;
-        this.gettingUsersError = true;
+        this.snackBarService.showErrorSnackBar(error.error)
       }
     )
   }
