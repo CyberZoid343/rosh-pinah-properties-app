@@ -1,0 +1,56 @@
+<div class="card overflow-hidden">
+  <div class="d-flex border-bottom p-3 align-items-center text-nowrap">
+    <h4 class="mb-0 me-3">Companies</h4>
+    <button class="btn btn-secondary ms-auto me-2" (click)="displayFilters()">
+      <i class="fas fa-filter me-2"></i>
+      <span *ngIf="showFilters">Hide Filters</span>
+      <span *ngIf="!showFilters">Show Filters</span>
+    </button>
+    <button class="btn btn-primary" (click)="openCompanyFormDialog(0)"><i class="fas fa-plus-circle me-2"></i>Add New Company</button>
+  </div>
+
+  <div class="d-flex overflow-hidden">
+
+    <app-filter-companies-form [showFilters]="showFilters" [total]="companies.length"></app-filter-companies-form>
+
+    <div class="d-flex flex-column w-100 overflow-auto" style="height: calc(100vh - 100px)">
+
+      <div class="py-5 d-flex align-items-center justify-content-center" *ngIf="gettingCompanies">
+        <div class="spinner-border spinner-border-sm" role="status"></div>
+        <span class="ms-2 text-nowrap">Loading Companies...</span>
+      </div>
+
+      <b class="w-100 py-5 text-center" *ngIf="!gettingCompanies && companies.length == 0">No data found</b>
+
+      <table class="custom-table text-nowrap" *ngIf="!gettingCompanies && companies.length > 0">
+        <thead class="bg-light sticky-top">
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Added</th>
+            <th scope="col">Updated</th>
+            <th scope="col">Last Editor</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let company of companies">
+            <td>{{company.id}}</td>
+            <td>{{company.name}}</td>
+            <td>{{company.dateAdded | date:'longDate'}}</td>
+            <td>{{company.dateLastUpdated | date:'longDate'}}</td>
+            <td>{{company.lastEditor}}</td>
+            <td>
+              <button  class="btn btn-secondary btn-circle" [matMenuTriggerFor]="menu"><i class="fas fa-ellipsis-v"></i></button>
+              <mat-menu #menu="matMenu" class="custom-dropdown">
+                <button class="dropdown-item" (click)="openCompanyFormDialog(company.id)"><i class="fas fa-edit"></i>Edit</button>
+                <hr class="my-2">
+                <button class="dropdown-item text-danger" (click)="openDeleteCompanyDialog(company.id)"><i class="fas fa-trash"></i>Delete</button>
+              </mat-menu>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+

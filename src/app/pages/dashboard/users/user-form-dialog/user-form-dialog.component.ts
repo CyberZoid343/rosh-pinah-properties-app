@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/shared/interfaces';
 
@@ -25,7 +26,7 @@ export class UserFormDialogComponent implements OnDestroy {
   constructor(
     public formBuilder: FormBuilder,
     public userService: UserService,
-    public snackBar: MatSnackBar,
+    public snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<UserFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
   ) {
@@ -67,20 +68,16 @@ export class UserFormDialogComponent implements OnDestroy {
     this.gettingUser = true;
     this.userSubscription = this.userService.getUser(id).subscribe(
       (response) => {
+        console.log(response);
         this.user = response;
         this.form.controls['name'].setValue(this.user?.name);
         this.form.controls['surname'].setValue(this.user?.surname);
         this.form.controls['email'].setValue(this.user?.email);
-        console.log(response);
         this.gettingUser = false;
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
-        this.gettingUser = false;
+        this.snackBarService.showErrorSnackBar(error.error)
       }
     )
   }
@@ -105,19 +102,12 @@ export class UserFormDialogComponent implements OnDestroy {
     this.userSubscription = this.userService.addUser(user).subscribe(
       (response) => {
         console.log(response)
-        this.addingUser = false;
-        this.snackBar.open("User successfully added.", 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-success'],
-        });
+        this.snackBarService.showSuccessSnackBar("User successfully added.")
         this.closeDialog('success');
       },
       (error) => {
-        console.log(error)
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        console.log(error);
+        this.snackBarService.showErrorSnackBar(error.error)
         this.addingUser = false;
       }
     )
@@ -133,19 +123,12 @@ export class UserFormDialogComponent implements OnDestroy {
     this.userSubscription = this.userService.updateUser(this.user, this.data.id).subscribe(
       (response) => {
         console.log(response);
-
-        this.snackBar.open("User successfully updated.", 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-success'],
-        });
+        this.snackBarService.showSuccessSnackBar("User successfully updated.")
         this.closeDialog('success');
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
         this.updatingUser = false;
       }
     )

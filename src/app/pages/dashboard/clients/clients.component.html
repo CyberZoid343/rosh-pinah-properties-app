@@ -1,1 +1,100 @@
+<div class="card overflow-hidden">
 
+  <div class="d-flex border-bottom p-3 align-items-center">
+    <h4 class="mb-0 me-3">Clients</h4>
+    <button class="btn btn-secondary ms-auto"><i class="fas fa-filter me-2"></i>Show Filters</button>
+    <button class="btn btn-secondary ms-2"><i class="fas fa-download me-2"></i>Export List</button>
+    <button class="btn btn-primary ms-2"><i class="fas fa-plus-circle me-2"></i>Add New Client</button>
+  </div>
+
+  <div class="d-flex overflow-hidden">
+    <div class="d-flex flex-column w-100 overflow-auto">
+
+      <table class="custom-table text-nowrap">
+
+        <thead class="bg-light border-bottom">
+          <th scope="col">Id</th>
+          <th scope="col">Company</th>
+          <th scope="col">Full Name</th>
+          <th scope="col">Tags</th>
+          <th scope="col">Last Contacted</th>
+          <th scope="col">Follow Up</th>
+          <th scope="col"></th>
+        </thead>
+
+        <tbody>
+          <tr class="border-top border-bottom">
+            <td>1</td>
+            <td>A1 Capital Holdings</td>
+            <td>Neville Thambiran</td>
+            <td class="text-break">
+                <span class="badge rounded-pill bg-primary me-1 ">Investor</span>
+                <span class="badge rounded-pill bg-primary me-1 ">Developer</span>
+                <span class="badge rounded-pill bg-primary me-1 ">Flats</span>
+                <span class="badge rounded-pill bg-primary me-1 ">Commercial</span>
+                <span class="badge rounded-pill bg-primary me-1 ">Schools</span>
+            </td>
+            <td>January 25, 2022</td>
+            <td>January 28, 2022</td>
+            <td>
+              <button  class="btn btn-secondary btn-circle" [matMenuTriggerFor]="menu"><i class="fas fa-ellipsis-v"></i></button>
+              <mat-menu #menu="matMenu" class="custom-dropdown">
+                <button class="dropdown-item" type="button"><i class="fas fa-folder-open"></i>View All Details</button>
+                <button class="dropdown-item" type="button"><i class="fas fa-edit"></i>Edit Details</button>
+                <hr class="dropdown-divider">
+                <button class="dropdown-item text-danger" type="button"><i class="fas fa-trash"></i>Delete</button>
+              </mat-menu>
+            </td>
+          </tr>
+          <tr class="border-top border-bottom">
+            <td>1</td>
+            <td>A1 Capital Holdings</td>
+            <td>Howard Smith</td>
+            <td class="text-break">
+                <span class="badge rounded-pill bg-primary me-1 ">Investor</span>
+                <span class="badge rounded-pill bg-primary me-1 ">Developer</span>
+                <span class="badge rounded-pill bg-primary me-1 ">Flats</span>
+                <span class="badge rounded-pill bg-primary me-1 ">Commercial</span>
+                <span class="badge rounded-pill bg-primary me-1 ">Schools</span>
+                <span class="badge rounded-pill bg-primary me-1 ">Contact</span>
+            </td>
+            <td>January 25, 2022</td>
+            <td>January 28, 2022</td>
+            <td>
+              <button  class="btn btn-secondary btn-circle" [matMenuTriggerFor]="menu"><i class="fas fa-ellipsis-v"></i></button>
+              <mat-menu #menu="matMenu" class="custom-dropdown">
+                <button class="dropdown-item" type="button"><i class="fas fa-folder-open"></i>View All Details</button>
+                <button class="dropdown-item" type="button"><i class="fas fa-edit"></i>Edit Details</button>
+                <hr class="dropdown-divider">
+                <button class="dropdown-item text-danger" type="button"><i class="fas fa-trash"></i>Delete</button>
+              </mat-menu>
+            </td>
+          </tr>
+          <tr class="border-top border-bottom">
+            <td>1</td>
+            <td>John Doe</td>
+            <td>John Doe</td>
+            <td class="text-break">
+                <span class="badge rounded-pill bg-primary me-1 ">Investor</span>
+                <span class="badge rounded-pill bg-primary me-1 ">Developer</span>
+                <span class="badge rounded-pill bg-primary me-1 ">Retail</span>
+            </td>
+            <td>January 25, 2022</td>
+            <td>January 28, 2022</td>
+            <td>
+              <button  class="btn btn-secondary btn-circle" [matMenuTriggerFor]="menu"><i class="fas fa-ellipsis-v"></i></button>
+              <mat-menu #menu="matMenu" class="custom-dropdown">
+                <button class="dropdown-item" type="button"><i class="fas fa-folder-open"></i>View All Details</button>
+                <button class="dropdown-item" type="button"><i class="fas fa-edit"></i>Edit Details</button>
+                <hr class="dropdown-divider">
+                <button class="dropdown-item text-danger" type="button"><i class="fas fa-trash"></i>Delete</button>
+              </mat-menu>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+  </div>
+</div>

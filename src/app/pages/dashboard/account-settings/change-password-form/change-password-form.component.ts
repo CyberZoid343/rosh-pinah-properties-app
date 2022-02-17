@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { PasswordService } from 'src/app/services/password/password.service';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { User, UserAuthentication, UserNewPassword } from 'src/app/shared/interfaces';
 
@@ -22,7 +23,7 @@ export class ChangePasswordFormComponent implements OnDestroy {
     public formBuilder: FormBuilder,
     public passwordService: PasswordService,
     public userService: UserService,
-    public snackBar: MatSnackBar
+    public snackBarService: SnackBarService
   ) {
     this.form = this.formBuilder.group({
       newPassword: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')]],
@@ -70,17 +71,11 @@ export class ChangePasswordFormComponent implements OnDestroy {
         this.submitted = false;
         this.changingUserPassword = false;
 
-        this.snackBar.open("Password successfully updated.", 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-success'],
-        });
+        this.snackBarService.showSuccessSnackBar("Password successfully updated.")
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
         this.changingUserPassword = false;
       }
     )
