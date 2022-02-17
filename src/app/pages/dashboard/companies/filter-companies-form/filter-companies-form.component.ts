@@ -32,10 +32,10 @@ export class FilterCompaniesFormComponent {
   ) {
     this.form = this.formBuilder.group({
       search: [''],
-      dateAddedMin: [''],
-      dateAddedMax: [''],
-      dateLastUpdatedMin: [''],
-      dateLastUpdatedMax: [''],
+      dateAddedStart: [''],
+      dateAddedEnd: [''],
+      dateLastUpdatedStart: [''],
+      dateLastUpdatedEnd: [''],
       lastEditor: ['']
     })
 
@@ -68,10 +68,10 @@ export class FilterCompaniesFormComponent {
 
   reset(){
     this.form.controls['search'].setValue('');
-    this.form.controls['dateAddedMin'].setValue('');
-    this.form.controls['dateAddedMax'].setValue('');
-    this.form.controls['dateLastUpdatedMin'].setValue('');
-    this.form.controls['dateLastUpdatedMax'].setValue('');
+    this.form.controls['dateAddedStart'].setValue('');
+    this.form.controls['dateAddedEnd'].setValue('');
+    this.form.controls['dateLastUpdatedStart'].setValue('');
+    this.form.controls['dateLastUpdatedEnd'].setValue('');
     this.form.controls['lastEditor'].setValue('');
     this.updateCompanyFilters();
   }
@@ -93,10 +93,10 @@ export class FilterCompaniesFormComponent {
       {
         queryParams: {
           search: this.form.get('search')!.value,
-          dateAddedMin: this.form.get('dateAddedMin')!.value,
-          dateAddedMax: this.form.get('dateAddedMax')!.value,
-          dateLastUpdatedMin: this.form.get('dateLastUpdatedMin')!.value,
-          dateLastUpdatedMax: this.form.get('dateLastUpdatedMax')!.value,
+          dateAddedStart: this.form.get('dateAddedStart')!.value,
+          dateAddedEnd: this.form.get('dateAddedEnd')!.value,
+          dateLastUpdatedStart: this.form.get('dateLastUpdatedStart')!.value,
+          dateLastUpdatedEnd: this.form.get('dateLastUpdatedEnd')!.value,
           lastEditor: this.form.get('lastEditor')!.value,
         }
       }

@@ -30,14 +30,13 @@ export class SnackBarService {
     var duration = 5000;
 
     if (message == '[object ProgressEvent]'){
-      message = "Error: Connection to server lost. Check your internet connection or contact IT support for additional help."
-      duration = 100000000;
+      this.showErrorSnackBar(message);
     }
-
-    this.snackBar.open(message, 'Close', {
-      duration: duration,
-      panelClass: ['alert', 'alert-success'],
-    });
+    else{
+      this.snackBar.open(message, 'Close', {
+        duration: duration,
+        panelClass: ['alert', 'alert-success'],
+      });
+    }
   }
-
 }
