@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
+import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/shared/interfaces';
 
@@ -22,7 +23,7 @@ export class PersonalDetailsFormComponent implements OnDestroy {
   constructor(
     public formBuilder: FormBuilder,
     public userService: UserService,
-    public snackBar: MatSnackBar
+    public snackBarService: SnackBarService
   ) {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(500)]],
@@ -61,10 +62,7 @@ export class PersonalDetailsFormComponent implements OnDestroy {
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
         this.gettingUserDetails = false;
         this.submitted = false;
       }
@@ -81,17 +79,11 @@ export class PersonalDetailsFormComponent implements OnDestroy {
         console.log(response);
         localStorage.setItem('user', JSON.stringify(response));
         this.updatingPersonalDetails = false;
-        this.snackBar.open("Personal details successfully updated.", 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-success'],
-        });
+        this.snackBarService.showSuccessSnackBar("Personal details successfully updated.")
       },
       (error) => {
         console.log(error);
-        this.snackBar.open(error.error, 'Close', {
-          duration: 5000,
-          panelClass: ['alert', 'alert-danger'],
-        });
+        this.snackBarService.showErrorSnackBar(error.error)
         this.updatingPersonalDetails = false;
       }
     )
