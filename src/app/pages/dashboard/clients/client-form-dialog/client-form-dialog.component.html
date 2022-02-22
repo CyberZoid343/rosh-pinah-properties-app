@@ -1,0 +1,124 @@
+<div class="modal-dialog">
+    <div class="modal-content" *ngIf="gettingClient">
+        <div class="py-5 d-flex align-items-center justify-content-center">
+            <div class="spinner-border" role="status"></div>
+            <span class="me-2 text-nowrap">Loading client details...</span>
+        </div>
+    </div>
+    <form class="modal-content" [formGroup]="form" *ngIf="!gettingClient">
+        <div class="modal-header">
+            <h4 class="my-auto" *ngIf="data.id == 0">Add New Client</h4>
+            <h4 class="my-auto" *ngIf="data.id > 0">Edit Client</h4>
+            <button type="button" class="btn-close" (click)="closeDialog('closed')"></button>
+        </div>
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" formControlName="name"
+                    [ngClass]="{ 'is-invalid': submitted && form.controls.name.errors}">
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.name.errors?.required">Required field</div>
+                    <div *ngIf="form.controls.name.errors?.maxlength">Exceeded the max length of 500 characters</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="surname" class="form-label">Surname</label>
+                <input type="text" class="form-control" id="surname" formControlName="surname"
+                    [ngClass]="{ 'is-invalid': submitted && form.controls.name.errors}">
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.surname.errors?.required">Required field</div>
+                    <div *ngIf="form.controls.surname.errors?.maxlength">Exceeded the max length of 500 characters</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="company" class="form-label">Company</label>
+                <select class="form-select mb-3" id="company" formControlName="company">
+                    <option selected></option>
+                    <option value="{{company.id}}" *ngFor="let company of companies">{{company.name}}</option>
+                  </select>
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.surname.errors?.required">Required field</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="email" formControlName="email"
+                    [ngClass]="{ 'is-invalid': submitted && form.controls.email.errors}">
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.email.errors?.required">Required field</div>
+                    <div *ngIf="form.controls.email.errors?.email">Invalid email address</div>
+                    <div *ngIf="form.controls.email.errors?.maxlength">Exceeded the max length of 500 characters</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="cellNumber" class="form-label">Cell Number</label>
+                <input type="text" class="form-control" id="cellNumber" formControlName="cellNumber"
+                    [ngClass]="{ 'is-invalid': submitted && form.controls.cellNumber.errors}">
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.cellNumber.errors?.required">Required field</div>
+                    <div *ngIf="form.controls.cellNumber.errors?.maxlength">Exceeded the max length of 500 characters
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="telNumber" class="form-label">Telephone Number</label>
+                <input type="text" class="form-control" id="telNumber" formControlName="telNumber"
+                    [ngClass]="{ 'is-invalid': submitted && form.controls.telNumber.errors}">
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.telNumber.errors?.required">Required field</div>
+                    <div *ngIf="form.controls.telNumber.errors?.maxlength">Exceeded the max length of 500 characters
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="dateLastContacted" class="form-label">Date Last Contacted</label>
+                <input type="date" class="form-control" id="dateLastContacted" formControlName="dateLastContacted"
+                    [ngClass]="{ 'is-invalid': submitted && form.controls.dateLastContacted.errors}">
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.dateLastContacted.errors?.required">Required field</div>
+                    <div *ngIf="form.controls.dateLastContacted.errors?.maxlength">Exceeded the max length of 500
+                        characters</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="dateFollowUp" class="form-label">Follow Up Date</label>
+                <input type="date" class="form-control" id="dateFollowUp" formControlName="dateFollowUp"
+                    [ngClass]="{ 'is-invalid': submitted && form.controls.dateFollowUp.errors}">
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.dateFollowUp.errors?.required">Required field</div>
+                    <div *ngIf="form.controls.dateFollowUp.errors?.maxlength">Exceeded the max length of 500 characters
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeDialog('closed')">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="submit()"
+                [disabled]="updatingClient || addingClient">
+                <div *ngIf="data.id == 0">
+                    <span *ngIf="!addingClient">Add Client</span>
+                    <div class="d-flex" *ngIf="addingClient">
+                        <span class="spinner-border spinner-border-sm"></span>
+                        <span class="ms-2">Adding Client</span>
+                    </div>
+                </div>
+                <div *ngIf="data.id > 0">
+                    <span *ngIf="!updatingClient">Update Client</span>
+                    <div class="d-flex" *ngIf="updatingClient">
+                        <span class="spinner-border spinner-border-sm"></span>
+                        <span class="ms-2">Updating Client</span>
+                    </div>
+                </div>
+            </button>
+        </div>
+    </form>
+</div>
