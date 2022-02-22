@@ -5,8 +5,9 @@ import { Subscription } from 'rxjs';
 import { ClientService } from 'src/app/services/client/client.service';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
+import { TagService } from 'src/app/services/tag/tag.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { Client } from 'src/app/shared/interfaces';
+import { Client, Tag } from 'src/app/shared/interfaces';
 import { Company } from 'src/app/shared/interfaces';
 
 @Component({
@@ -20,6 +21,8 @@ export class ClientFormDialogComponent implements OnDestroy {
   submitted = false;
   clientId = 1;
   clientSubscription: Subscription = new Subscription;
+  tagSubscription: Subscription = new Subscription;
+  tags: Tag[] = [];
   client!: Client;
   gettingClient = false;
   addingClient = false;
@@ -28,10 +31,15 @@ export class ClientFormDialogComponent implements OnDestroy {
   companySubscription: Subscription = new Subscription;
   gettingCompanies = true;
 
+  selectedTags: Number[] = [1,2,3];
+
+  true = true;
+
   constructor(
     public formBuilder: FormBuilder,
     public clientService: ClientService,
     public userService: UserService,
+    public tagService: TagService,
     public companyService: CompanyService,
     public snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<ClientFormDialogComponent>,
@@ -53,6 +61,7 @@ export class ClientFormDialogComponent implements OnDestroy {
     }
     
     this.getCompanies();
+    this.getTags();
   }
 
   ngOnDestroy() {
@@ -60,11 +69,21 @@ export class ClientFormDialogComponent implements OnDestroy {
   }
 
   getCompanies() {
-    this.gettingCompanies = true;
     this.companySubscription = this.companyService.getCompanySet().subscribe(
       (companies) => {
         this.companies = companies;
-        this.gettingCompanies = false;
+      },
+      (error) => {
+        console.log(error);
+        this.snackBarService.showErrorSnackBar(error.error)
+      }
+    )
+  }
+
+  getTags() {
+    this.tagSubscription = this.tagService.getTagSet().subscribe(
+      (tags) => {
+        this.tags = tags;
       },
       (error) => {
         console.log(error);
@@ -111,7 +130,7 @@ export class ClientFormDialogComponent implements OnDestroy {
   addClient() {
     this.addingClient = true;
 
-    var client: Client = {
+    var client = {
       id: 0,
       name: this.form.controls['name'].value,
       surname: this.form.controls['surname'].value,
@@ -126,18 +145,20 @@ export class ClientFormDialogComponent implements OnDestroy {
       lastEditor: this.userService.getLoggedInUserFullName()
     }
 
-    this.clientSubscription = this.clientService.addClient(client).subscribe(
-      (response) => {
-        console.log(response)
-        this.snackBarService.showSuccessSnackBar("Client successfully added.")
-        this.closeDialog('success')
-      },
-      (error) => {
-        console.log(error);
-        this.snackBarService.showErrorSnackBar(error.error)
-        this.addingClient = false
-      }
-    )
+    console.log(client);
+
+    // this.clientSubscription = this.clientService.addClient(client).subscribe(
+    //   (response) => {
+    //     console.log(response)
+    //     this.snackBarService.showSuccessSnackBar("Client successfully added.")
+    //     this.closeDialog('success')
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //     this.snackBarService.showErrorSnackBar(error.error)
+    //     this.addingClient = false
+    //   }
+    // )
   }
 
   updateClient() {

@@ -57,7 +57,7 @@ import { ClientFormDialogComponent } from './pages/dashboard/clients/client-form
     CompanyFormDialogComponent,
     DeleteCompanyDialogComponent,
     FilterCompaniesFormComponent,
-    ClientFormDialogComponent
+    ClientFormDialogComponent,
   ],
   imports: [
     BrowserModule,

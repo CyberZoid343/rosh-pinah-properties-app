@@ -55,5 +55,18 @@ export interface Client{
   dateAdded: Date,
   dateLastUpdated: Date,
   lastEditor: string,
-  companyId: number
+  companyId: number,
+  company: Company,
+  clientTags: Array<ClientTag>;
+}
+
+export interface Tag{
+  id: number,
+  name: string
+}
+
+export interface ClientTag{
+  clientId: number,
+  tagId: string,
+  tag: Tag
 }

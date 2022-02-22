@@ -13,7 +13,7 @@ import { ClientFormDialogComponent } from './client-form-dialog/client-form-dial
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss']
 })
-export class ClientsComponent implements OnInit {
+export class ClientsComponent {
 
   clients: Client[] = [];
   clientSubscription: Subscription = new Subscription;
@@ -31,14 +31,17 @@ export class ClientsComponent implements OnInit {
         this.getClients()
       }
     });
+
+    this.getClients()
   }
 
   getClients() {
     this.gettingClients = true;
     this.clientSubscription = this.clientService.getClientSet().subscribe(
-      (respone) => {
-        console.log(respone)
-        this.clients = respone
+      (reponse) => {
+        console.log(reponse)
+        this.clients = reponse
+        console.log(this.clients)
         this.gettingClients = false
       },
       (error) => {
@@ -50,6 +53,7 @@ export class ClientsComponent implements OnInit {
 
   openClientFormDialog(id: number) {
     const dialogRef = this.dialog.open(ClientFormDialogComponent, {
+      height: '100%',
       width: '600px',
       data: { id: id }
     });
@@ -60,8 +64,4 @@ export class ClientsComponent implements OnInit {
       }
     });
   }
-
-  ngOnInit(): void {
-  }
-
 }
