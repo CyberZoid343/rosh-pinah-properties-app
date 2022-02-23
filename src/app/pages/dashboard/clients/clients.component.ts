@@ -19,6 +19,7 @@ export class ClientsComponent {
   clientSubscription: Subscription = new Subscription;
   gettingClients = true;
   gettingClientsError = false;
+  showFilters = false;
 
   constructor(
     public clientService: ClientService,
@@ -33,6 +34,15 @@ export class ClientsComponent {
     });
 
     this.getClients()
+  }
+
+  displayFilters() {
+    if (!this.showFilters) {
+      this.showFilters = true
+    }
+    else {
+      this.showFilters = false
+    }
   }
 
   getClients() {

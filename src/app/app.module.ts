@@ -29,8 +29,9 @@ import { ViewUserDetailsDialogComponent } from './pages/dashboard/users/view-use
 import { MatMenuModule } from '@angular/material/menu';
 import { CompanyFormDialogComponent } from './pages/dashboard/companies/company-form-dialog/company-form-dialog.component';
 import { DeleteCompanyDialogComponent } from './pages/dashboard/companies/delete-company-dialog/delete-company-dialog.component';
-import { FilterCompaniesFormComponent } from './pages/dashboard/companies/filter-companies-form/filter-companies-form.component';
 import { ClientFormDialogComponent } from './pages/dashboard/clients/client-form-dialog/client-form-dialog.component';
+import { FilterClientsFormComponent } from './pages/dashboard/clients/filter-clients-form/filter-clients-form.component';
+import { FilterCompaniesFormComponent } from './pages/dashboard/companies/filter-companies-form/filter-companies-form.component';
 
 @NgModule({
   declarations: [
@@ -56,8 +57,9 @@ import { ClientFormDialogComponent } from './pages/dashboard/clients/client-form
     ViewUserDetailsDialogComponent,
     CompanyFormDialogComponent,
     DeleteCompanyDialogComponent,
-    FilterCompaniesFormComponent,
     ClientFormDialogComponent,
+    FilterClientsFormComponent,
+    FilterCompaniesFormComponent,
   ],
   imports: [
     BrowserModule,
