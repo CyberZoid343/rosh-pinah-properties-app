@@ -32,6 +32,7 @@ import { DeleteCompanyDialogComponent } from './pages/dashboard/companies/delete
 import { ClientFormDialogComponent } from './pages/dashboard/clients/client-form-dialog/client-form-dialog.component';
 import { FilterClientsFormComponent } from './pages/dashboard/clients/filter-clients-form/filter-clients-form.component';
 import { FilterCompaniesFormComponent } from './pages/dashboard/companies/filter-companies-form/filter-companies-form.component';
+import { DeleteClientDialogComponent } from './pages/dashboard/clients/delete-client-dialog/delete-client-dialog.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { FilterCompaniesFormComponent } from './pages/dashboard/companies/filter
     ClientFormDialogComponent,
     FilterClientsFormComponent,
     FilterCompaniesFormComponent,
+    DeleteClientDialogComponent,
   ],
   imports: [
     BrowserModule,

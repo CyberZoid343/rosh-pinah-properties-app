@@ -42,7 +42,7 @@
                 <button class="dropdown-item" type="button"><i class="fas fa-folder-open"></i>View All Details</button>
                 <button class="dropdown-item" type="button"><i class="fas fa-edit"></i>Edit Details</button>
                 <hr class="dropdown-divider">
-                <button class="dropdown-item text-danger" type="button"><i class="fas fa-trash"></i>Delete</button>
+                <button class="dropdown-item text-danger" type="button" (click)="openDeleteClientDialog(client.id)"><i class="fas fa-trash"></i>Delete</button>
               </mat-menu>
             </td>
           </tr>
