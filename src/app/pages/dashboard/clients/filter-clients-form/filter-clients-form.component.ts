@@ -12,7 +12,7 @@ import { ClientsComponent } from '../clients.component';
   templateUrl: './filter-clients-form.component.html',
   styleUrls: ['./filter-clients-form.component.scss']
 })
-export class FilterClientsFormComponent implements OnInit {
+export class FilterClientsFormComponent {
 
   @Input() showFilters = true;
   @Input() total = 0;
@@ -36,6 +36,10 @@ export class FilterClientsFormComponent implements OnInit {
       dateAddedEnd: [''],
       dateLastUpdatedStart: [''],
       dateLastUpdatedEnd: [''],
+      dateLastContactedStart: [''],
+      dateLastContactedEnd: [''],
+      dateFollowUpStart: [''],
+      dateFollowUpEnd: [''],
       lastEditor: ['']
     })
 
@@ -72,6 +76,10 @@ export class FilterClientsFormComponent implements OnInit {
     this.form.controls['dateAddedEnd'].setValue('');
     this.form.controls['dateLastUpdatedStart'].setValue('');
     this.form.controls['dateLastUpdatedEnd'].setValue('');
+    this.form.controls['dateLastContactedStart'].setValue('');
+    this.form.controls['dateLastContactedEnd'].setValue('');
+    this.form.controls['dateFollowUpStart'].setValue('');
+    this.form.controls['dateFollowUpEnd'].setValue('');
     this.form.controls['lastEditor'].setValue('');
     this.updateClientFilters();
   }
@@ -97,13 +105,14 @@ export class FilterClientsFormComponent implements OnInit {
           dateAddedEnd: this.form.get('dateAddedEnd')!.value,
           dateLastUpdatedStart: this.form.get('dateLastUpdatedStart')!.value,
           dateLastUpdatedEnd: this.form.get('dateLastUpdatedEnd')!.value,
+          dateLastContactedStart: this.form.get('dateLastContactedStart')!.value,
+          dateLastContactedEnd: this.form.get('dateLastContactedEnd')!.value,
+          dateFollowUpStart: this.form.get('dateFollowUpStart')!.value,
+          dateFollowUpEnd: this.form.get('dateFollowUpEnd')!.value,
           lastEditor: this.form.get('lastEditor')!.value,
         }
       }
     );
-  }
-
-  ngOnInit(): void {
   }
 
 }

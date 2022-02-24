@@ -1,4 +1,4 @@
-<form class="d-flex flex-column border-end" style="width: 400px; height: calc(100vh - 100px)"
+<form [formGroup]="form" class="d-flex flex-column border-end" style="width: 400px; height: calc(100vh - 100px)"
   [ngClass]="{'d-block': showFilters, 'd-none' : !showFilters }">
 
   <div class="d-flex border-bottom px-3 py-2 bg-light">
@@ -22,6 +22,20 @@
       <input type="date" class="form-control" id="dateLastUpdatedStart" formControlName="dateLastUpdatedStart">
       <span class="mx-2">to</span>
       <input type="date" class="form-control" id="dateLastUpdatedEnd" formControlName="dateLastUpdatedEnd">
+    </div>
+
+    <label class="form-label">Last Contacted Date Range</label>
+    <div class="d-flex mb-3 align-items-center">
+      <input type="date" class="form-control" id="dateLastContactedStart" formControlName="dateLastContactedStart">
+      <span class="mx-2">to</span>
+      <input type="date" class="form-control" id="dateLastContactedEnd" formControlName="dateLastContactedEnd">
+    </div>
+
+    <label class="form-label">Follow Up Date Range</label>
+    <div class="d-flex mb-3 align-items-center">
+      <input type="date" class="form-control" id="dateFollowUpStart" formControlName="dateFollowUpStart">
+      <span class="mx-2">to</span>
+      <input type="date" class="form-control" id="dateFollowUpEnd" formControlName="dateFollowUpEnd">
     </div>
 
     <label class="form-label">Last Editor</label>
