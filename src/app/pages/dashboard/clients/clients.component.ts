@@ -7,6 +7,7 @@ import { ClientService } from 'src/app/services/client/client.service';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { Client } from 'src/app/shared/interfaces';
 import { ClientFormDialogComponent } from './client-form-dialog/client-form-dialog.component';
+import { ClientsTagsDialogComponent } from './clients-tags-dialog/clients-tags-dialog.component';
 
 @Component({
   selector: 'app-clients',
@@ -64,6 +65,20 @@ export class ClientsComponent {
   openClientFormDialog(id: number) {
     const dialogRef = this.dialog.open(ClientFormDialogComponent, {
       height: '100%',
+      width: '600px',
+      data: { id: id }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'success') {
+        this.getClients();
+      }
+    });
+  }
+
+  openClientTagsDialog(id: number) {
+    const dialogRef = this.dialog.open(ClientsTagsDialogComponent, {
+      height: 'auto',
       width: '600px',
       data: { id: id }
     });

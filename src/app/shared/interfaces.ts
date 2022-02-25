@@ -56,8 +56,8 @@ export interface Client{
   dateLastUpdated: Date,
   lastEditor: string,
   companyId: number,
-  company: Company,
-  clientTags: Array<ClientTag>;
+  company?: Company,
+  clientTags?: Array<ClientTag>;
 }
 
 export interface Tag{
@@ -67,6 +67,6 @@ export interface Tag{
 
 export interface ClientTag{
   clientId: number,
-  tagId: string,
-  tag: Tag
+  tagId: number,
+  tag?: Tag
 }

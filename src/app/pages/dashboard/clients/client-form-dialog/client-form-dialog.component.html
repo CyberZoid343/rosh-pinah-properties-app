@@ -46,17 +46,6 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label w-100">Tags</label>
-
-                <span *ngFor="let tag of tags"> 
-                    <input type="checkbox" class="btn-check" id="{{tag.name}}" autocomplete="off" value="{{tag.id}}">
-                    <label class="btn btn-sm btn-outline-primary rounded-pill mb-1 me-1" for="{{tag.name}}">{{tag.name}}</label>
-                </span>
-
-                <div class="form-text">Select tags that are relevant to the client.</div>
-            </div>
-
-            <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="text" class="form-control" id="email" formControlName="email"
                     [ngClass]="{ 'is-invalid': submitted && form.controls.email.errors}">
