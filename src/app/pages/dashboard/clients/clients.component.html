@@ -12,7 +12,7 @@
 
   <div class="d-flex overflow-hidden">
 
-    <app-filter-clients-form [showFilters]="showFilters"></app-filter-clients-form>
+    <app-filter-clients-form [showFilters]="showFilters" [total]="clients.length"></app-filter-clients-form>
 
     <div class="d-flex flex-column w-100 overflow-auto" style="height: calc(100vh - 100px)">
       <div class="py-5 d-flex align-items-center justify-content-center" *ngIf="gettingClients">
