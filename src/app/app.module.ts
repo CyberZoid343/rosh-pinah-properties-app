@@ -33,6 +33,7 @@ import { ClientFormDialogComponent } from './pages/dashboard/clients/client-form
 import { FilterClientsFormComponent } from './pages/dashboard/clients/filter-clients-form/filter-clients-form.component';
 import { FilterCompaniesFormComponent } from './pages/dashboard/companies/filter-companies-form/filter-companies-form.component';
 import { ClientsTagsDialogComponent } from './pages/dashboard/clients/clients-tags-dialog/clients-tags-dialog.component';
+import { DeleteClientDialogComponent } from './pages/dashboard/clients/delete-client-dialog/delete-client-dialog.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { ClientsTagsDialogComponent } from './pages/dashboard/clients/clients-ta
     FilterClientsFormComponent,
     FilterCompaniesFormComponent,
     ClientsTagsDialogComponent,
+    DeleteClientDialogComponent,
   ],
   imports: [
     BrowserModule,

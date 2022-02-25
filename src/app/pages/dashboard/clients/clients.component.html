@@ -57,7 +57,7 @@
                 <button class="dropdown-item" type="button"><i class="fas fa-edit"></i>Edit Details</button>
                 <button class="dropdown-item" type="button" (click)="openClientTagsDialog(client.id)"><i class="fas fa-tag"></i>Edit Tags</button>
                 <hr class="my-2">
-                <button class="dropdown-item text-danger" type="button"><i class="fas fa-trash"></i>Delete</button>
+                <button class="dropdown-item text-danger" type="button" (click)="openDeleteClientDialog(client.id)"><i class="fas fa-trash"></i>Delete</button>
               </mat-menu>
             </td>
           </tr>

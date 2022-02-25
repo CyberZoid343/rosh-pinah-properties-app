@@ -8,6 +8,7 @@ import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { Client } from 'src/app/shared/interfaces';
 import { ClientFormDialogComponent } from './client-form-dialog/client-form-dialog.component';
 import { ClientsTagsDialogComponent } from './clients-tags-dialog/clients-tags-dialog.component';
+import { DeleteClientDialogComponent } from './delete-client-dialog/delete-client-dialog.component';
 
 @Component({
   selector: 'app-clients',
@@ -80,6 +81,12 @@ export class ClientsComponent {
     const dialogRef = this.dialog.open(ClientsTagsDialogComponent, {
       height: 'auto',
       width: '600px',
+    });
+  }
+
+  openDeleteClientDialog(id: number) {
+    const dialogRef = this.dialog.open(DeleteClientDialogComponent, {
+      width: '400px',
       data: { id: id }
     });
 
