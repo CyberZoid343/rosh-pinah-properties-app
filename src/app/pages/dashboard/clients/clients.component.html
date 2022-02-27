@@ -26,13 +26,13 @@
           <th scope="col">Full Name</th>
           <th scope="col">Tags</th>
           <th scope="col">Email</th>
-          <th scope="col">Cell</th>
-          <th scope="col">Tel</th>
+          <th scope="col" class="d-none">Cell</th>
+          <th scope="col" class="d-none">Tel</th>
           <th scope="col">Last Contacted</th>
           <th scope="col">Follow Up</th>
-          <th scope="col">Added</th>
-          <th scope="col">Updated</th>
-          <th scope="col">Last Editor</th>
+          <th scope="col" class="d-none">Added</th>
+          <th scope="col" class="d-none">Updated</th>
+          <th scope="col" class="d-none">Last Editor</th>
           <th scope="col"></th>
         </thead>
         <tbody>
@@ -44,20 +44,24 @@
                 <span class="badge rounded-pill bg-primary me-1" *ngFor="let clientTag of client.clientTags">{{clientTag?.tag?.name}}</span>
             </td>
             <td>{{client.email}}</td>
-            <td>{{client.cellNumber}}</td>
-            <td>{{client.telNumber}}</td>
+            <td class="d-none">{{client.cellNumber}}</td>
+            <td class="d-none">{{client.telNumber}}</td>
             <td>{{client.dateLastContacted | date: 'longDate'}}</td>
             <td>{{client.dateFollowUp | date: 'longDate'}}</td>
-            <td>{{client.dateAdded | date: 'longDate'}}</td>
-            <td>{{client.dateLastUpdated | date: 'longDate'}}</td>
-            <td>{{client.lastEditor}}</td>
+            <td class="d-none">{{client.dateAdded | date: 'longDate'}}</td>
+            <td class="d-none">{{client.dateLastUpdated | date: 'longDate'}}</td>
+            <td class="d-none">{{client.lastEditor}}</td>
             <td>
               <button  class="btn btn-secondary btn-circle" [matMenuTriggerFor]="menu"><i class="fas fa-ellipsis-v"></i></button>
               <mat-menu #menu="matMenu" class="custom-dropdown">
-                <button class="dropdown-item" type="button"><i class="fas fa-edit"></i>Edit Details</button>
-                <button class="dropdown-item" type="button" (click)="openClientTagsDialog(client.id)"><i class="fas fa-tag"></i>Edit Tags</button>
+                <button class="dropdown-item" (click)="openViewClientDetailsDialog(client.id)"><i class="fa-solid fa-book-open"></i>Details</button>
+                <button class="dropdown-item"><i class="fa-solid fa-comment"></i>Notes</button>
                 <hr class="my-2">
-                <button class="dropdown-item text-danger" type="button" (click)="openDeleteClientDialog(client.id)"><i class="fas fa-trash"></i>Delete</button>
+                <button class="dropdown-item" (click)="openClientFormDialog(client.id)"><i class="fa-solid fa-pen"></i>Edit Details</button>
+                <button class="dropdown-item" (click)="openClientTagsDialog(client.id)"><i class="fa-solid fa-tags"></i>Edit Tags</button>
+                <button class="dropdown-item" (click)="openClientFollowUpDialog(client.id)"><i class="fa-solid fa-calendar"></i>Edit Follow Up</button>
+                <hr class="my-2">
+                <button class="dropdown-item text-danger" (click)="openDeleteClientDialog(client.id)"><i class="fa-solid fa-trash"></i>Delete</button>
               </mat-menu>
             </td>
           </tr>

@@ -9,6 +9,8 @@ import { Client } from 'src/app/shared/interfaces';
 import { ClientFormDialogComponent } from './client-form-dialog/client-form-dialog.component';
 import { ClientsTagsDialogComponent } from './clients-tags-dialog/clients-tags-dialog.component';
 import { DeleteClientDialogComponent } from './delete-client-dialog/delete-client-dialog.component';
+import { ClientDetailsDialogComponent } from './client-details-dialog/client-details-dialog.component';
+import { ClientFollowUpDialogComponent } from './client-follow-up-dialog/client-follow-up-dialog.component';
 
 @Component({
   selector: 'app-clients',
@@ -63,6 +65,20 @@ export class ClientsComponent {
     )
   }
 
+  openViewClientDetailsDialog(id: number) {
+    const dialogRef = this.dialog.open(ClientDetailsDialogComponent, {
+      height: '100%',
+      width: '600px',
+      data: { id: id }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'success') {
+        this.getClients();
+      }
+    });
+  }
+
   openClientFormDialog(id: number) {
     const dialogRef = this.dialog.open(ClientFormDialogComponent, {
       height: '100%',
@@ -79,13 +95,34 @@ export class ClientsComponent {
 
   openClientTagsDialog(id: number) {
     const dialogRef = this.dialog.open(ClientsTagsDialogComponent, {
-      height: 'auto',
+      height: '100%',
       width: '600px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'success') {
+        this.getClients();
+      }
+    });
+  }
+
+  openClientFollowUpDialog(id: number) {
+    const dialogRef = this.dialog.open(ClientFollowUpDialogComponent, {
+      height: '100%',
+      width: '600px',
+      data: { id: id }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'success') {
+        this.getClients();
+      }
     });
   }
 
   openDeleteClientDialog(id: number) {
     const dialogRef = this.dialog.open(DeleteClientDialogComponent, {
+      height: 'auto',
       width: '400px',
       data: { id: id }
     });

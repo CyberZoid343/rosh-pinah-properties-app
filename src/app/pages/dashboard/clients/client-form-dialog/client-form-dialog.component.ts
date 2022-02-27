@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ClientService } from 'src/app/services/client/client.service';
@@ -19,15 +19,14 @@ export class ClientFormDialogComponent implements OnDestroy {
 
   form: FormGroup;
   submitted = false;
-  clientId = 1;
   clientSubscription: Subscription = new Subscription;
   client!: Client;
   gettingClient = false;
+  gettingCompanies = false;
   addingClient = false;
   updatingClient = false;
   companies: Company[] = [];
   companySubscription: Subscription = new Subscription;
-  gettingCompanies = true;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -39,14 +38,12 @@ export class ClientFormDialogComponent implements OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
   ) {
     this.form = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.maxLength(500)]],
-      surname: ['', [Validators.required, Validators.maxLength(500)]],
-      company: ['', [Validators.required, Validators.maxLength(500)]],
+      name: ['', [Validators.required, Validators.maxLength(255)]],
+      surname: ['', [Validators.required, Validators.maxLength(255)]],
+      company: ['', [Validators.required, Validators.maxLength(255)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(500)]],
-      cellNumber: ['', [Validators.required, Validators.maxLength(10)]],
-      telNumber: ['', [Validators.maxLength(10)]],
-      dateLastContacted: ['', [Validators.required]],
-      dateFollowUp: ['', [Validators.required]],
+      cellNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+      telNumber: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[1-9]\d*)?$/)]]
     });
 
     if (data.id > 0) {
@@ -61,9 +58,13 @@ export class ClientFormDialogComponent implements OnDestroy {
   }
 
   getCompanies() {
+    this.gettingCompanies = true;
+
     this.companySubscription = this.companyService.getCompanySet().subscribe(
-      (companies) => {
-        this.companies = companies;
+      (response) => {
+        console.log(response);
+        this.companies = response;
+        this.gettingCompanies = false;
       },
       (error) => {
         console.log(error);
@@ -74,6 +75,7 @@ export class ClientFormDialogComponent implements OnDestroy {
 
   submit() {
     this.submitted = true;
+
     if (this.form.invalid) {
       return;
     }
@@ -93,6 +95,7 @@ export class ClientFormDialogComponent implements OnDestroy {
 
   getClient(id: number) {
     this.gettingClient = true;
+
     this.clientSubscription = this.clientService.getClient(id).subscribe(
       (response) => {
         console.log(response);
@@ -118,32 +121,27 @@ export class ClientFormDialogComponent implements OnDestroy {
       email: this.form.controls['email'].value,
       cellNumber: this.form.controls['cellNumber'].value,
       telNumber: this.form.controls['telNumber'].value,
-      dateLastContacted: this.form.controls['dateLastContacted'].value,
-      dateFollowUp: this.form.controls['dateFollowUp'].value,
-      dateAdded: new Date(),
+      dateLastContacted: new Date(),
       dateLastUpdated: new Date(),
       lastEditor: this.userService.getLoggedInUserFullName(),
     }
 
-    console.log(client);
-
-    // this.clientSubscription = this.clientService.addClient(client).subscribe(
-    //   (response) => {
-    //     console.log(response)
-    //     this.snackBarService.showSuccessSnackBar("Client successfully added.")
-    //     this.closeDialog('success')
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     this.snackBarService.showErrorSnackBar(error.error)
-    //     this.addingClient = false
-    //   }
-    // )
+    this.clientSubscription = this.clientService.addClient(client).subscribe(
+      (response) => {
+        console.log(response)
+        this.snackBarService.showSuccessSnackBar("Client successfully added.")
+        this.closeDialog('success')
+      },
+      (error) => {
+        console.log(error);
+        this.snackBarService.showErrorSnackBar(error.error)
+        this.addingClient = false
+      }
+    )
   }
 
   updateClient() {
     this.updatingClient = true;
-
     this.client.name = this.form.controls['name'].value
     this.client.lastEditor = this.userService.getLoggedInUserFullName()
 
