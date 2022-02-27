@@ -101,6 +101,13 @@ export class ClientFormDialogComponent implements OnDestroy {
         console.log(response);
         this.client = response;
         this.form.controls['name'].setValue(this.client?.name);
+        this.form.controls['surname'].setValue(this.client?.surname);
+        this.form.controls['company'].setValue(this.client?.companyId);
+        this.form.controls['email'].setValue(this.client?.email);
+        this.form.controls['cellNumber'].setValue(this.client?.cellNumber);
+        this.form.controls['telNumber'].setValue(this.client?.telNumber);
+        this.form.controls['dateLastContacted'].setValue(this.client?.dateLastContacted);
+        this.form.controls['dateFollowUp'].setValue(this.client?.dateFollowUp);
         this.gettingClient = false;
       },
       (error) => {
@@ -143,6 +150,14 @@ export class ClientFormDialogComponent implements OnDestroy {
   updateClient() {
     this.updatingClient = true;
     this.client.name = this.form.controls['name'].value
+    this.client.surname = this.form.controls['surname'].value
+    this.client.companyId = this.form.controls['company'].value
+    this.client.email = this.form.controls['email'].value
+    this.client.cellNumber = this.form.controls['cellNumber'].value
+    this.client.telNumber = this.form.controls['telNumber'].value
+    this.client.dateLastContacted = this.form.controls['dateLastContacted'].value
+    this.client.dateFollowUp = this.form.controls['dateFollowUp'].value
+    this.client.dateLastUpdated = new Date()
     this.client.lastEditor = this.userService.getLoggedInUserFullName()
 
     this.clientSubscription = this.clientService.updateClient(this.client, this.data.id).subscribe(

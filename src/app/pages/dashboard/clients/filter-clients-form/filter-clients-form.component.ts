@@ -32,6 +32,7 @@ export class FilterClientsFormComponent {
   ) {
     this.form = this.formBuilder.group({
       search: [''],
+      searchCompany: [''],
       dateAddedStart: [''],
       dateAddedEnd: [''],
       dateLastUpdatedStart: [''],
@@ -72,6 +73,7 @@ export class FilterClientsFormComponent {
 
   reset(){
     this.form.controls['search'].setValue('');
+    this.form.controls['searchCompany'].setValue('');
     this.form.controls['dateAddedStart'].setValue('');
     this.form.controls['dateAddedEnd'].setValue('');
     this.form.controls['dateLastUpdatedStart'].setValue('');
@@ -95,12 +97,24 @@ export class FilterClientsFormComponent {
     );
   }
 
+  searchCompanies(event: any){
+    this.router.navigate(
+      ['dashboard/clients'],
+      {
+        queryParams: {
+          searchCompany: event.target.value
+        }
+      }
+    );
+  }
+
   updateClientFilters() {
     this.router.navigate(
       ['dashboard/clients'],
       {
         queryParams: {
           search: this.form.get('search')!.value,
+          searchCompany: this.form.get('searchCompany')!.value,
           dateAddedStart: this.form.get('dateAddedStart')!.value,
           dateAddedEnd: this.form.get('dateAddedEnd')!.value,
           dateLastUpdatedStart: this.form.get('dateLastUpdatedStart')!.value,

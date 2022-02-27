@@ -7,8 +7,11 @@
 
   <div class="p-3 overflow-auto">
 
-    <label class="form-label">Search</label>
+    <label class="form-label">Search Client Name</label>
     <input type="text" class="form-control mb-3" id="search" formControlName="search" (keyup)="searchClients($event)">
+
+    <label class="form-label">Search Company Name</label>
+    <input type="text" class="form-control mb-3" id="searchCompany" formControlName="searchCompany" (keyup)="searchCompanies($event)">
 
     <label class="form-label">Added Date Range</label>
     <div class="d-flex mb-3 align-items-center">
