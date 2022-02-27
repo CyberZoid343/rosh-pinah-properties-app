@@ -54,7 +54,7 @@
             <td>
               <button  class="btn btn-secondary btn-circle" [matMenuTriggerFor]="menu"><i class="fas fa-ellipsis-v"></i></button>
               <mat-menu #menu="matMenu" class="custom-dropdown">
-                <button class="dropdown-item" type="button"><i class="fas fa-edit"></i>Edit Details</button>
+                <button class="dropdown-item" type="button" (click)="openClientFormDialog(client.id)"><i class="fas fa-edit"></i>Edit Details</button>
                 <button class="dropdown-item" type="button" (click)="openClientTagsDialog(client.id)"><i class="fas fa-tag"></i>Edit Tags</button>
                 <hr class="my-2">
                 <button class="dropdown-item text-danger" type="button" (click)="openDeleteClientDialog(client.id)"><i class="fas fa-trash"></i>Delete</button>

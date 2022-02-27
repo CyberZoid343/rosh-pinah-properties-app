@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Company } from 'src/app/shared/interfaces';
+import { Client } from 'src/app/shared/interfaces';
 import { ApiService } from '../api/api.service';
 
 @Injectable({
@@ -27,12 +27,12 @@ export class ClientService {
     return this.http.get(this.apiURL + "/" + id, this.apiService.getHttpHeaders())
   }
 
-  addClient(company: Company): Observable<any> {
-    return this.http.post(this.apiURL, company, this.apiService.getHttpHeaders());
+  addClient(client: Client): Observable<any> {
+    return this.http.post(this.apiURL, client, this.apiService.getHttpHeaders());
   }
 
-  updateClient(company: Company, id: number): Observable<any> {
-    return this.http.put<any>(this.apiURL + "/" + id, company, this.apiService.getHttpHeaders());
+  updateClient(client: Client, id: number): Observable<any> {
+    return this.http.put<any>(this.apiURL + "/" + id, client, this.apiService.getHttpHeaders());
   }
 
   deleteClient(id: number): Observable<any> {
