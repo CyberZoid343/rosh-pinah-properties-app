@@ -32,13 +32,13 @@
           <th scope="col">Follow Up</th>
           <th scope="col" class="d-none">Added</th>
           <th scope="col" class="d-none">Updated</th>
-          <th scope="col" class="d-none">Last Editor</th>
-          <th scope="col"></th>
+          <th scope="col">Status</th>
+          <th scope="col" class="text-end">Actions</th>
         </thead>
         <tbody>
           <tr class="border-top border-bottom" *ngFor="let client of clients">
             <td>{{client.id}}</td>
-            <td>{{client.company?.name}}</td>
+            <td>{{client.companyName}}</td>
             <td>{{client.name}} {{client.surname}}</td>
             <td class="text-break">
                 <span class="badge rounded-pill bg-primary me-1" *ngFor="let clientTag of client.clientTags">{{clientTag?.tag?.name}}</span>
@@ -50,19 +50,24 @@
             <td>{{client.dateFollowUp | date: 'longDate'}}</td>
             <td class="d-none">{{client.dateAdded | date: 'longDate'}}</td>
             <td class="d-none">{{client.dateLastUpdated | date: 'longDate'}}</td>
-            <td class="d-none">{{client.lastEditor}}</td>
             <td>
-              <button  class="btn btn-secondary btn-circle" [matMenuTriggerFor]="menu"><i class="fas fa-ellipsis-v"></i></button>
-              <mat-menu #menu="matMenu" class="custom-dropdown">
-                <button class="dropdown-item" (click)="openViewClientDetailsDialog(client.id)"><i class="fa-solid fa-book-open"></i>Details</button>
-                <button class="dropdown-item"><i class="fa-solid fa-comment"></i>Notes</button>
-                <hr class="my-2">
-                <button class="dropdown-item" (click)="openClientFormDialog(client.id)"><i class="fa-solid fa-pen"></i>Edit Details</button>
-                <button class="dropdown-item" (click)="openClientTagsDialog(client.id)"><i class="fa-solid fa-tags"></i>Edit Tags</button>
-                <button class="dropdown-item" (click)="openClientFollowUpDialog(client.id)"><i class="fa-solid fa-calendar"></i>Edit Follow Up</button>
-                <hr class="my-2">
-                <button class="dropdown-item text-danger" (click)="openDeleteClientDialog(client.id)"><i class="fa-solid fa-trash"></i>Delete</button>
-              </mat-menu>
+              <span *ngIf="client.isActive" class="badge rounded-pill bg-success mr-1">Active</span>
+              <span *ngIf="!client.isActive" class="badge rounded-pill bg-danger mr-1">Inactive</span>
+            </td>
+            <td>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button class="btn btn-outline-primary" (click)="openViewClientDetailsDialog(client.id)">View Details</button>
+                <button  class="btn btn-outline-primary" [matMenuTriggerFor]="menu"><i class="fas fa-ellipsis-v"></i></button>
+                <mat-menu #menu="matMenu" class="custom-dropdown">
+                  <button class="dropdown-item"><i class="fa-solid fa-comment"></i>View Notes</button>
+                  <button class="dropdown-item" (click)="openClientFormDialog(client.id)"><i class="fa-solid fa-pen"></i>Edit Details</button>
+                  <button class="dropdown-item" (click)="openClientTagsDialog(client.id)"><i class="fa-solid fa-tags"></i>Edit Tags</button>
+                  <button class="dropdown-item" (click)="openClientFollowUpDialog(client.id)"><i class="fa-solid fa-calendar"></i>Edit Follow Up</button>
+                  <button class="dropdown-item"><i class="fa-solid fa-circle-check"></i>Mark Active</button>
+                  <hr class="my-2">
+                  <button class="dropdown-item text-danger" (click)="openDeleteClientDialog(client.id)"><i class="fa-solid fa-trash"></i>Delete</button>
+                </mat-menu>
+              </div>
             </td>
           </tr>
         </tbody>

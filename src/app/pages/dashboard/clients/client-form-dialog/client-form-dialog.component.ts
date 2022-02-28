@@ -5,10 +5,8 @@ import { Subscription } from 'rxjs';
 import { ClientService } from 'src/app/services/client/client.service';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
-import { TagService } from 'src/app/services/tag/tag.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { Client, ClientTag, Tag } from 'src/app/shared/interfaces';
-import { Company } from 'src/app/shared/interfaces';
+import { Client } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-client-form-dialog',
@@ -22,11 +20,8 @@ export class ClientFormDialogComponent implements OnDestroy {
   clientSubscription: Subscription = new Subscription;
   client!: Client;
   gettingClient = false;
-  gettingCompanies = false;
   addingClient = false;
   updatingClient = false;
-  companies: Company[] = [];
-  companySubscription: Subscription = new Subscription;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -40,37 +35,19 @@ export class ClientFormDialogComponent implements OnDestroy {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(255)]],
       surname: ['', [Validators.required, Validators.maxLength(255)]],
-      company: ['', [Validators.required, Validators.maxLength(255)]],
+      companyName: ['', Validators.maxLength(500)],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(500)]],
-      cellNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
-      telNumber: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[1-9]\d*)?$/)]]
+      cellNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[0-9]\d*)?$/)]],
+      telNumber: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[0-9]\d*)?$/)]]
     });
 
     if (data.id > 0) {
       this.getClient(data.id);
     }
-
-    this.getCompanies();
   }
 
   ngOnDestroy() {
     this.clientSubscription.unsubscribe();
-  }
-
-  getCompanies() {
-    this.gettingCompanies = true;
-
-    this.companySubscription = this.companyService.getCompanySet().subscribe(
-      (response) => {
-        console.log(response);
-        this.companies = response;
-        this.gettingCompanies = false;
-      },
-      (error) => {
-        console.log(error);
-        this.snackBarService.showErrorSnackBar(error.error)
-      }
-    )
   }
 
   submit() {
@@ -102,12 +79,10 @@ export class ClientFormDialogComponent implements OnDestroy {
         this.client = response;
         this.form.controls['name'].setValue(this.client?.name);
         this.form.controls['surname'].setValue(this.client?.surname);
-        this.form.controls['company'].setValue(this.client?.companyId);
+        this.form.controls['companyName'].setValue(this.client?.companyName);
         this.form.controls['email'].setValue(this.client?.email);
         this.form.controls['cellNumber'].setValue(this.client?.cellNumber);
         this.form.controls['telNumber'].setValue(this.client?.telNumber);
-        this.form.controls['dateLastContacted'].setValue(this.client?.dateLastContacted);
-        this.form.controls['dateFollowUp'].setValue(this.client?.dateFollowUp);
         this.gettingClient = false;
       },
       (error) => {
@@ -124,14 +99,16 @@ export class ClientFormDialogComponent implements OnDestroy {
       id: 0,
       name: this.form.controls['name'].value,
       surname: this.form.controls['surname'].value,
-      companyId: this.form.controls['company'].value,
+      companyName: this.form.controls['companyName'].value,
       email: this.form.controls['email'].value,
       cellNumber: this.form.controls['cellNumber'].value,
       telNumber: this.form.controls['telNumber'].value,
-      dateLastContacted: new Date(),
+      dateAdded: new Date(),
       dateLastUpdated: new Date(),
-      lastEditor: this.userService.getLoggedInUserFullName(),
+      isActive: true
     }
+
+    console.log(client);
 
     this.clientSubscription = this.clientService.addClient(client).subscribe(
       (response) => {
@@ -151,14 +128,13 @@ export class ClientFormDialogComponent implements OnDestroy {
     this.updatingClient = true;
     this.client.name = this.form.controls['name'].value
     this.client.surname = this.form.controls['surname'].value
-    this.client.companyId = this.form.controls['company'].value
     this.client.email = this.form.controls['email'].value
     this.client.cellNumber = this.form.controls['cellNumber'].value
-    this.client.telNumber = this.form.controls['telNumber'].value
-    this.client.dateLastContacted = this.form.controls['dateLastContacted'].value
-    this.client.dateFollowUp = this.form.controls['dateFollowUp'].value
+    this.client.telNumber = this.form.controls['telNumber']?.value
     this.client.dateLastUpdated = new Date()
-    this.client.lastEditor = this.userService.getLoggedInUserFullName()
+    this.client.companyName = this.form.controls['companyName'].value
+
+    console.log(this.client)
 
     this.clientSubscription = this.clientService.updateClient(this.client, this.data.id).subscribe(
       (response) => {

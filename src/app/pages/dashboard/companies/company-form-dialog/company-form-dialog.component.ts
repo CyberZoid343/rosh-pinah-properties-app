@@ -22,6 +22,7 @@ export class CompanyFormDialogComponent implements OnDestroy {
   gettingCompany = false;
   addingCompany = false;
   updatingCompany = false;
+  nullCompany = null;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -87,7 +88,7 @@ export class CompanyFormDialogComponent implements OnDestroy {
       name: this.form.controls['name'].value,
       dateAdded: new Date(),
       dateLastUpdated: new Date(),
-      lastEditor: this.userService.getLoggedInUserFullName()
+      lastEditor: ''
     }
 
     this.companySubscription = this.companyService.addCompany(company).subscribe(
@@ -108,7 +109,7 @@ export class CompanyFormDialogComponent implements OnDestroy {
     this.updatingCompany = true;
 
     this.company.name = this.form.controls['name'].value
-    this.company.lastEditor = this.userService.getLoggedInUserFullName()
+    this.company.lastEditor = ''
 
     this.companySubscription = this.companyService.updateCompany(this.company, this.data.id).subscribe(
       (response) => {

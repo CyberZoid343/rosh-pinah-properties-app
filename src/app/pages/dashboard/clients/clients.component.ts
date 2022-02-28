@@ -97,6 +97,7 @@ export class ClientsComponent {
     const dialogRef = this.dialog.open(ClientsTagsDialogComponent, {
       height: '100%',
       width: '600px',
+      data: { id: id }
     });
 
     dialogRef.afterClosed().subscribe(result => {

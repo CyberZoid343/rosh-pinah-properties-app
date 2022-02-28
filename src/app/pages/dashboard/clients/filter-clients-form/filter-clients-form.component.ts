@@ -1,10 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { User } from 'src/app/shared/interfaces';
 import { ClientsComponent } from '../clients.component';
 
 @Component({
@@ -19,15 +16,11 @@ export class FilterClientsFormComponent {
   form: FormGroup;
   submitted = false;
   urlFilterParameters = '';
-  users: User[] = [];
-  userSubscription: Subscription = new Subscription;
-  gettingUsers = true;
 
   constructor(
     public formBuilder: FormBuilder,
     public router: Router,
     public clients: ClientsComponent,
-    public userService: UserService,
     public snackBarService: SnackBarService
   ) {
     this.form = this.formBuilder.group({
@@ -41,24 +34,7 @@ export class FilterClientsFormComponent {
       dateLastContactedEnd: [''],
       dateFollowUpStart: [''],
       dateFollowUpEnd: [''],
-      lastEditor: ['']
     })
-
-    this.getUsers();
-  }
-
-  getUsers() {
-    this.gettingUsers = true;
-    this.userSubscription = this.userService.getUsers().subscribe(
-      (users) => {
-        this.users = users;
-        this.gettingUsers = false;
-      },
-      (error) => {
-        console.log(error);
-        this.snackBarService.showErrorSnackBar(error.error)
-      }
-    )
   }
 
   submit() {
@@ -82,7 +58,6 @@ export class FilterClientsFormComponent {
     this.form.controls['dateLastContactedEnd'].setValue('');
     this.form.controls['dateFollowUpStart'].setValue('');
     this.form.controls['dateFollowUpEnd'].setValue('');
-    this.form.controls['lastEditor'].setValue('');
     this.updateClientFilters();
   }
 
@@ -122,8 +97,7 @@ export class FilterClientsFormComponent {
           dateLastContactedStart: this.form.get('dateLastContactedStart')!.value,
           dateLastContactedEnd: this.form.get('dateLastContactedEnd')!.value,
           dateFollowUpStart: this.form.get('dateFollowUpStart')!.value,
-          dateFollowUpEnd: this.form.get('dateFollowUpEnd')!.value,
-          lastEditor: this.form.get('lastEditor')!.value,
+          dateFollowUpEnd: this.form.get('dateFollowUpEnd')!.value
         }
       }
     );

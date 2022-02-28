@@ -1,11 +1,11 @@
 <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content" *ngIf="gettingClient || gettingCompanies">
-        <div class="py-5 d-flex align-items-center justify-content-center">
-            <div class="spinner-border" role="status"></div>
-            <span class="ms-2 text-nowrap">Loading client form...</span>
-        </div>
+    <div class="modal-content" *ngIf="gettingClient">
+        <div class="py-5 d-flex align-items-center justify-content-center" *ngIf="gettingClient">
+            <div class="spinner-border spinner-border-sm" role="status"></div>
+            <span class="ms-2 text-nowrap">Loading Client details...</span>
+          </div>
     </div>
-    <form class="modal-content" [formGroup]="form" *ngIf="!gettingClient && !gettingCompanies">
+    <form class="modal-content" [formGroup]="form" *ngIf="!gettingClient">
         <div class="modal-header">
             <h4 class="my-auto" *ngIf="data.id == 0">Add New Client</h4>
             <h4 class="my-auto" *ngIf="data.id > 0">Edit Client</h4>
@@ -31,11 +31,12 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label for="company" class="form-label">Company</label>
-                <select class="form-select" id="company" formControlName="company">
-                    <option selected></option>
-                    <option value="{{company.id}}" *ngFor="let company of companies">{{company.name}}</option>
-                </select>
+                <label for="companyName" class="form-label">Company Name</label>
+                <input type="text" class="form-control" id="companyName" formControlName="companyName"
+                    [ngClass]="{ 'is-invalid': submitted && form.controls.companyName.errors}">
+                <div class="invalid-feedback">
+                    <div *ngIf="form.controls.companyName.errors?.maxlength">Exceeded the max length of 255 characters</div>
+                </div>
                 <div class="form-text">Leave blank if the client does not belong to a company.</div>
             </div>
             <div class="mb-3">
@@ -68,6 +69,7 @@
                     <div *ngIf="form.controls.telNumber.errors?.minlength">Minimum 10 characters</div>
                     <div *ngIf="form.controls.telNumber.errors?.pattern">Numeric values only</div>
                 </div>
+                <div class="form-text">Leave blank if the client does not have a telephone number.</div>
             </div>
         </div>
         <div class="modal-footer">
@@ -76,14 +78,14 @@
                 [disabled]="updatingClient || addingClient">
                 <div *ngIf="data.id == 0">
                     <span *ngIf="!addingClient">Add Client</span>
-                    <div class="d-flex" *ngIf="addingClient">
+                    <div class="d-flex align-items-center" *ngIf="addingClient">
                         <span class="spinner-border spinner-border-sm"></span>
                         <span class="ms-2">Adding Client</span>
                     </div>
                 </div>
                 <div *ngIf="data.id > 0">
                     <span *ngIf="!updatingClient">Update Client</span>
-                    <div class="d-flex" *ngIf="updatingClient">
+                    <div class="d-flex align-items-center" *ngIf="updatingClient">
                         <span class="spinner-border spinner-border-sm"></span>
                         <span class="ms-2">Updating Client</span>
                     </div>

@@ -60,11 +60,6 @@ export class UserService {
     return user.id;
   }
 
-  getLoggedInUserFullName(){
-    var user: User = JSON.parse(localStorage.getItem('user')!);
-    return user.name + " " + user.surname;
-  }
-
   checkIfUserIsAdmin(){
     var user: User = JSON.parse(localStorage.getItem('user')!);
     return user.isAdmin;
