@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ClientService } from 'src/app/services/client/client.service';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
+import { Client } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-client-follow-up-dialog',
@@ -15,6 +16,9 @@ export class ClientFollowUpDialogComponent implements OnDestroy {
   clientSubscription: Subscription = new Subscription;
   form: FormGroup;
   submitted = false;
+  updatingClient = false;
+  gettingClient = false;
+  client!: Client;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -24,9 +28,10 @@ export class ClientFollowUpDialogComponent implements OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: { id: number }
   ) {
     this.form = this.formBuilder.group({
-      dateLastContacted: ['',],
-      dateFollowUp: ['',],
+      dateLastContacted: ['',Validators.required],
+      dateFollowUp: ['',Validators.required],
     });
+    this.getClient(this.data.id);
   }
 
   ngOnDestroy() {
@@ -38,7 +43,54 @@ export class ClientFollowUpDialogComponent implements OnDestroy {
   }
 
   submit(){
-    
+    this.submitted = true;
+
+    if (this.form.invalid) {
+      return;
+    }
+    else {
+        this.updateClient();
+    }
+  }
+
+  getClient(id: number) {
+    this.gettingClient = true;
+
+    this.clientSubscription = this.clientService.getClient(id).subscribe(
+      (response) => {
+        console.log(response);
+        this.client = response;
+        this.form.controls['dateLastContacted'].setValue(this.client?.dateLastContacted);
+        this.form.controls['dateFollowUp'].setValue(this.client?.dateFollowUp);
+        this.gettingClient = false;
+      },
+      (error) => {
+        console.log(error);
+        this.snackBarService.showErrorSnackBar(error.error)
+      }
+    )
+  }
+
+  updateClient() {
+    this.updatingClient = true;
+    console.log(this.client)
+    this.client.dateLastContacted = this.form.controls['dateLastContacted'].value
+    this.client.dateFollowUp = this.form.controls['dateFollowUp'].value
+
+    console.log(this.client)
+
+    this.clientSubscription = this.clientService.updateClient(this.client, this.data.id).subscribe(
+      (response) => {
+        console.log(response)
+        this.snackBarService.showSuccessSnackBar("Client successfully updated.")
+        this.closeDialog('success')
+      },
+      (error) => {
+        console.log(error);
+        this.snackBarService.showErrorSnackBar(error.error)
+        this.updatingClient = false;
+      }
+    )
   }
 
 }

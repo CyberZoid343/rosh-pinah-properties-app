@@ -11,6 +11,7 @@
                 <input type="date" class="form-control" id="dateLastContacted" formControlName="dateLastContacted"
                     [ngClass]="{ 'is-invalid': submitted && form.controls.dateLastContacted.errors}">
                 <div class="invalid-feedback">
+                    <div *ngIf="form.controls.dateLastContacted.errors?.required">Required field</div>
                 </div>
             </div>
 
@@ -19,6 +20,7 @@
                 <input type="date" class="form-control" id="dateFollowUp" formControlName="dateFollowUp"
                     [ngClass]="{ 'is-invalid': submitted && form.controls.dateFollowUp.errors}">
                 <div class="invalid-feedback">
+                    <div *ngIf="form.controls.dateFollowUp.errors?.required">Required field</div>
                 </div>
             </div>
 
