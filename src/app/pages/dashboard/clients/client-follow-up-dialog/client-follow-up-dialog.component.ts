@@ -19,6 +19,7 @@ export class ClientFollowUpDialogComponent implements OnDestroy {
   updatingClient = false;
   gettingClient = false;
   client!: Client;
+  minDate = new Date().toISOString().split('T')[0];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -28,7 +29,7 @@ export class ClientFollowUpDialogComponent implements OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: { id: number }
   ) {
     this.form = this.formBuilder.group({
-      dateLastContacted: ['',Validators.required],
+      dateLastContacted: ['',[Validators.required,]],
       dateFollowUp: ['',Validators.required],
     });
     this.getClient(this.data.id);
@@ -73,7 +74,7 @@ export class ClientFollowUpDialogComponent implements OnDestroy {
 
   updateClient() {
     this.updatingClient = true;
-    console.log(this.client)
+
     this.client.dateLastContacted = this.form.controls['dateLastContacted'].value
     this.client.dateFollowUp = this.form.controls['dateFollowUp'].value
 

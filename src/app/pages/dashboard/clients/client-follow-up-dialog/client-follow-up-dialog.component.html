@@ -17,7 +17,7 @@
 
             <div class="mb-3">
                 <label for="dateFollowUp" class="form-label">Follow Up Date</label>
-                <input type="date" class="form-control" id="dateFollowUp" formControlName="dateFollowUp"
+                <input type="date" [min]="minDate" class="form-control" id="dateFollowUp" formControlName="dateFollowUp"
                     [ngClass]="{ 'is-invalid': submitted && form.controls.dateFollowUp.errors}">
                 <div class="invalid-feedback">
                     <div *ngIf="form.controls.dateFollowUp.errors?.required">Required field</div>
