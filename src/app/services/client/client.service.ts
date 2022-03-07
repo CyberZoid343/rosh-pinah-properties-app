@@ -18,6 +18,10 @@ export class ClientService {
 
   apiURL = this.apiService.apiConnectionString + "client";
 
+  buildQuery(){
+    
+  }
+
   getClientSet(): Observable<any> {
     var filters = this.router.url.split('?')[1]
     return this.http.get(this.apiURL + "?" + filters, this.apiService.getHttpHeaders())

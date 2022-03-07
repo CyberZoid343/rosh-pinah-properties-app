@@ -9,213 +9,70 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
-$gray-100: #F8F9FA;
-$gray-200: #E9ECEF;
-$gray-300: #DEE2E6;
-$gray-400: #CED4DA;
-$gray-500: #ADB5BD;
-$gray-600: #6C757D;
-$gray-700: #495057;
-$gray-800: #343A40;
-$gray-900: #212529;
-
+//Theming
 $primary: #0c4c9c;
-$secondary: #E9ECEF;
-$dark: #212529;
-$light: #F8F9FA;
-$danger: #9c0c0c;
-$success: #299c0c;
-$warning: #ee9b00;
+$success: #198754;
+$danger: #dc3545;
 
-$primary-focus: rgba($primary, 0.8);
-$secondary-focus: rgba($secondary, 0.8);
-$dark-focus: rgba($dark, 0.8);
-$danger-focus: rgba($danger, 0.8);
-$light-focus: rgba($light, 0.8);
-$success-focus: rgba($success, 0.8);
-$warning-focus: rgba($warning, 0.8);
+// $theme-colors: (
+//     "primary": $primary
+// );
 
-$box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
-
-$theme-colors: (
-    "primary": $primary,
-    "secondary": $secondary,
-    "dark": $dark,
-    "light": $light,
-    "danger": $danger,
-    "success": $success,
-    "warning": $warning,
-    "gray-100": $gray-100,
-    "gray-200": $gray-200,
-    "gray-300": $gray-300,
-    "gray-400": $gray-400,
-    "gray-500": $gray-500,
-    "gray-600": $gray-600,
-    "gray-700": $gray-700,
-    "gray-800": $gray-800,
-    "gray-900": $gray-900
-);
-
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px,
-  xxl: 1100px
-);
-
-body{
-    color: $dark !important;
-}
-
-hr{
-  background-color: $gray-600 !important;
-}
+//box-shadow styles
+$box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
 .box-shadow{
   box-shadow: $box-shadow;
 }
 
+//Container styles
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1000px
+);
+
 //Typography
-$font-size-base: 0.9rem;
-
-//Form control styles
-$input-focus-box-shadow: none;
-$input-bg: $light;
-
-//Form select styles
-$form-select-focus-box-shadow: none;
+$font-size-base: 0.85rem;
 
 //button styles
-$btn-active-border-shade-amount:  50%;
-
-.btn-circle{
-  border-radius: 50% !important;
-}
-
-.btn-circle i {
-  width: 12px;
-  height: 14px;
-}
-
-button i{
-  width: 14px;
-  height: 14px;
+a i, button i, .dropdown-item i{
+  width: 20px !important;
+  text-align: center !important;
 }
 
 //table styles
-.custom-table{
-  width: 100%;
-  background-color: #ffffff;
+$table-cell-padding-y:     0.5rem;
+$table-cell-padding-x:     0.94rem;
+
+//offcanvas styles
+.offcanvas{
+  box-shadow: $box-shadow;
 }
 
-.custom-table th, .custom-table td{
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  text-overflow: ellipsis
+//dropdown styles
+.dropdown-menu{
+  box-shadow: $box-shadow;
 }
 
-.custom-table tbody td{
-  border-top: 1px solid $gray-300;
+//alert styles
+.alert-success button{
+  background-color: $success;
+  color: white;
+  margin: 8px;
 }
 
-.custom-table tbody tr:hover{
-  background-color: $gray-100 !important;
-}
-
-//Badge styles
-.badge{
-  padding: 4px 8px !important;
-}
-
-//Dropdown styles
-$dropdown-link-hover-bg: $light;
-$dropdown-link-active-color: none;
-$dropdown-link-active-bg: $gray-200;
-$dropdown-border-color: $gray-300;
-
-.dropdown-item i{
-  width: 20px;
-  margin-right: 16px
-}
-
-.dropdown-divider{
-  background-color: $gray-600 !important;
-  height: 1px !important;
-}
-
-.custom-dropdown{
-  box-shadow: $box-shadow !important;
-  border: 1px solid $gray-300;
-  border-radius: .25rem;
-  background-color: white !important;
+.alert-danger button{
+  background-color: $danger;
+  color: white;
+  margin: 8px;
 }
 
 //Card styles
 .card{
-  box-shadow: $box-shadow !important;
-  border-color: $gray-300 !important;
-}
-
-.card-header{
-  border-color: $gray-300 !important;
-}
-
-.card-footer{
-  border-color: $gray-300 !important;
-}
-
-//Offcanvas styles
-.offcanvas{
-  z-index: 2000 !important;
-}
-
-//List group stylies
-$list-group-link-hover-bg: $light;
-$list-group-link-active-color: none;
-$list-group-link-active-bg: $gray-200;
-$list-group-border-color: $gray-300;
-
-.list-group .active{
-  background-color: $gray-200 !important;
-  color: $dark !important;
-  border-color: $gray-300 !important;
-  border-left: 4px solid $primary !important;
-}
-
-.list-group-item-action{
-  cursor: pointer;
-}
-
-.list-group-item-action:hover{
-  cursor: pointer;
-  color: $dark !important;
-}
-
-//Modal styles
-.modal-footer{
-  background-color: $light;
-}
-
-.modal-header .btn-close{
-  transform: translateX(-6px);
-}
-
-//alert styles
-.alert button{
-  background-color: transparent !important;
-  color: $dark !important;
-}
-
-.alert{
-  color: $dark !important;
-}
-
-.dialog{
-  padding: 0px !important;
-  margin: 0px !important;
+  box-shadow: $box-shadow;
 }
 
 @import "../node_modules/bootstrap/scss/bootstrap";

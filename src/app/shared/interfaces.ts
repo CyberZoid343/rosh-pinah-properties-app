@@ -50,18 +50,18 @@ export interface Client{
   email: string,
   cellNumber: string,
   telNumber: string,
-  dateLastContacted?: Date | null,
-  dateFollowUp?: Date | null,
+  dateLastContacted: Date,
+  dateFollowUp: Date,
   dateAdded: Date,
   dateLastUpdated: Date,
   companyName: string,
   isActive: boolean,
-  clientTags?: Array<ClientTag>;
 }
 
 export interface Tag{
   id: number,
-  name: string
+  name: string,
+  isSelected?: boolean | null
 }
 
 export interface ClientTag{
