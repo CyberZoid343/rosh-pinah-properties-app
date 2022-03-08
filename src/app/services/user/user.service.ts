@@ -3,15 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { NewUser, User, UserNewPassword } from 'src/app/shared/interfaces';
+import { User, UserNewPassword } from 'src/app/shared/interfaces';
 import { ApiService } from '../api/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
-  user!: User;
 
   constructor(
     public http: HttpClient,
@@ -21,7 +19,7 @@ export class UserService {
 
   apiURL = this.apiService.apiConnectionString + "user";
 
-  getUsers(): Observable<any> {
+  getUserSet(): Observable<any> {
     return this.http.get(this.apiURL, this.apiService.getHttpHeaders())
   }
 
@@ -58,11 +56,6 @@ export class UserService {
   getLoggedInUserId(){
     var user: User = JSON.parse(localStorage.getItem('user')!);
     return user.id;
-  }
-
-  getLoggedInUserFullName(){
-    var user: User = JSON.parse(localStorage.getItem('user')!);
-    return user.name + " " + user.surname;
   }
 
   checkIfUserIsAdmin(){

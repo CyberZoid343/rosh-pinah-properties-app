@@ -42,3 +42,30 @@ export interface Company{
   dateLastUpdated: Date,
   lastEditor: string
 }
+
+export interface Client{
+  id: number,
+  name: string,
+  surname: string,
+  email: string,
+  cellNumber: string,
+  telNumber: string,
+  dateLastContacted: Date,
+  dateFollowUp: Date,
+  dateAdded: Date,
+  dateLastUpdated: Date,
+  companyName: string,
+  isActive: boolean,
+}
+
+export interface Tag{
+  id: number,
+  name: string,
+  isSelected?: boolean | null
+}
+
+export interface ClientTag{
+  clientId: number,
+  tagId: number,
+  tag?: Tag
+}
