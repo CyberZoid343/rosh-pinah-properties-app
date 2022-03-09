@@ -72,11 +72,11 @@
                 <div class="form-text">Leave blank if the client does not have a telephone number.</div>
             </div>
             <div class="mb-3">
-                <label for="dateContacted" class="form-label">Date Last Contacted</label>
-                <input type="date" class="form-control" id="dateContacted" formControlName="dateContacted"
-                    [ngClass]="{ 'is-invalid': submitted && form.controls.dateContacted.errors}">
+                <label for="dateLastContacted" class="form-label">Date Last Contacted</label>
+                <input type="date" class="form-control" id="dateLastContacted" formControlName="dateLastContacted"
+                    [ngClass]="{ 'is-invalid': submitted && form.controls.dateLastContacted.errors}">
                 <div class="invalid-feedback">
-                    <div *ngIf="form.controls.dateContacted.errors?.required">Required field</div>
+                    <div *ngIf="form.controls.dateLastContacted.errors?.required">Required field</div>
                 </div>
             </div>
             <div class="mb-3">

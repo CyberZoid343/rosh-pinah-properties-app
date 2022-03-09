@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -39,7 +40,7 @@ export class ClientFormComponent implements OnDestroy {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(500)]],
       cellNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[0-9]\d*)?$/)]],
       telNumber: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[0-9]\d*)?$/)]],
-      dateContacted: ['', Validators.required],
+      dateLastContacted: ['', Validators.required],
       dateFollowUp: ['', Validators.required]
     });
 
@@ -85,8 +86,8 @@ export class ClientFormComponent implements OnDestroy {
         this.form.controls['email'].setValue(this.client?.email);
         this.form.controls['cellNumber'].setValue(this.client?.cellNumber);
         this.form.controls['telNumber'].setValue(this.client?.telNumber);
-        this.form.controls['dateContacted'].setValue(this.client?.dateContacted);
-        this.form.controls['dateFollowUp'].setValue(this.client?.dateFollowUp);
+        this.form.controls['dateLastContacted'].setValue(formatDate(this.client?.dateLastContacted,'yyyy-MM-dd','en'));
+        this.form.controls['dateFollowUp'].setValue(formatDate(this.client?.dateFollowUp,'yyyy-MM-dd','en'));
         this.gettingClient = false;
       },
       (error) => {
@@ -107,7 +108,7 @@ export class ClientFormComponent implements OnDestroy {
       email: this.form.controls['email'].value,
       cellNumber: this.form.controls['cellNumber'].value,
       telNumber: this.form.controls['telNumber'].value,
-      dateContacted: this.form.controls['dateContacted'].value,
+      dateLastContacted: this.form.controls['dateLastContacted'].value,
       dateFollowUp: this.form.controls['dateFollowUp'].value,
       lastEditorId: this.userService.getLoggedInUserId(),
       isActive: true
@@ -137,7 +138,7 @@ export class ClientFormComponent implements OnDestroy {
     this.client.cellNumber = this.form.controls['cellNumber'].value
     this.client.telNumber = this.form.controls['telNumber']?.value
     this.client.companyName = this.form.controls['companyName'].value
-    this.client.dateContacted = this.form.controls['dateContacted'].value,
+    this.client.dateLastContacted = this.form.controls['dateLastContacted'].value,
     this.client.dateFollowUp = this.form.controls['dateFollowUp'].value,
 
     console.log(this.client)

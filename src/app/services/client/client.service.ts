@@ -28,6 +28,8 @@ export class ClientService {
 
     filterString += "&followUpPeriod=" + clientFilters?.followUpPeriod;
 
+    filterString += "&lastContactedPeriod=" + clientFilters?.lastContactedPeriod;
+
     return filterString;
   }
 

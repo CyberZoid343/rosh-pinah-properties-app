@@ -18,17 +18,17 @@
                     <input type="text" class="form-control" placeholder="Search..." (keyup)="searchClients($event)">
                 </div>
                 <strong class="ms-2">{{clients.length}} results found</strong>
-                <button class="btn ms-auto">
+                <button class="btn ms-auto" (click)="refreshClientList()">
                     <i class="fa-solid fa-refresh me-2"></i>Refresh
                 </button>
                 <div class="dropdown ms-2">
                     <button class="btn" data-bs-toggle="dropdown">
-                        Contacted: <b>All</b> <i class="fa-solid fa-caret-down ms-2"></i>
+                        Last Contacted: <b>{{lastContactedPeriod}}</b> <i class="fa-solid fa-caret-down ms-2"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item">All</a></li>
-                        <li><a class="dropdown-item">Today</a></li>
-                        <li><a class="dropdown-item">Yesterday</a></li>
+                        <li><a class="dropdown-item" (click)="filterByLastContactedPeriod('All')">All</a></li>
+                        <li><a class="dropdown-item" (click)="filterByLastContactedPeriod('Today')">Today</a></li>
+                        <li><a class="dropdown-item" (click)="filterByLastContactedPeriod('Yesterday')">Yesterday</a></li>
                     </ul>
                 </div>
                 <div class="dropdown ms-2">
@@ -70,6 +70,7 @@
                         <th scope="col">Tags</th>
                         <th scope="col">Last Contacted</th>
                         <th scope="col">Follow Up</th>
+                        <th scope="col">Updated</th>
                         <th scope="col">Status</th>
                         <th scope="col" class="text-end">Actions</th>
                     </tr>
@@ -93,31 +94,43 @@
                         </td>
                         <td>{{client.companyName}}</td>
                         <td style="max-width: 200px;" class="text-wrap">
-                            <span class="badge rounded-pill bg-secondary m-1">Investor</span>
-                            <span class="badge rounded-pill bg-secondary m-1">Developer</span>
-                            <span class="badge rounded-pill bg-secondary m-1">Retail</span>
+                            <span class="badge rounded-pill bg-transparent-primary m-1">Investor</span>
+                            <span class="badge rounded-pill bg-transparent-primary m-1">Developer</span>
+                            <span class="badge rounded-pill bg-transparent-primary m-1">Retail</span>
                         </td>
                         <td>
-                            <span class="d-block">{{client.dateContacted | date: "longDate"}}</span>
-                            <small class="text-muted">{{getDateDays(client.dateContacted).message}}</small>
+                            <span class="d-block">{{client.dateLastContacted | date: "longDate"}}</span>
+                            <small class="text-muted" *ngIf="client.lastContactedDays! < -1">{{client.lastContactedDays! * -1}} days ago</small>
+                            <small class="text-muted" *ngIf="client.lastContactedDays! == -1">Yesterday</small>
+                            <small class="text-muted" *ngIf="client.lastContactedDays! == 0">Today</small>
                         </td>
                         <td>
                             <span class="d-block">
                                 <i class="fa-solid fa-circle-exclamation text-danger me-1"
-                                    *ngIf="getDateDays(client.dateFollowUp).days > 1 && client.isActive"></i>
+                                    *ngIf="client.followUpDays! < 0 && client.isActive"></i>
                                 <i class="fa-solid fa-triangle-exclamation text-warning me-1"
-                                    *ngIf="getDateDays(client.dateFollowUp).message == 'Tomorrow' && client.isActive"></i>
+                                    *ngIf="client.followUpDays! == 1 && client.isActive"></i>
                                 <i class="fa-solid fa-comment-dots text-success me-1"
-                                    *ngIf="getDateDays(client.dateFollowUp).message == 'Today' && client.isActive"></i>
+                                    *ngIf="client.followUpDays! == 0 && client.isActive"></i>
                                 {{client.dateFollowUp | date: "longDate"}}
                             </span>
-                            <small class="text-muted">{{getDateDays(client.dateFollowUp).message}}</small>
+                            <small class="text-muted" *ngIf="client.followUpDays! < -1">Due {{client.followUpDays! * -1}} days ago</small>
+                            <small class="text-muted" *ngIf="client.followUpDays! == -1">Due yesterday</small>
+                            <small class="text-muted" *ngIf="client.followUpDays! == 0">Today</small>
+                            <small class="text-muted" *ngIf="client.followUpDays! == 1">Tomorrow</small>
+                            <small class="text-muted" *ngIf="client.followUpDays! > 1">Due in {{client.followUpDays!}} days</small>
+                        </td>
+                        <td>
+                            <span class="d-block">{{client.dateUpdated | date: "longDate"}}</span>
+                            <small class="text-muted" *ngIf="client.updatedDays! == 0">Today by {{client.lastEditor!.name}} {{client.lastEditor!.surname}}</small>
+                            <small class="text-muted" *ngIf="client.updatedDays! == -1">Yesterday by {{client.lastEditor!.name}} {{client.lastEditor!.surname}}</small>
+                            <small class="text-muted" *ngIf="client.updatedDays! < -1">{{client.updatedDays! * -1}} days ago by {{client.lastEditor!.name}} {{client.lastEditor!.surname}}</small>
                         </td>
                         <td>
                             <span *ngIf="client.isActive"><span
-                                    class="badge rounded-pill bg-success">Active</span></span>
+                                    class="badge rounded-pill bg-transparent-success">Active</span></span>
                             <span *ngIf="!client.isActive"><span
-                                    class="badge rounded-pill bg-danger">Inactive</span></span>
+                                    class="badge rounded-pill bg-transparent-danger">Inactive</span></span>
                         </td>
                         <td>
                             <div class="d-flex justify-content-end">
