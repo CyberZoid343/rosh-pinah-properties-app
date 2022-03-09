@@ -89,10 +89,6 @@ export class UserFormComponent implements OnDestroy {
       name: this.form.controls['name'].value,
       surname: this.form.controls['surname'].value,
       email: this.form.controls['email'].value,
-      dateAdded: new Date(),
-      dateLastUpdated: new Date(),
-      dateLastLogin: new Date(),
-      dateLastLogoff: new Date(),
       isAdmin: false,
       isOnline: false,
       isActivated: true

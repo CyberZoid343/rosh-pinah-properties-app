@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { ClientService } from 'src/app/services/client/client.service';
 import { DayService } from 'src/app/services/day/day.service';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
-import { Client } from 'src/app/shared/interfaces';
+import { Client, ClientFilters } from 'src/app/shared/interfaces';
 import { ClientDeleteComponent } from '../client-delete/client-delete.component';
 import { ClientFormComponent } from '../client-form/client-form.component';
 
@@ -19,6 +19,8 @@ export class ClientListComponent implements OnDestroy {
   clients: Client[] = [];
   clientSubscription: Subscription = new Subscription;
   gettingClientSet = true;
+  followUpPeriod = "All";
+  clientFilters: ClientFilters;
 
   constructor(
     public clientService: ClientService,
@@ -27,11 +29,14 @@ export class ClientListComponent implements OnDestroy {
     public snackBarService: SnackBarService,
     public dayService: DayService
   ) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.getClients()
-      }
-    });
+
+    this.clientFilters = {
+      search: '',
+      status: 'all',
+      followUpPeriod: 'all'
+    }
+
+    this.getClients()
   }
 
   ngOnDestroy() {
@@ -40,7 +45,7 @@ export class ClientListComponent implements OnDestroy {
 
   getClients() {
     this.gettingClientSet = true;
-    this.clientSubscription = this.clientService.getClientSet().subscribe(
+    this.clientSubscription = this.clientService.getClientSet(this.clientFilters).subscribe(
       (reponse) => {
         console.log(reponse)
         this.clients = reponse
@@ -58,14 +63,19 @@ export class ClientListComponent implements OnDestroy {
   }
 
   searchClients(event: any){
-    this.router.navigate(
-      ['dashboard/clients'],
-      {
-        queryParams: {
-          search: event.target.value
-        }
-      }
-    );
+    this.clientFilters!.search = event.target.value;
+    this.getClients();
+  }
+
+  filterByStatus(status: string){
+    this.clientFilters!.status = status;
+    this.getClients();
+  }
+
+  filterByFollowUpPeriod(period: string){
+    this.clientFilters!.followUpPeriod = period;
+    this.followUpPeriod = period;
+    this.getClients();
   }
 
   openClientFormDialog(id: number) {

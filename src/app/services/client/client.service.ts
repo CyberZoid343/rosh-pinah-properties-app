@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Client } from 'src/app/shared/interfaces';
+import { Client, ClientFilters } from 'src/app/shared/interfaces';
 import { ApiService } from '../api/api.service';
 
 @Injectable({
@@ -18,13 +18,21 @@ export class ClientService {
 
   apiURL = this.apiService.apiConnectionString + "client";
 
-  buildQuery(){
-    
+  getFilterString(clientFilters: ClientFilters){
+
+    let filterString = "?";
+
+    filterString += "&search=" + clientFilters?.search;
+
+    filterString += "&status=" + clientFilters?.status;
+
+    filterString += "&followUpPeriod=" + clientFilters?.followUpPeriod;
+
+    return filterString;
   }
 
-  getClientSet(): Observable<any> {
-    var filters = this.router.url.split('?')[1]
-    return this.http.get(this.apiURL + "?" + filters, this.apiService.getHttpHeaders())
+  getClientSet(clientFilters: ClientFilters): Observable<any> {
+    return this.http.get(this.apiURL + this.getFilterString(clientFilters), this.apiService.getHttpHeaders())
   }
 
   getClient(id: number): Observable<any> {

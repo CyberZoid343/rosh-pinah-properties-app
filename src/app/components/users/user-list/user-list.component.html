@@ -40,7 +40,7 @@
                             <span class="d-block">{{user.name}} {{user.surname}}</span>
                             <small class="text-muted">{{user.email}}</small>
                         </td>
-                        <td>{{user.dateLastUpdated | date: "longDate"}}</td>
+                        <td>{{user.dateUpdated | date: "longDate"}}</td>
                         <td>{{user.dateAdded | date: "longDate"}}</td>
                         <td>
                             <span *ngIf="user.isAdmin">Admin</span>

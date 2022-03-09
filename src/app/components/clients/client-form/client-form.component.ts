@@ -39,7 +39,7 @@ export class ClientFormComponent implements OnDestroy {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(500)]],
       cellNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[0-9]\d*)?$/)]],
       telNumber: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[0-9]\d*)?$/)]],
-      dateLastContacted: ['', Validators.required],
+      dateContacted: ['', Validators.required],
       dateFollowUp: ['', Validators.required]
     });
 
@@ -85,7 +85,7 @@ export class ClientFormComponent implements OnDestroy {
         this.form.controls['email'].setValue(this.client?.email);
         this.form.controls['cellNumber'].setValue(this.client?.cellNumber);
         this.form.controls['telNumber'].setValue(this.client?.telNumber);
-        this.form.controls['dateLastContacted'].setValue(this.client?.dateLastContacted);
+        this.form.controls['dateContacted'].setValue(this.client?.dateContacted);
         this.form.controls['dateFollowUp'].setValue(this.client?.dateFollowUp);
         this.gettingClient = false;
       },
@@ -107,10 +107,9 @@ export class ClientFormComponent implements OnDestroy {
       email: this.form.controls['email'].value,
       cellNumber: this.form.controls['cellNumber'].value,
       telNumber: this.form.controls['telNumber'].value,
-      dateAdded: new Date(),
-      dateLastContacted: this.form.controls['dateLastContacted'].value,
+      dateContacted: this.form.controls['dateContacted'].value,
       dateFollowUp: this.form.controls['dateFollowUp'].value,
-      dateLastUpdated: new Date(),
+      lastEditorId: this.userService.getLoggedInUserId(),
       isActive: true
     }
 
@@ -137,11 +136,9 @@ export class ClientFormComponent implements OnDestroy {
     this.client.email = this.form.controls['email'].value
     this.client.cellNumber = this.form.controls['cellNumber'].value
     this.client.telNumber = this.form.controls['telNumber']?.value
-    this.client.dateLastUpdated = new Date()
     this.client.companyName = this.form.controls['companyName'].value
-    this.client.dateLastContacted = this.form.controls['dateLastContacted'].value,
+    this.client.dateContacted = this.form.controls['dateContacted'].value,
     this.client.dateFollowUp = this.form.controls['dateFollowUp'].value,
-    this.client.dateLastUpdated = new Date()
 
     console.log(this.client)
 
