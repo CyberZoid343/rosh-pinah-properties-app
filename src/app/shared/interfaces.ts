@@ -37,14 +37,17 @@ export interface Client{
   email: string,
   cellNumber: string,
   telNumber: string,
-  dateContacted: Date,
+  dateLastContacted: Date,
   dateFollowUp: Date,
   dateAdded?: Date,
   dateUpdated?: Date,
   companyName: string,
   isActive: boolean,
   lastEditorId: number,
-  lastEditor?: User
+  lastEditor?: User,
+  followUpDays?: number,
+  lastContactedDays?: number,
+  updatedDays?: number
 }
 
 export interface Tag{
@@ -63,5 +66,5 @@ export interface ClientFilters{
   search?: string | null,
   status?: string | null,
   followUpPeriod?: string | null,
-  contactPeriod?: string | null
+  lastContactedPeriod?: string | null
 }

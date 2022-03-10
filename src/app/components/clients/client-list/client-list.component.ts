@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ClientService } from 'src/app/services/client/client.service';
-import { DayService } from 'src/app/services/day/day.service';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { Client, ClientFilters } from 'src/app/shared/interfaces';
 import { ClientDeleteComponent } from '../client-delete/client-delete.component';
 import { ClientFormComponent } from '../client-form/client-form.component';
@@ -20,6 +20,7 @@ export class ClientListComponent implements OnDestroy {
   clientSubscription: Subscription = new Subscription;
   gettingClientSet = true;
   followUpPeriod = "All";
+  lastContactedPeriod = "All"
   clientFilters: ClientFilters;
 
   constructor(
@@ -27,7 +28,7 @@ export class ClientListComponent implements OnDestroy {
     public dialog: MatDialog,
     public router: Router,
     public snackBarService: SnackBarService,
-    public dayService: DayService
+    public userService: UserService,
   ) {
 
     this.clientFilters = {
@@ -44,6 +45,7 @@ export class ClientListComponent implements OnDestroy {
   }
 
   getClients() {
+    this.clients = [];
     this.gettingClientSet = true;
     this.clientSubscription = this.clientService.getClientSet(this.clientFilters).subscribe(
       (reponse) => {
@@ -58,8 +60,8 @@ export class ClientListComponent implements OnDestroy {
     )
   }
 
-  getDateDays(date: Date){
-    return this.dayService.getDateDays(date);
+  refreshClientList(){
+    this.getClients();
   }
 
   searchClients(event: any){
@@ -75,6 +77,12 @@ export class ClientListComponent implements OnDestroy {
   filterByFollowUpPeriod(period: string){
     this.clientFilters!.followUpPeriod = period;
     this.followUpPeriod = period;
+    this.getClients();
+  }
+
+  filterByLastContactedPeriod(period: string){
+    this.clientFilters!.lastContactedPeriod = period;
+    this.lastContactedPeriod = period;
     this.getClients();
   }
 
@@ -108,22 +116,18 @@ export class ClientListComponent implements OnDestroy {
 
   updateClientStatus(client: Client){
 
-    let successMessage = '';
-
     if(client.isActive){
       client.isActive = false;
-      successMessage = 'Client successfully marked as inactive.'
     }
     else{
       client.isActive = true;
-      successMessage = 'Client successfully marked as active.'
     }
+
+    client.lastEditorId = this.userService.getLoggedInUserId();
 
     this.clientSubscription = this.clientService.updateClient(client, client.id,).subscribe(
       (response) => {
         console.log(response);
-        this.snackBarService.showSuccessSnackBar(successMessage)
-        this.getClients();
       },
       (error) => {
         console.log(error);

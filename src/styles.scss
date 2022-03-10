@@ -75,6 +75,22 @@ $table-cell-padding-x:     0.94rem;
   box-shadow: $box-shadow;
 }
 
+//Background styles
+.bg-transparent-primary{
+  color: $primary !important;
+  background-color: rgba($primary, 0.1) !important;
+}
+
+.bg-transparent-success{
+  color: $success !important;
+  background-color: rgba($success, 0.1) !important;
+}
+
+.bg-transparent-danger{
+  color: $danger !important;
+  background-color: rgba($danger, 0.1) !important;
+}
+
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 
