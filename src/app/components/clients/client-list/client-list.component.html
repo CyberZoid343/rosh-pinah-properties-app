@@ -1,0 +1,173 @@
+<div class="container-fluid p-3 text-nowrap">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center">
+                <h3 class="mb-0">Clients</h3>
+                <button class="btn btn-primary ms-auto" (click)="openClientFormDialog(0)">
+                    <i class="fa-solid fa-plus me-2"></i>Add New Client
+                </button>
+            </div>
+        </div>
+        <div class="col-12">
+            <hr>
+        </div>
+        <div class="col-12 mb-3">
+            <div class="d-flex align-items-center">
+                <div class="input-group" style="max-width: 400px; min-width: 200px;">
+                    <span class="input-group-text"><i class="fa-solid fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search..." (keyup)="searchClients($event)">
+                </div>
+                <strong class="ms-2">{{clients.length}} results found</strong>
+                <button class="btn ms-auto">
+                    <i class="fa-solid fa-refresh me-2"></i>Refresh
+                </button>
+                <div class="dropdown ms-2">
+                    <button class="btn" data-bs-toggle="dropdown">
+                        Contacted: <b>All</b> <i class="fa-solid fa-caret-down ms-2"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item">All</a></li>
+                        <li><a class="dropdown-item">Today</a></li>
+                        <li><a class="dropdown-item">Yesterday</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown ms-2">
+                    <button class="btn" data-bs-toggle="dropdown">
+                        Follow Up: <b>{{followUpPeriod}}</b> <i class="fa-solid fa-caret-down ms-2"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" (click)="filterByFollowUpPeriod('All')">All</a></li>
+                        <li><a class="dropdown-item" (click)="filterByFollowUpPeriod('Today')">Today</a></li>
+                        <li><a class="dropdown-item" (click)="filterByFollowUpPeriod('Tomorrow')">Tomorrow</a></li>
+                        <li><a class="dropdown-item" (click)="filterByFollowUpPeriod('Overdue')">Overdue</a></li>
+                    </ul>
+                </div>
+                <button class="btn ms-2" disabled>
+                    <i class="fa-solid fa-file-arrow-down me-2"></i>Export
+                </button>
+                <button class="btn ms-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling">
+                    <i class="fa-solid fa-filter me-2"></i>Filters
+                </button>
+            </div>
+        </div>
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" data-bs-toggle="tab" (click)="filterByStatus('all')">All</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" (click)="filterByStatus('active')">Active</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" (click)="filterByStatus('inactive')">Inactive</button>
+                </li>
+            </ul>
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Client</th>
+                        <th scope="col">Company</th>
+                        <th scope="col">Tags</th>
+                        <th scope="col">Last Contacted</th>
+                        <th scope="col">Follow Up</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="gettingClientSet">
+                        <td colspan="12" class="text-center">
+                            <span class="spinner-border spinner-border-sm me-2"></span>
+                            <span>Loading data...</span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="clients.length == 0 && !gettingClientSet">
+                        <td colspan="12" class="text-center">
+                            <span>No data found</span>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let client of clients" class="align-middle">
+                        <td>
+                            <span class="d-block">{{client.name}} {{client.surname}}</span>
+                            <small class="text-muted">{{client.email}}</small>
+                        </td>
+                        <td>{{client.companyName}}</td>
+                        <td style="max-width: 200px;" class="text-wrap">
+                            <span class="badge rounded-pill bg-secondary m-1">Investor</span>
+                            <span class="badge rounded-pill bg-secondary m-1">Developer</span>
+                            <span class="badge rounded-pill bg-secondary m-1">Retail</span>
+                        </td>
+                        <td>
+                            <span class="d-block">{{client.dateContacted | date: "longDate"}}</span>
+                            <small class="text-muted">{{getDateDays(client.dateContacted).message}}</small>
+                        </td>
+                        <td>
+                            <span class="d-block">
+                                <i class="fa-solid fa-circle-exclamation text-danger me-1"
+                                    *ngIf="getDateDays(client.dateFollowUp).days > 1 && client.isActive"></i>
+                                <i class="fa-solid fa-triangle-exclamation text-warning me-1"
+                                    *ngIf="getDateDays(client.dateFollowUp).message == 'Tomorrow' && client.isActive"></i>
+                                <i class="fa-solid fa-comment-dots text-success me-1"
+                                    *ngIf="getDateDays(client.dateFollowUp).message == 'Today' && client.isActive"></i>
+                                {{client.dateFollowUp | date: "longDate"}}
+                            </span>
+                            <small class="text-muted">{{getDateDays(client.dateFollowUp).message}}</small>
+                        </td>
+                        <td>
+                            <span *ngIf="client.isActive"><span
+                                    class="badge rounded-pill bg-success">Active</span></span>
+                            <span *ngIf="!client.isActive"><span
+                                    class="badge rounded-pill bg-danger">Inactive</span></span>
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-secondary me-2">View Details</button>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary" data-bs-toggle="dropdown">
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <button class="dropdown-item" (click)="openClientFormDialog(client.id)"><i
+                                                    class="fa-solid fa-pen me-2"></i>Edit Details</button>
+                                        </li>
+                                        <li>
+                                            <button class="dropdown-item" (click)="updateClientStatus(client)"
+                                                *ngIf="!client.isActive"><i
+                                                    class="fa-solid fa-circle-check me-2"></i>Mark
+                                                Active</button>
+                                        </li>
+                                        <hr class="dropdown-divider">
+                                        <li>
+                                            <button class="dropdown-item text-danger"
+                                                (click)="updateClientStatus(client)" *ngIf="client.isActive"><i
+                                                    class="fa-solid fa-circle-xmark me-2"></i>Mark
+                                                Inactive
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="dropdown-item text-danger"
+                                                (click)="openDeleteClientDialog(client.id)"><i
+                                                    class="fa-solid fa-trash me-2"></i>Delete
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end " data-bs-scroll="true" data-bs-backdrop="false" id="offcanvasScrolling">
+    <div class="offcanvas-header align-items-center border-bottom">
+        <h5 class="offcanvas-title">Client Filters</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+
+    </div>
+</div>
