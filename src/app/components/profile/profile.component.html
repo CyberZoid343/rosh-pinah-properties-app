@@ -45,10 +45,13 @@
                         </div>
                     </div>
                     <div class="d-flex">
-                        <button type="button" class="btn btn-secondary me-2">Cancel</button>
-                        <button type="button" class="btn btn-primary" (click)="submit()">
-                            Update Personal Details
-                        </button>
+                        <button type="button" class="btn btn-primary" (click)="updateUser()" [disabled]="updatingUser">
+                            <span *ngIf="!updatingUser">Update Personal Details</span>
+                            <div class="d-flex" *ngIf="updatingUser">
+                              <span class="spinner-border spinner-border-sm"></span>
+                              <span class="ms-2">Updating Personal Details</span>
+                            </div>
+                          </button>
                     </div>
                 </form>
             </div>

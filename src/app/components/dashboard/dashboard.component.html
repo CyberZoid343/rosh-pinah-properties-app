@@ -13,7 +13,7 @@
             </button>
         </div>
         <div class="px-1">
-            <button class="sidbar-button btn mb-1" [routerLink]="['users']" routerLinkActive="btn-primary">
+            <button class="sidbar-button btn mb-1" [routerLink]="['users']" routerLinkActive="btn-primary" [disabled]="!loggedInUser.isAdmin">
                 <i class="fa-solid fa-users"></i>
                 Users
             </button>

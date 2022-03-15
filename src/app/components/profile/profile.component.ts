@@ -46,7 +46,6 @@ export class ProfileComponent implements OnDestroy {
   }
 
   getUser(id: number) {
-    this.gettingUser = true;
     this.userSubscription = this.userService.getUser(this.userService.getLoggedInUserId()).subscribe(
       (response) => {
         console.log(response);
@@ -73,7 +72,9 @@ export class ProfileComponent implements OnDestroy {
     this.userSubscription = this.userService.updateUser(this.user, this.userService.getLoggedInUserId()).subscribe(
       (response) => {
         console.log(response);
-        this.snackBarService.showSuccessSnackBar("User successfully updated.")
+        localStorage.setItem('user', JSON.stringify(response));
+        this.snackBarService.showSuccessSnackBar("Personal details successfully updated.")
+        this.updatingUser = false;
       },
       (error) => {
         console.log(error);
