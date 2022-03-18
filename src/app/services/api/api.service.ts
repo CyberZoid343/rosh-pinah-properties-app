@@ -7,7 +7,6 @@ import { Injectable } from '@angular/core';
 export class ApiService {
 
   apiConnectionString = "https://roshpinahpropertieswebapi20211206152720.azurewebsites.net/api/";
-
   auth: any;
   authorizationData: any;
   headerOptions: any;
