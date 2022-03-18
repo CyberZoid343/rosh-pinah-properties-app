@@ -3,23 +3,10 @@ export interface User {
   name: string,
   surname: string,
   email: string,
-  dateAdded: Date,
-  dateLastUpdated: Date,
-  dateLastLogin: Date,
-  dateLastLogoff: Date,
-  isAdmin: boolean,
-  isOnline: boolean,
-  isActivated: boolean
-}
-
-export interface NewUser {
-  name: string,
-  surname: string,
-  email: string,
-  dateAdded: Date,
-  dateLastUpdated: Date,
-  dateLastLogin: Date,
-  dateLastLogoff: Date,
+  dateAdded?: Date,
+  dateUpdated?: Date,
+  dateLogin?: Date,
+  dateLogoff?: Date,
   isAdmin: boolean,
   isOnline: boolean,
   isActivated: boolean
@@ -41,4 +28,43 @@ export interface Company{
   dateAdded: Date,
   dateLastUpdated: Date,
   lastEditor: string
+}
+
+export interface Client{
+  id: number,
+  name: string,
+  surname: string,
+  email: string,
+  cellNumber: string,
+  telNumber: string,
+  dateLastContacted: Date,
+  dateFollowUp: Date,
+  dateAdded?: Date,
+  dateUpdated?: Date,
+  companyName: string,
+  isActive: boolean,
+  lastEditorId: number,
+  lastEditor?: User,
+  followUpDays?: number,
+  lastContactedDays?: number,
+  updatedDays?: number
+}
+
+export interface Tag{
+  id: number,
+  name: string,
+  isSelected?: boolean | null
+}
+
+export interface ClientTag{
+  clientId: number,
+  tagId: number,
+  tag?: Tag
+}
+
+export interface ClientFilters{
+  search?: string | null,
+  status?: string | null,
+  followUpPeriod?: string | null,
+  lastContactedPeriod?: string | null
 }

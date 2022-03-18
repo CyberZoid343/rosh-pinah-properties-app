@@ -1,0 +1,87 @@
+<div class="container-fluid p-3 text-nowrap">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center">
+                <h3 class="mb-0">Users</h3>
+                <button class="btn btn-primary ms-auto" (click)="openUserFormDialog(0)">
+                    <i class="fa-solid fa-user-plus me-2"></i>Add New User
+                </button>
+            </div>
+        </div>
+        <div class="col-12">
+            <hr>
+        </div>
+        <div class="col-12">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">User</th>
+                        <th scope="col">Updated</th>
+                        <th scope="col">Added</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="gettingUserSet">
+                        <td colspan="12" class="text-center">
+                            <span class="spinner-border spinner-border-sm me-2"></span>
+                            <span>Loading data...</span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="users.length == 0 && !gettingUserSet">
+                        <td colspan="12" class="text-center">
+                            <span>No data found</span>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let user of users" class="align-middle">
+                        <td>
+                            <span class="d-block">{{user.name}} {{user.surname}}</span>
+                            <small class="text-muted">{{user.email}}</small>
+                        </td>
+                        <td>{{user.dateUpdated | date: "longDate"}}</td>
+                        <td>{{user.dateAdded | date: "longDate"}}</td>
+                        <td>
+                            <span *ngIf="user.isAdmin">Admin</span>
+                            <span *ngIf="!user.isAdmin">User</span>
+                        </td>
+                        <td>
+                            <span *ngIf="user.isActivated"><span
+                                    class="badge rounded-pill bg-transparent-success">Activated</span></span>
+                            <span *ngIf="!user.isActivated"><span
+                                    class="badge rounded-pill bg-transparent-danger">Deactivated</span></span>
+                        </td>
+                        <td class="text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary" data-bs-toggle="dropdown">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <button class="dropdown-item" (click)="openUserFormDialog(user.id)"><i
+                                                class="fa-solid fa-pen me-2"></i>Edit Details</button>
+                                    </li>
+                                    <li><button class="dropdown-item" (click)="openActivateUserDialog(user.id)"
+                                            *ngIf="!user.isActivated"><i
+                                                class="fa-solid fa-user-check me-2"></i>Activate</button>
+                                    </li>
+                                    <hr class="dropdown-divider">
+                                    <li> <button class="dropdown-item text-danger"
+                                            (click)="openDeactivateUserDialog(user.id)" *ngIf="user.isActivated"><i
+                                                class="fa-solid fa-user-xmark me-2"></i>Deactivate</button>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item text-danger"
+                                            (click)="openDeleteUserDialog(user.id)"><i
+                                                class="fa-solid fa-trash me-2"></i>Delete</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
