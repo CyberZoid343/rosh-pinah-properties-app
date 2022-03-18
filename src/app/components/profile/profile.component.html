@@ -1,0 +1,60 @@
+<div class="container p-3">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mb-0">Profile</h3>
+        </div>
+        <div class="col-12">
+            <hr>
+        </div>
+        <div class="row pe-0">
+            <div class="col-md-4">
+                <h5>Edit Personal Details</h5>
+                <p>Your personal details will appear on your profile.</p>
+            </div>
+            <div class="col-md-8 pe-0">
+                <form [formGroup]="form" *ngIf="!gettingUser">
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" formControlName="name"
+                            [ngClass]="{ 'is-invalid': submitted && form.controls.name.errors}">
+                        <div class="invalid-feedback">
+                            <div *ngIf="form.controls.name.errors?.required">Required field</div>
+                            <div *ngIf="form.controls.name.errors?.maxlength">Exceeded the max length of 500 characters
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">Surname</label>
+                        <input type="text" class="form-control" id="surname" formControlName="surname"
+                            [ngClass]="{ 'is-invalid': submitted && form.controls.surname.errors}">
+                        <div class="invalid-feedback">
+                            <div *ngIf="form.controls.surname.errors?.required">Required field</div>
+                            <div *ngIf="form.controls.surname.errors?.maxlength">Exceeded the max length of 500
+                                characters</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="email" formControlName="email"
+                            [ngClass]="{ 'is-invalid': submitted && form.controls.email.errors}">
+                        <div class="invalid-feedback">
+                            <div *ngIf="form.controls.email.errors?.required">Required field</div>
+                            <div *ngIf="form.controls.email.errors?.email">Invalid email</div>
+                            <div *ngIf="form.controls.email.errors?.maxlength">Exceeded the max length of 500 characters
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <button type="button" class="btn btn-primary" (click)="updateUser()" [disabled]="updatingUser">
+                            <span *ngIf="!updatingUser">Update Personal Details</span>
+                            <div class="d-flex" *ngIf="updatingUser">
+                              <span class="spinner-border spinner-border-sm"></span>
+                              <span class="ms-2">Updating Personal Details</span>
+                            </div>
+                          </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
