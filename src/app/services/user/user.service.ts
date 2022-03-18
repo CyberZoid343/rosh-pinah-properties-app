@@ -58,6 +58,11 @@ export class UserService {
     return user.id;
   }
 
+  getLoggedInUser(){
+    var user: User = JSON.parse(localStorage.getItem('user')!);
+    return user;
+  }
+
   checkIfUserIsAdmin(){
     var user: User = JSON.parse(localStorage.getItem('user')!);
     return user.isAdmin;

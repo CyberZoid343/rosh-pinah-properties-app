@@ -124,6 +124,8 @@ export class ClientListComponent implements OnDestroy {
     }
 
     client.lastEditorId = this.userService.getLoggedInUserId();
+    client.lastEditor!.name = this.userService.getLoggedInUser().name;
+    client.lastEditor!.surname = this.userService.getLoggedInUser().surname;
 
     this.clientSubscription = this.clientService.updateClient(client, client.id,).subscribe(
       (response) => {

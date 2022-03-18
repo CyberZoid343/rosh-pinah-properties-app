@@ -133,14 +133,15 @@ export class ClientFormComponent implements OnDestroy {
 
   updateClient() {
     this.updatingClient = true;
-    this.client.name = this.form.controls['name'].value
-    this.client.surname = this.form.controls['surname'].value
-    this.client.email = this.form.controls['email'].value
-    this.client.cellNumber = this.form.controls['cellNumber'].value
-    this.client.telNumber = this.form.controls['telNumber']?.value
-    this.client.companyName = this.form.controls['companyName'].value
-    this.client.dateLastContacted = this.form.controls['dateLastContacted'].value,
-    this.client.dateFollowUp = this.form.controls['dateFollowUp'].value,
+    this.client.name = this.form.controls['name'].value;
+    this.client.surname = this.form.controls['surname'].value;
+    this.client.email = this.form.controls['email'].value;
+    this.client.cellNumber = this.form.controls['cellNumber'].value;
+    this.client.telNumber = this.form.controls['telNumber']?.value;
+    this.client.companyName = this.form.controls['companyName'].value;
+    this.client.dateLastContacted = this.form.controls['dateLastContacted'].value;
+    this.client.dateFollowUp = this.form.controls['dateFollowUp'].value;
+    this.client.lastEditorId = this.userService.getLoggedInUserId();
 
     console.log(this.client)
 

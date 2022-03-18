@@ -1,17 +1,15 @@
 <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content" *ngIf="gettingClient">
-        <div class="py-5 d-flex align-items-center justify-content-center" *ngIf="gettingClient">
-            <div class="spinner-border spinner-border-sm" role="status"></div>
-            <span class="ms-2 text-nowrap">Loading Client details...</span>
-          </div>
-    </div>
-    <form class="modal-content" [formGroup]="form" *ngIf="!gettingClient">
+    <form class="modal-content" [formGroup]="form">
         <div class="modal-header">
             <h5 class="my-auto" *ngIf="data.id == 0">Add New Client</h5>
             <h5 class="my-auto" *ngIf="data.id > 0">Edit Client</h5>
             <button type="button" class="btn-close" (click)="closeDialog('closed')"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body text-center" *ngIf="gettingClient">
+            <div class="spinner-border spinner-border-sm" role="status"></div>
+            <span class="ms-2 text-nowrap">Loading Client details...</span>
+        </div>
+        <div class="modal-body" *ngIf="!gettingClient">
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" formControlName="name"
@@ -88,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer" *ngIf="!gettingClient">
             <button type="button" class="btn btn-secondary" (click)="closeDialog('closed')">Cancel</button>
             <button type="button" class="btn btn-primary" (click)="submit()"
                 [disabled]="updatingClient || addingClient">

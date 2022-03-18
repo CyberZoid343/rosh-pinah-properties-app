@@ -98,6 +98,10 @@ $table-striped-bg: $light;
   box-shadow: $box-shadow;
 }
 
+.custom-dialog{
+  transform: translate(-50%, -50%);
+}
+
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 
