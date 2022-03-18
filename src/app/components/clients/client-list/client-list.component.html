@@ -13,15 +13,12 @@
         </div>
         <div class="col-12 mb-3">
             <div class="d-flex align-items-center">
-                <div class="input-group" style="max-width: 400px; min-width: 200px;">
+                <div class="input-group" style="max-width: 300px; min-width: 200px;">
                     <span class="input-group-text"><i class="fa-solid fa-search"></i></span>
                     <input type="text" class="form-control" placeholder="Search..." (keyup)="searchClients($event)">
                 </div>
                 <strong class="ms-2">{{clients.length}} results found</strong>
-                <button class="btn ms-auto" (click)="refreshClientList()">
-                    <i class="fa-solid fa-refresh me-2"></i>Refresh
-                </button>
-                <div class="dropdown ms-2">
+                <div class="dropdown ms-auto">
                     <button class="btn" data-bs-toggle="dropdown">
                         Last Contacted: <b>{{lastContactedPeriod}}</b> <i class="fa-solid fa-caret-down ms-2"></i>
                     </button>
@@ -42,11 +39,11 @@
                         <li><a class="dropdown-item" (click)="filterByFollowUpPeriod('Overdue')">Overdue</a></li>
                     </ul>
                 </div>
-                <button class="btn ms-2" disabled>
-                    <i class="fa-solid fa-file-arrow-down me-2"></i>Export
-                </button>
                 <button class="btn ms-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling">
                     <i class="fa-solid fa-filter me-2"></i>Filters
+                </button>
+                <button class="btn ms-2" (click)="refreshClientList()">
+                    <i class="fa-solid fa-refresh me-2"></i>Refresh
                 </button>
             </div>
         </div>
@@ -135,7 +132,7 @@
                         </td>
                         <td>
                             <div class="d-flex justify-content-end">
-                                <button class="btn btn-secondary me-2">View Details</button>
+                                <button class="btn btn-secondary me-2">Details</button>
                                 <div class="dropdown">
                                     <button class="btn btn-outline-secondary" data-bs-toggle="dropdown">
                                         <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -143,7 +140,7 @@
                                     <ul class="dropdown-menu">
                                         <li>
                                             <button class="dropdown-item" (click)="openClientFormDialog(client.id)"><i
-                                                    class="fa-solid fa-pen me-2"></i>Edit Details</button>
+                                                    class="fa-solid fa-pen me-2"></i>Edit</button>
                                         </li>
                                         <li>
                                             <button class="dropdown-item" (click)="updateClientStatus(client)"

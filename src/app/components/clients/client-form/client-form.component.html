@@ -73,7 +73,7 @@
             </div>
             <div class="mb-3">
                 <label for="dateLastContacted" class="form-label">Date Last Contacted</label>
-                <input type="date" class="form-control" id="dateLastContacted" formControlName="dateLastContacted"
+                <input type="date" class="form-control" id="dateLastContacted" formControlName="dateLastContacted" max="{{today | date:'yyyy-MM-dd'}}"
                     [ngClass]="{ 'is-invalid': submitted && form.controls.dateLastContacted.errors}">
                 <div class="invalid-feedback">
                     <div *ngIf="form.controls.dateLastContacted.errors?.required">Required field</div>
@@ -81,7 +81,7 @@
             </div>
             <div class="mb-3">
                 <label for="dateFollowUp" class="form-label">Follow Up Date</label>
-                <input type="date" class="form-control" id="dateFollowUp" formControlName="dateFollowUp"
+                <input type="date" class="form-control" id="dateFollowUp" formControlName="dateFollowUp" min="{{today | date:'yyyy-MM-dd'}}"
                     [ngClass]="{ 'is-invalid': submitted && form.controls.dateFollowUp.errors}">
                 <div class="invalid-feedback">
                     <div *ngIf="form.controls.dateFollowUp.errors?.required">Required field</div>

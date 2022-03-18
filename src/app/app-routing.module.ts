@@ -8,6 +8,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { PropertyListComponent } from './components/properties/property-list/property-list.component';
 import { PasswordComponent } from './components/password/password.component';
+import { ClientDetailsComponent } from './components/clients/client-details/client-details.component';
 
 const routes: Routes = [
   {
@@ -17,7 +18,9 @@ const routes: Routes = [
     path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard], children: [
       {
         path: "clients", component: ClientListComponent, children: [
-      
+          {
+            path: "details", component: ClientDetailsComponent
+          }
         ]
       },
       {

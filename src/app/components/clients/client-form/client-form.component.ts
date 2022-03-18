@@ -23,6 +23,7 @@ export class ClientFormComponent implements OnDestroy {
   gettingClient = false;
   addingClient = false;
   updatingClient = false;
+  today = new Date();
 
   constructor(
     public formBuilder: FormBuilder,
@@ -40,7 +41,7 @@ export class ClientFormComponent implements OnDestroy {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(500)]],
       cellNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[0-9]\d*)?$/)]],
       telNumber: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[0-9]\d*)?$/)]],
-      dateLastContacted: ['', Validators.required],
+      dateLastContacted: ['', [Validators.required]],
       dateFollowUp: ['', Validators.required]
     });
 

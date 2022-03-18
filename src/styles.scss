@@ -13,13 +13,14 @@
 $primary: #0c4c9c;
 $success: #198754;
 $danger: #dc3545;
+$light: #f8f9fa;
 
 // $theme-colors: (
 //     "primary": $primary
 // );
 
 //box-shadow styles
-$box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+$box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 
 .box-shadow{
   box-shadow: $box-shadow;
@@ -44,8 +45,9 @@ a i, button i, .dropdown-item i{
 }
 
 //table styles
-$table-cell-padding-y:     0.5rem;
-$table-cell-padding-x:     0.94rem;
+$table-cell-padding-y: 0.5rem;
+$table-cell-padding-x: 0.94rem;
+$table-striped-bg: $light;         
 
 //offcanvas styles
 .offcanvas{
@@ -89,6 +91,11 @@ $table-cell-padding-x:     0.94rem;
 .bg-transparent-danger{
   color: $danger !important;
   background-color: rgba($danger, 0.1) !important;
+}
+
+//model styles
+.modal-content{
+  box-shadow: $box-shadow;
 }
 
 @import "../node_modules/bootstrap/scss/bootstrap";

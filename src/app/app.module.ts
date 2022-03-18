@@ -22,6 +22,7 @@ import { UserFormComponent } from './components/users/user-form/user-form.compon
 import { ClientFormComponent } from './components/clients/client-form/client-form.component';
 import { ClientListFiltersComponent } from './components/clients/client-list-filters/client-list-filters.component';
 import { ClientDeleteComponent } from './components/clients/client-delete/client-delete.component';
+import { ClientDetailsComponent } from './components/clients/client-details/client-details.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ClientDeleteComponent } from './components/clients/client-delete/client
     UserFormComponent,
     ClientFormComponent,
     ClientListFiltersComponent,
-    ClientDeleteComponent
+    ClientDeleteComponent,
+    ClientDetailsComponent
   ],
   imports: [
     BrowserModule,
