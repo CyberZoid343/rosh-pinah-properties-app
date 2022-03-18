@@ -67,7 +67,7 @@
                         <th scope="col">Tags</th>
                         <th scope="col">Last Contacted</th>
                         <th scope="col">Follow Up</th>
-                        <th scope="col">Updated</th>
+                        <th scope="col" class="d-none">Updated</th>
                         <th scope="col">Status</th>
                         <th scope="col" class="text-end">Actions</th>
                     </tr>
@@ -90,19 +90,20 @@
                             <small class="text-muted">{{client.email}}</small>
                         </td>
                         <td>{{client.companyName}}</td>
-                        <td style="max-width: 200px;" class="text-wrap">
-                            <span class="badge rounded-pill bg-transparent-primary m-1">Tag</span>
-                            <span class="badge rounded-pill bg-transparent-primary m-1">Tag</span>
-                            <span class="badge rounded-pill bg-transparent-primary m-1">Tag</span>
-                            <span class="badge rounded-pill bg-transparent-primary m-1">Tag</span>
+                        <td class="text-wrap" style="max-width: 300px;">
+                            <span class="badge rounded-pill bg-transparent-primary" style="margin: 1px;">Investor</span>
+                            <span class="badge rounded-pill bg-transparent-primary" style="margin: 1px;">Retail</span>
+                            <span class="badge rounded-pill bg-transparent-primary" style="margin: 1px;">Devloper</span>
+                            <span class="badge rounded-pill bg-transparent-primary" style="margin: 1px;">Schools</span>
+                            <span class="badge rounded-pill bg-transparent-primary" style="margin: 1px;">Flats</span>
                         </td>
-                        <td>
-                            <span class="d-block">{{client.dateLastContacted | date: "longDate"}}</span>
+                        <td style="max-width: 120px" class="text-truncate">
+                            <span class="d-block">{{client.dateLastContacted | date: "mediumDate"}}</span>
                             <small class="text-muted" *ngIf="client.lastContactedDays! < -1">{{client.lastContactedDays! * -1}} days ago</small>
                             <small class="text-muted" *ngIf="client.lastContactedDays! == -1">Yesterday</small>
                             <small class="text-muted" *ngIf="client.lastContactedDays! == 0">Today</small>
                         </td>
-                        <td>
+                        <td style="max-width: 120px" class="text-truncate">
                             <span class="d-block">
                                 <i class="fa-solid fa-circle-exclamation text-danger me-1"
                                     *ngIf="client.followUpDays! < 0 && client.isActive"></i>
@@ -110,7 +111,7 @@
                                     *ngIf="client.followUpDays! == 1 && client.isActive"></i>
                                 <i class="fa-solid fa-comment-dots text-success me-1"
                                     *ngIf="client.followUpDays! == 0 && client.isActive"></i>
-                                {{client.dateFollowUp | date: "longDate"}}
+                                {{client.dateFollowUp | date: "mediumDate"}}
                             </span>
                             <small class="text-muted" *ngIf="client.followUpDays! < -1">Due {{client.followUpDays! * -1}} days ago</small>
                             <small class="text-muted" *ngIf="client.followUpDays! == -1">Due yesterday</small>
@@ -118,17 +119,16 @@
                             <small class="text-muted" *ngIf="client.followUpDays! == 1">Tomorrow</small>
                             <small class="text-muted" *ngIf="client.followUpDays! > 1">Due in {{client.followUpDays!}} days</small>
                         </td>
-                        <td>
-                            <span class="d-block">{{client.dateUpdated | date: "longDate"}}</span>
-                            <small class="text-muted" *ngIf="client.updatedDays! == 0">Today by {{client.lastEditor!.name}} {{client.lastEditor!.surname}}</small>
-                            <small class="text-muted" *ngIf="client.updatedDays! == -1">Yesterday by {{client.lastEditor!.name}} {{client.lastEditor!.surname}}</small>
-                            <small class="text-muted" *ngIf="client.updatedDays! < -1">{{client.updatedDays! * -1}} days ago by {{client.lastEditor!.name}} {{client.lastEditor!.surname}}</small>
+                        <td style="max-width: 120px" class="text-truncate d-none">
+                            <span class="d-block">{{client.dateUpdated | date: "mediumDate"}}</span>
+                            <small class="text-muted" *ngIf="client.updatedDays! == 0">Today by</small>
+                            <small class="text-muted" *ngIf="client.updatedDays! == -1">Yesterday by</small>
+                            <small class="text-muted" *ngIf="client.updatedDays! < -1">{{client.updatedDays! * -1}} days ago by</small>
+                            <small class="text-muted d-block">{{client.lastEditor!.name}} {{client.lastEditor!.surname}}</small>
                         </td>
-                        <td>
-                            <span *ngIf="client.isActive"><span
-                                    class="badge rounded-pill bg-transparent-success">Active</span></span>
-                            <span *ngIf="!client.isActive"><span
-                                    class="badge rounded-pill bg-transparent-danger">Inactive</span></span>
+                        <td style="width: 10px;">
+                            <span *ngIf="client.isActive" class="badge rounded-pill bg-transparent-success">Active</span>
+                            <span *ngIf="!client.isActive" class="badge rounded-pill bg-transparent-danger">Inactive</span>
                         </td>
                         <td>
                             <div class="d-flex justify-content-end">
