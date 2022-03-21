@@ -26,8 +26,7 @@
                 <tbody>
                     <tr *ngIf="gettingUserSet">
                         <td colspan="12" class="text-center">
-                            <span class="spinner-border spinner-border-sm me-2"></span>
-                            <span>Loading data...</span>
+                            <app-loading-indicator [message]="loadingUsersMessage"></app-loading-indicator>
                         </td>
                     </tr>
                     <tr *ngIf="users.length == 0 && !gettingUserSet">
@@ -54,21 +53,21 @@
                         </td>
                         <td class="text-end">
                             <div class="dropdown">
-                                <button class="btn btn-outline-secondary" data-bs-toggle="dropdown">
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                <button class="btn" data-bs-toggle="dropdown">
+                                    <i class="fa-solid fa-ellipsis"></i>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <button class="dropdown-item" (click)="openUserFormDialog(user.id)"><i
                                                 class="fa-solid fa-pen me-2"></i>Edit Details</button>
                                     </li>
-                                    <li><button class="dropdown-item" (click)="openActivateUserDialog(user.id)"
+                                    <li><button class="dropdown-item" (click)="openActivateUserDialog(user)"
                                             *ngIf="!user.isActivated"><i
                                                 class="fa-solid fa-user-check me-2"></i>Activate</button>
                                     </li>
                                     <hr class="dropdown-divider">
                                     <li> <button class="dropdown-item text-danger"
-                                            (click)="openDeactivateUserDialog(user.id)" *ngIf="user.isActivated"><i
+                                            (click)="openDeactivateUserDialog(user)" *ngIf="user.isActivated"><i
                                                 class="fa-solid fa-user-xmark me-2"></i>Deactivate</button>
                                     </li>
                                     <li>

@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <h5 class="modal-title"><i class="{{iconClass}} me-2 text-{{themeClass}}"></i>{{title}}</h5>
+    <button type="button" class="btn-close" (click)="closeModal('dismiss')"></button>
+</div>
+<div class="modal-body">
+    <span>{{message}}</span>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" (click)="closeModal('dismiss')">Cancel</button>
+    <button type="button" class="btn btn-{{themeClass}}" (click)="closeModal('confirm')">{{action}}</button>
+</div>

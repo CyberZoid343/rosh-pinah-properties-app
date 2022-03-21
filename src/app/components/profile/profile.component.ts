@@ -73,6 +73,11 @@ export class ProfileComponent implements OnDestroy {
       (response) => {
         console.log(response);
         localStorage.setItem('user', JSON.stringify(response));
+
+        var auth = JSON.parse(localStorage.getItem('auth')!);
+        auth.email = response.email;
+        localStorage.setItem('auth', JSON.stringify(auth));
+
         this.snackBarService.showSuccessSnackBar("Personal details successfully updated.")
         this.updatingUser = false;
       },

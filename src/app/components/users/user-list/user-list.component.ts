@@ -1,12 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnDestroy } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/shared/interfaces';
-import { UserActivateComponent } from '../user-activate/user-activate.component';
-import { UserDeactivateComponent } from '../user-deactivate/user-deactivate.component';
-import { UserDeleteComponent } from '../user-delete/user-delete.component';
+import { ModalConfirmComponent } from '../../shared/modal-confirm/modal-confirm.component';
 import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
@@ -19,10 +17,11 @@ export class UserListComponent implements OnDestroy {
   users: User[] = [];
   userSubscription: Subscription = new Subscription;
   gettingUserSet = true;
+  loadingUsersMessage = "Loading users...";
 
   constructor(
     public userService: UserService,
-    public dialog: MatDialog,
+    public modalService: NgbModal,
     public snackBarService: SnackBarService
   ) {
     this.getUserSet();
@@ -48,57 +47,82 @@ export class UserListComponent implements OnDestroy {
   }
 
   openUserFormDialog(id: number) {
-    const dialogRef = this.dialog.open(UserFormComponent, {
-      width: '700px',
-      height: '100%',
-      data: { id: id }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == 'success') {
+    const modalRef = this.modalService.open(UserFormComponent, { size: 'md', scrollable: true });
+    modalRef.componentInstance.id = id;
+    modalRef.result.then((result) => {
+      if (result == "confirm") {
         this.getUserSet();
       }
     });
   }
 
-  openDeactivateUserDialog(id: number) {
-    const dialogRef = this.dialog.open(UserDeactivateComponent, {
-      width: '500px',
-      data: { id: id },
-      panelClass: 'dialog'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == 'success') {
-        this.getUserSet();
+  openDeactivateUserDialog(user: User) {
+    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true });
+    modalRef.componentInstance.title = "Deactivate Client";
+    modalRef.componentInstance.message = "Are you sure you want to Deactivate this user? The user will not be able to log in.";
+    modalRef.componentInstance.action = "Deactivate Client";
+    modalRef.componentInstance.themeClass = "danger";
+    modalRef.componentInstance.iconClass = "fa-solid fa-circle-exclamation";
+    modalRef.result.then((result) => {
+      if (result == "confirm") {
+        user.isActivated = false;
+        this.userSubscription = this.userService.updateUser(user, user.id,).subscribe(
+          (response) => {
+            console.log(response);
+          },
+          (error) => {
+            console.log(error);
+            this.snackBarService.showErrorSnackBar(error.error)
+          }
+        )
       }
     });
   }
 
-  openActivateUserDialog(id: number) {
-    const dialogRef = this.dialog.open(UserActivateComponent, {
-      width: '500px',
-      data: { id: id }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == 'success') {
-        this.getUserSet();
+  openActivateUserDialog(user: User) {
+    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true });
+    modalRef.componentInstance.title = "Ativate User";
+    modalRef.componentInstance.message = "Are you sure you want to activate this user? The user will be able to log in.";
+    modalRef.componentInstance.action = "Ativate User";
+    modalRef.componentInstance.themeClass = "success";
+    modalRef.componentInstance.iconClass = "fa-solid fa-circle-exclamation";
+    modalRef.result.then((result) => {
+      if (result == "confirm") {
+        user.isActivated = true;
+        this.userSubscription = this.userService.updateUser(user, user.id,).subscribe(
+          (response) => {
+            console.log(response);
+          },
+          (error) => {
+            console.log(error);
+            this.snackBarService.showErrorSnackBar(error.error)
+          }
+        )
       }
     });
   }
 
   openDeleteUserDialog(id: number) {
-    const dialogRef = this.dialog.open(UserDeleteComponent, {
-      width: '500px',
-      data: { id: id }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == 'success') {
-        this.getUserSet();
+    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true });
+    modalRef.componentInstance.title = "Delete User";
+    modalRef.componentInstance.message = "Are you sure you want to delete this user? All data linked to the user will be removed.";
+    modalRef.componentInstance.action = "Delete User";
+    modalRef.componentInstance.themeClass = "danger";
+    modalRef.componentInstance.iconClass = "fa-solid fa-circle-exclamation";
+    modalRef.result.then((result) => {
+      if (result == "confirm") {
+        this.userSubscription = this.userService.deleteUser(id).subscribe(
+          (response) => {
+            console.log(response);
+            this.snackBarService.showSuccessSnackBar("User successfully deleted.")
+            this.getUserSet()
+          },
+          (error) => {
+            console.log(error);
+            this.snackBarService.showErrorSnackBar(error.error)
+          }
+        )
       }
     });
   }
-
 }

@@ -37,9 +37,9 @@
             </button>
         </div>
         <div class="p-1 mt-auto" *ngIf="!isCollapsed">
-            <span class="text-light">
-                Version 1.2.0
-            </span>
+            <small class="text-light">
+                Version 1.2.1
+            </small>
         </div>
         <div class="p-1 border-top border-secondary" [class]="{'mt-auto': isCollapsed}">
             <button class="sidbar-button btn" (click)="handleSideBarCollapse()" title="Collapse Sidebar">
@@ -49,7 +49,7 @@
             </button>
         </div>
     </div>
-    <div class="d-flex flex-column overflow-auto border-top" style="width: 100%; height: 100vh;">
+    <div class="d-flex flex-column border-top" style="width: 100%; height: 100vh; overflow-y: auto; overflow-x: hidden;">
         <router-outlet></router-outlet>
     </div>
 </div>
