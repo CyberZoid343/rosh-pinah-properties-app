@@ -1,6 +1,7 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -11,7 +12,7 @@ import { User } from 'src/app/shared/interfaces';
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss']
 })
-export class UserFormComponent implements OnDestroy {
+export class UserFormComponent implements OnDestroy, OnInit {
 
   form: FormGroup;
   submitted = false;
@@ -21,22 +22,26 @@ export class UserFormComponent implements OnDestroy {
   gettingUser = false;
   addingUser = false;
   updatingUser = false;
+  loadingUserMessage = "Loading user details..."
+
+  @Input() id: number | undefined;
 
   constructor(
     public formBuilder: FormBuilder,
     public userService: UserService,
     public snackBarService: SnackBarService,
-    public dialogRef: MatDialogRef<UserFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { id: number },
+    public activeModal: NgbActiveModal,
   ) {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(500)]],
       surname: ['', [Validators.required, Validators.maxLength(500)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(500)]]
     });
+  }
 
-    if (data.id > 0) {
-      this.getUser(data.id);
+  ngOnInit() {
+    if (this.id! > 0) {
+      this.getUser(this.id!);
     }
   }
 
@@ -50,7 +55,7 @@ export class UserFormComponent implements OnDestroy {
       return;
     }
     else {
-      if (this.data.id == 0) {
+      if (this.id! == 0) {
         this.addUser();
       }
       else {
@@ -59,8 +64,8 @@ export class UserFormComponent implements OnDestroy {
     }
   }
 
-  closeDialog(result: string) {
-    this.dialogRef.close(result);
+  closeModal(result: string) {
+    this.activeModal.close(result);
   }
 
   getUser(id: number) {
@@ -98,7 +103,7 @@ export class UserFormComponent implements OnDestroy {
       (response) => {
         console.log(response)
         this.snackBarService.showSuccessSnackBar("User successfully added.")
-        this.closeDialog('success');
+        this.closeModal('confirm');
       },
       (error) => {
         console.log(error);
@@ -115,11 +120,11 @@ export class UserFormComponent implements OnDestroy {
     this.user.surname = this.form.controls['surname'].value;
     this.user.email = this.form.controls['email'].value;
 
-    this.userSubscription = this.userService.updateUser(this.user, this.data.id).subscribe(
+    this.userSubscription = this.userService.updateUser(this.user, this.id!).subscribe(
       (response) => {
         console.log(response);
         this.snackBarService.showSuccessSnackBar("User successfully updated.")
-        this.closeDialog('success');
+        this.closeModal('confirm');
       },
       (error) => {
         console.log(error);

@@ -1,13 +1,14 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ClientService } from 'src/app/services/client/client.service';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { Client, ClientFilters } from 'src/app/shared/interfaces';
-import { ClientDeleteComponent } from '../client-delete/client-delete.component';
+import { Client } from 'src/app/shared/interfaces';
 import { ClientFormComponent } from '../client-form/client-form.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalConfirmComponent } from '../../shared/modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-client-list',
@@ -19,38 +20,46 @@ export class ClientListComponent implements OnDestroy {
   clients: Client[] = [];
   clientSubscription: Subscription = new Subscription;
   gettingClientSet = true;
-  followUpPeriod = "All";
-  lastContactedPeriod = "All"
-  clientFilters: ClientFilters;
+  loadingClientsMessage = "Loading clients..."
+
+  //filters
+  status: string = 'all';
+  followUp: string = 'all';
+  lastContacted: string = 'all';
 
   constructor(
+    public modalService: NgbModal,
     public clientService: ClientService,
     public dialog: MatDialog,
     public router: Router,
+    public route: ActivatedRoute,
     public snackBarService: SnackBarService,
     public userService: UserService,
   ) {
-
-    this.clientFilters = {
-      search: '',
-      status: 'all',
-      followUpPeriod: 'all'
-    }
-
-    this.getClients()
+    this.router.events.subscribe(
+      (event) => {
+        if (event instanceof NavigationEnd) {
+          this.setFilters()
+          this.getClientSet()
+        }
+      }
+    );
   }
 
   ngOnDestroy() {
     this.clientSubscription.unsubscribe();
   }
 
-  getClients() {
+  getClientSet() {
     this.clients = [];
     this.gettingClientSet = true;
-    this.clientSubscription = this.clientService.getClientSet(this.clientFilters).subscribe(
+    this.clientSubscription = this.clientService.getClientSet().subscribe(
       (reponse) => {
         console.log(reponse)
         this.clients = reponse
+        this.clients.forEach(client => {
+          client.tagArray = client.tags?.split(",")!
+        });
         this.gettingClientSet = false
       },
       (error) => {
@@ -60,75 +69,122 @@ export class ClientListComponent implements OnDestroy {
     )
   }
 
-  refreshClientList(){
-    this.getClients();
+  setFilters() {
+    this.route.queryParams.subscribe(params => {
+      if (params['status'] != undefined) {
+        this.status = params['status'];
+      }
+      else {
+        this.status = "all";
+      }
+      if (params['follow_up'] != undefined) {
+        this.followUp = params['follow_up'];
+      }
+      else {
+        this.followUp = "all";
+      }
+      if (params['last_contacted'] != undefined) {
+        this.lastContacted = params['last_contacted'];
+      }
+      else {
+        this.lastContacted = "all";
+      }
+    });
   }
 
-  searchClients(event: any){
-    this.clientFilters!.search = event.target.value;
-    this.getClients();
+  refreshClientList() {
+    this.getClientSet();
   }
 
-  filterByStatus(status: string){
-    this.clientFilters!.status = status;
-    this.getClients();
+  clearFilters() {
+    this.router.navigate([]);
   }
 
-  filterByFollowUpPeriod(period: string){
-    this.clientFilters!.followUpPeriod = period;
-    this.followUpPeriod = period;
-    this.getClients();
+  searchClients(event: any) {
+    this.router.navigate([], {
+      queryParams: {
+        search: event.target.value
+      },
+      queryParamsHandling: 'merge',
+    });
   }
 
-  filterByLastContactedPeriod(period: string){
-    this.clientFilters!.lastContactedPeriod = period;
-    this.lastContactedPeriod = period;
-    this.getClients();
+  filterByStatus(status: string) {
+    this.router.navigate([], {
+      queryParams: {
+        status: status
+      },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  filterByFollowUpPeriod(period: string) {
+    this.router.navigate([], {
+      queryParams: {
+        follow_up: period,
+        last_contacted: 'all'
+      },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  filterByLastContactedPeriod(period: string) {
+    this.router.navigate([], {
+      queryParams: {
+        last_contacted: period,
+        follow_up: 'all'
+      },
+      queryParamsHandling: 'merge',
+    });
   }
 
   openClientFormDialog(id: number) {
-    const dialogRef = this.dialog.open(ClientFormComponent, {
-      height: '100%',
-      width: '700px',
-      data: { id: id }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == 'success') {
-        this.getClients();
+    const modalRef = this.modalService.open(ClientFormComponent, { size: 'md', scrollable: true });
+    modalRef.componentInstance.id = id;
+    modalRef.result.then((result) => {
+      if (result == "confirm") {
+        this.getClientSet();
       }
     });
   }
 
-  openDeleteClientDialog(id: number) {
-    const dialogRef = this.dialog.open(ClientDeleteComponent, {
-      height: 'auto',
-      width: '500px',
-      data: { id: id }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == 'success') {
-        this.getClients();
+  deleteClient(id: number) {
+    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true });
+    modalRef.componentInstance.title = "Delete Client";
+    modalRef.componentInstance.message = "Are you sure you want to delete this client? All data linked to the client will be removed.";
+    modalRef.componentInstance.action = "Delete Client";
+    modalRef.componentInstance.themeClass = "danger";
+    modalRef.componentInstance.iconClass = "fa-solid fa-circle-exclamation";
+    modalRef.result.then((result) => {
+      if (result == "confirm") {
+        this.clientSubscription = this.clientService.deleteClient(id).subscribe(
+          (response) => {
+            console.log(response);
+            this.snackBarService.showSuccessSnackBar("Client successfully deleted.")
+            this.getClientSet()
+          },
+          (error) => {
+            console.log(error);
+            this.snackBarService.showErrorSnackBar(error.error)
+          }
+        )
       }
     });
   }
 
-  updateClientStatus(client: Client){
-
-    if(client.isActive){
+  updateClientStatus(client: Client) {
+    if (client.isActive) {
       client.isActive = false;
     }
-    else{
+    else {
       client.isActive = true;
     }
-
     client.lastEditorId = this.userService.getLoggedInUserId();
     client.lastEditor!.name = this.userService.getLoggedInUser().name;
     client.lastEditor!.surname = this.userService.getLoggedInUser().surname;
-
-    this.clientSubscription = this.clientService.updateClient(client, client.id,).subscribe(
+    this.clientSubscription = this.clientService.updateClient(client, client.id).subscribe(
       (response) => {
+        this.getClientSet();
         console.log(response);
       },
       (error) => {
@@ -137,5 +193,4 @@ export class ClientListComponent implements OnDestroy {
       }
     )
   }
-
 }

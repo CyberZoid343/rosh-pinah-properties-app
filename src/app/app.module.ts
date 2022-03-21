@@ -15,14 +15,11 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { PasswordComponent } from './components/password/password.component';
 import { PropertyListComponent } from './components/properties/property-list/property-list.component';
-import { UserDeleteComponent } from './components/users/user-delete/user-delete.component';
-import { UserDeactivateComponent } from './components/users/user-deactivate/user-deactivate.component';
-import { UserActivateComponent } from './components/users/user-activate/user-activate.component';
 import { UserFormComponent } from './components/users/user-form/user-form.component';
 import { ClientFormComponent } from './components/clients/client-form/client-form.component';
-import { ClientListFiltersComponent } from './components/clients/client-list-filters/client-list-filters.component';
-import { ClientDeleteComponent } from './components/clients/client-delete/client-delete.component';
-import { ClientDetailsComponent } from './components/clients/client-details/client-details.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingIndicatorComponent } from './components/shared/loading-indicator/loading-indicator.component';
+import { ModalConfirmComponent } from './components/shared/modal-confirm/modal-confirm.component';
 
 @NgModule({
   declarations: [
@@ -34,16 +31,13 @@ import { ClientDetailsComponent } from './components/clients/client-details/clie
     ProfileComponent,
     PasswordComponent,
     PropertyListComponent,
-    UserDeleteComponent,
-    UserDeactivateComponent,
-    UserActivateComponent,
     UserFormComponent,
     ClientFormComponent,
-    ClientListFiltersComponent,
-    ClientDeleteComponent,
-    ClientDetailsComponent
+    LoadingIndicatorComponent,
+    ModalConfirmComponent
   ],
   imports: [
+    NgbModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
