@@ -15,10 +15,6 @@ $success: #198754;
 $danger: #dc3545;
 $light: #f8f9fa;
 
-// $theme-colors: (
-//     "primary": $primary
-// );
-
 //box-shadow styles
 $box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 
@@ -52,6 +48,7 @@ $table-striped-bg: $light;
 //offcanvas styles
 .offcanvas{
   box-shadow: $box-shadow;
+  z-index: 2000 !important;
 }
 
 //dropdown styles
@@ -100,6 +97,11 @@ $table-striped-bg: $light;
 
 .custom-dialog{
   transform: translate(-50%, -50%);
+}
+
+.modal-footer{
+  border-top: none !important;
+  background-color: $light;
 }
 
 @import "../node_modules/bootstrap/scss/bootstrap";

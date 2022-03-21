@@ -47,13 +47,14 @@ export interface Client{
   lastEditor?: User,
   followUpDays?: number,
   lastContactedDays?: number,
-  updatedDays?: number
+  updatedDays?: number,
+  tags?: string
+  tagArray?: any[]
 }
 
 export interface Tag{
   id: number,
-  name: string,
-  isSelected?: boolean | null
+  name: string
 }
 
 export interface ClientTag{
