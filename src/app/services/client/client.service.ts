@@ -18,23 +18,18 @@ export class ClientService {
 
   apiURL = this.apiService.apiConnectionString + "client";
 
-  getFilterString(clientFilters: ClientFilters){
-
-    let filterString = "?";
-
-    filterString += "&search=" + clientFilters?.search;
-
-    filterString += "&status=" + clientFilters?.status;
-
-    filterString += "&followUpPeriod=" + clientFilters?.followUpPeriod;
-
-    filterString += "&lastContactedPeriod=" + clientFilters?.lastContactedPeriod;
-
-    return filterString;
+  getFilters() {
+    let url = this.router.url;
+    if (url.indexOf('?') > -1) {
+      return url.substring(this.router.url.indexOf('?'));
+    }
+    else {
+      return '';
+    }
   }
 
-  getClientSet(clientFilters: ClientFilters): Observable<any> {
-    return this.http.get(this.apiURL + this.getFilterString(clientFilters), this.apiService.getHttpHeaders())
+  getClientSet(): Observable<any> {
+    return this.http.get(this.apiURL + this.getFilters(), this.apiService.getHttpHeaders())
   }
 
   getClient(id: number): Observable<any> {
