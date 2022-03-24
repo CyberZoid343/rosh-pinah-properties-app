@@ -7,11 +7,6 @@
 </div>
 <div class="modal-body" *ngIf="!gettingClient">
     <table class="table table-striped table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th scope="col" colspan="12">{{client.name}}'s information</th>
-            </tr>
-        </thead>
         <tbody>
             <tr *ngIf="gettingClient">
                 <td colspan="12" class="text-center">
@@ -19,42 +14,42 @@
                 </td>
             </tr>
             <tr>
-                <td>Full name:</td>
+                <th>Full name:</th>
                 <td>{{client.name}} {{client.surname}}</td>
             </tr>
             <tr>
-                <td>Company:</td>
+                <th>Company:</th>
                 <td>{{client.companyName}}</td>
             </tr>
             <tr>
-                <td>Tags:</td>
+                <th>Tags:</th>
                 <td class="text-wrap" style="max-width: 300px;">
                     <span class="badge rounded-pill bg-transparent-primary" style="margin: 1px;"
                         *ngFor="let tag of client.tagArray">{{tag}}</span>
                 </td>
             </tr>
             <tr>
-                <td>Email:</td>
+                <th>Email:</th>
                 <td>{{client.email}}</td>
             </tr>
             <tr>
-                <td>Cell number:</td>
+                <th>Cell number:</th>
                 <td>{{client.cellNumber}}</td>
             </tr>
             <tr>
-                <td>Telephone number:</td>
+                <th>Telephone number:</th>
                 <td>{{client.telNumber}}</td>
             </tr>
             <tr>
-                <td>Date added:</td>
+                <th>Date added:</th>
                 <td>{{client.dateAdded | date: "mediumDate"}}</td>
             </tr>
             <tr>
-                <td>Date last contacted:</td>
+                <th>Date last contacted:</th>
                 <td>{{client.dateLastContacted | date: "mediumDate"}}</td>
             </tr>
             <tr>
-                <td>Follow up date:</td>
+                <th>Follow up date:</th>
                 <td>{{client.dateFollowUp | date: "mediumDate"}}</td>
             </tr>
         </tbody>
