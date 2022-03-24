@@ -3,16 +3,11 @@
     <button type="button" class="btn-close" (click)="closeModal('dismiss')"></button>
 </div>
 <div class="modal-body text-center" *ngIf="gettingClient">
-    <app-loading-indicator [message]="loadingClientsMessage"></app-loading-indicator>
+    <app-loading-indicator [message]="loadingClientMessage"></app-loading-indicator>
 </div>
 <div class="modal-body" *ngIf="!gettingClient">
-    <table class="table table-striped table-hover">
+    <table class="mb-0 table table-borderless">
         <tbody>
-            <tr *ngIf="gettingClient">
-                <td colspan="12" class="text-center">
-                    <app-loading-indicator [message]="loadingClientsMessage"></app-loading-indicator>
-                </td>
-            </tr>
             <tr>
                 <th>Full name:</th>
                 <td>{{client.name}} {{client.surname}}</td>
@@ -56,6 +51,6 @@
     </table>
 </div>
 <div class="modal-footer">
-    <!-- <button type="button" class="btn" (click)="closeModal('dismiss')">Cancel</button> -->
-    <button type="button" class="btn btn-primary" (click)="closeModal('dismiss')" [disabled]="gettingClient"> Done </button>
+    <button type="button" class="btn" (click)="closeModal('dismiss')">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="openEditClientModal()" [disabled]="gettingClient">Edit Details</button>
 </div>

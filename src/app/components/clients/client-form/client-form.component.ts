@@ -85,6 +85,7 @@ export class ClientFormComponent implements OnDestroy, OnInit {
   buildTagListString(){
     const tags = (this.form.controls.tags as FormArray)
     let str = ''
+
     tags.controls.forEach(tag => {
       str += tag.value + ',';
     });
@@ -178,18 +179,18 @@ export class ClientFormComponent implements OnDestroy, OnInit {
       isActive: true,
       tags: this.buildTagListString()
     }
-    this.clientSubscription = this.clientService.addClient(client).subscribe(
-      (response) => {
-        console.log(response)
-        this.snackBarService.showSuccessSnackBar("Client successfully added.")
-        this.closeModal("confirm")
-      },
-      (error) => {
-        console.log(error);
-        this.snackBarService.showErrorSnackBar(error.error)
-        this.addingClient = false
-      }
-    )
+    // this.clientSubscription = this.clientService.addClient(client).subscribe(
+    //   (response) => {
+    //     console.log(response)
+    //     this.snackBarService.showSuccessSnackBar("Client successfully added.")
+    //     this.closeModal("confirm")
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //     this.snackBarService.showErrorSnackBar(error.error)
+    //     this.addingClient = false
+    //   }
+    // )
   }
 
   updateClient() {
