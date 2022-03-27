@@ -43,7 +43,17 @@ a i, button i, .dropdown-item i{
 //table styles
 $table-cell-padding-y: 0.5rem;
 $table-cell-padding-x: 0.94rem;
-$table-striped-bg: $light;         
+$table-striped-bg: $light;      
+
+.info-table{
+  width: 100%;
+}
+
+.info-table td, th{
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 16px;
+}
 
 //offcanvas styles
 .offcanvas{
@@ -54,6 +64,10 @@ $table-striped-bg: $light;
 //dropdown styles
 .dropdown-menu{
   box-shadow: $box-shadow;
+}
+
+.dropdown-item{
+  cursor: pointer;
 }
 
 //alert styles
@@ -100,7 +114,6 @@ $table-striped-bg: $light;
 }
 
 .modal-footer{
-  border-top: none !important;
   background-color: $light;
 }
 

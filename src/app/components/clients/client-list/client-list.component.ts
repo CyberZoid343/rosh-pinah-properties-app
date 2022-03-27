@@ -5,10 +5,11 @@ import { Subscription } from 'rxjs';
 import { ClientService } from 'src/app/services/client/client.service';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { Client } from 'src/app/shared/interfaces';
+import { Client, Tag } from 'src/app/shared/interfaces';
 import { ClientFormComponent } from '../client-form/client-form.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalConfirmComponent } from '../../shared/modal-confirm/modal-confirm.component';
+import { ClientDetailsComponent } from '../client-details/client-details.component';
 
 @Component({
   selector: 'app-client-list',
@@ -26,6 +27,7 @@ export class ClientListComponent implements OnDestroy {
   status: string = 'all';
   followUp: string = 'all';
   lastContacted: string = 'all';
+  filterTags: string = '';
 
   constructor(
     public modalService: NgbModal,
@@ -88,6 +90,12 @@ export class ClientListComponent implements OnDestroy {
       }
       else {
         this.lastContacted = "all";
+      }
+      if (params['tags'] != undefined) {
+        this.filterTags = params['tags'];
+      }
+      else {
+        this.filterTags = "";
       }
     });
   }
@@ -192,5 +200,26 @@ export class ClientListComponent implements OnDestroy {
         this.snackBarService.showErrorSnackBar(error.error)
       }
     )
+  }
+
+  openClientDetailsDialog(id: number) {
+    const modalRef = this.modalService.open(ClientDetailsComponent, { size: 'md', scrollable: true });
+    modalRef.componentInstance.id = id;
+    modalRef.result.then((result) => {
+      if (result == "reload") {
+        this.getClientSet();
+      }
+    });
+  }
+
+  highlighIfInTagFilter(tagName: string){
+    console.log(tagName)
+    let index = this.filterTags.split(",").indexOf(tagName);
+    if (index > -1){
+      return "bg-primary"
+    }
+    else{
+      return "";
+    }
   }
 }
