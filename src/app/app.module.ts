@@ -20,6 +20,8 @@ import { ClientFormComponent } from './components/clients/client-form/client-for
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingIndicatorComponent } from './components/shared/loading-indicator/loading-indicator.component';
 import { ModalConfirmComponent } from './components/shared/modal-confirm/modal-confirm.component';
+import { ClientDetailsComponent } from './components/clients/client-details/client-details.component';
+import { ClientFiltersComponent } from './components/clients/client-filters/client-filters.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { ModalConfirmComponent } from './components/shared/modal-confirm/modal-c
     UserFormComponent,
     ClientFormComponent,
     LoadingIndicatorComponent,
-    ModalConfirmComponent
+    ModalConfirmComponent,
+    ClientDetailsComponent,
+    ClientFiltersComponent
   ],
   imports: [
     NgbModule,
