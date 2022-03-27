@@ -4,7 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { TagService } from 'src/app/services/tag/tag.service';
-import { Tag } from 'src/app/shared/interfaces';
+import { UserService } from 'src/app/services/user/user.service';
+import { Tag, User } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-client-filters',
@@ -15,16 +16,20 @@ export class ClientFiltersComponent implements OnInit {
 
   gettingTagSet = false;
   tagSubscription: Subscription = new Subscription;
+  userSubscription: Subscription = new Subscription;
   tags!: Tag[];
+  users!: User[];
   loadingTagsMessage = "Loading tags..."
   form: FormGroup;
+  gettingUserSet = false;
 
   constructor(
     public tagService: TagService,
     public snackBarService: SnackBarService,
     public formBuilder: FormBuilder,
     public router: Router,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public userService: UserService
   ) { 
     this.form = this.formBuilder.group({
       tags: this.formBuilder.array([])
@@ -33,6 +38,7 @@ export class ClientFiltersComponent implements OnInit {
 
   ngOnInit() {
     this.getTagSet();
+    this.getUserSet();
   }
 
   setFilters() {
@@ -81,7 +87,9 @@ export class ClientFiltersComponent implements OnInit {
     const tags = (this.form.controls.tags as FormArray)
     let str = ''
     tags.controls.forEach(tag => {
-      str += tag.value + ',';
+      if(tag.value != ''){
+        str += tag.value + ',';
+      }
     });
     str = str.slice(0, -1);
     return str;
@@ -102,6 +110,30 @@ export class ClientFiltersComponent implements OnInit {
     this.router.navigate([], {
       queryParams: {
         tags: this.buildTagListString()
+      },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  getUserSet() {
+    this.gettingUserSet = true;
+    this.userSubscription = this.userService.getUserSet().subscribe(
+      (response) => {
+        console.log(response)
+        this.users = response;
+        this.gettingUserSet = false;
+      },
+      (error) => {
+        console.log(error);
+        this.snackBarService.showErrorSnackBar(error.error)
+      }
+    )
+  }
+
+  filterByLastEditor(event: any){
+    this.router.navigate([], {
+      queryParams: {
+        lastEditor: event.target.value
       },
       queryParamsHandling: 'merge',
     });

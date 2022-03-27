@@ -7,8 +7,14 @@
         <span class="me-1 mb-1" *ngFor="let tag of tags">
             <input type="checkbox" class="btn-check" id="{{tag.name}}1" value="{{tag.name}}"
                 (change)="toggleTag($event)" [checked]="checkTag(tag.name)">
-            <label class="btn btn-outline-primary btn-sm rounded-pill"
-                for="{{tag.name}}1">{{tag.name}}</label><br>
+            <label class="btn btn-outline-primary btn-sm rounded-pill" for="{{tag.name}}1">{{tag.name}}</label><br>
         </span>
     </div>
+</div>
+<div class="mb-3">
+    <label class="form-label">Last Editor</label>
+    <select class="form-select" (change)="filterByLastEditor($event)">
+        <option value="all">All</option>
+        <option *ngFor="let user of users" value="{{user.id}}">{{user.name}} {{user.surname}}</option>
+    </select>
 </div>

@@ -85,9 +85,10 @@ export class ClientFormComponent implements OnDestroy, OnInit {
   buildTagListString(){
     const tags = (this.form.controls.tags as FormArray)
     let str = ''
-
     tags.controls.forEach(tag => {
-      str += tag.value + ',';
+      if(tag.value != ''){
+        str += tag.value + ',';
+      }
     });
     str = str.slice(0, -1);
     return str;
