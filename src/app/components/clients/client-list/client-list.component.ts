@@ -10,6 +10,7 @@ import { ClientFormComponent } from '../client-form/client-form.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalConfirmComponent } from '../../shared/modal-confirm/modal-confirm.component';
 import { ClientDetailsComponent } from '../client-details/client-details.component';
+import { ExcelService } from 'src/app/services/excel/excel.service';
 
 @Component({
   selector: 'app-client-list',
@@ -24,10 +25,18 @@ export class ClientListComponent implements OnDestroy {
   loadingClientsMessage = "Loading clients..."
 
   //filters
-  status: string = 'all';
-  followUp: string = 'all';
-  lastContacted: string = 'all';
+  order: string = '';
+  status: string = '';
+  followUp: string = '';
+  lastContacted: string = '';
   filterTags: string = '';
+
+  //stats
+  totalActive = 0;
+  totalInactive = 0;
+  totalFollowUpTomorrow = 0;
+  totalFollowUpToday = 0;
+  totalFollowUpOverdue = 0;
 
   constructor(
     public modalService: NgbModal,
@@ -37,6 +46,7 @@ export class ClientListComponent implements OnDestroy {
     public route: ActivatedRoute,
     public snackBarService: SnackBarService,
     public userService: UserService,
+    public excelService: ExcelService
   ) {
     this.router.events.subscribe(
       (event) => {
@@ -62,6 +72,7 @@ export class ClientListComponent implements OnDestroy {
         this.clients.forEach(client => {
           client.tagArray = client.tags?.split(",")!
         });
+        this.setClientSetStats();
         this.gettingClientSet = false
       },
       (error) => {
@@ -71,32 +82,76 @@ export class ClientListComponent implements OnDestroy {
     )
   }
 
+  setClientSetStats() {
+
+    this.totalActive = 0;
+    this.totalInactive = 0;
+    this.totalFollowUpTomorrow = 0;
+    this.totalFollowUpToday = 0;
+    this.totalFollowUpOverdue = 0;
+
+    this.clients.forEach(client => {
+
+      if (client.isActive && this.status != "inactive") {
+        this.totalActive += 1;
+      }
+      else if (!client.isActive && this.status != "active") {
+        this.totalInactive += 1;
+      }
+
+      if (client.isActive) {
+        if (client.followUpDays! == 1) {
+          this.totalFollowUpTomorrow += 1;
+        }
+        if (client.followUpDays! == 0) {
+          this.totalFollowUpToday += 1;
+        }
+        if (client.followUpDays! <= -1) {
+          this.totalFollowUpOverdue += 1;
+        }
+      }
+
+    });
+  }
+
   setFilters() {
     this.route.queryParams.subscribe(params => {
+
+      if (params['order'] != undefined) {
+        this.order = params['order'].replace("_", " ");
+      }
+      else {
+        this.order = "Date Added";
+      }
+
       if (params['status'] != undefined) {
-        this.status = params['status'];
+        this.status = params['status'].replace("_", " ");
       }
       else {
         this.status = "all";
       }
+
       if (params['follow_up'] != undefined) {
-        this.followUp = params['follow_up'];
+        this.followUp = params['follow_up'].replace("_", " ");
       }
       else {
         this.followUp = "all";
       }
+
       if (params['last_contacted'] != undefined) {
-        this.lastContacted = params['last_contacted'];
+        this.lastContacted = params['last_contacted'].replace("_", " ");
       }
       else {
         this.lastContacted = "all";
       }
+
       if (params['tags'] != undefined) {
-        this.filterTags = params['tags'];
+        this.filterTags = params['tags'].replace("_", " ");
       }
       else {
         this.filterTags = "";
       }
+
     });
   }
 
@@ -112,6 +167,15 @@ export class ClientListComponent implements OnDestroy {
     this.router.navigate([], {
       queryParams: {
         search: event.target.value
+      },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  orderBy(order: string) {
+    this.router.navigate([], {
+      queryParams: {
+        order: order,
       },
       queryParamsHandling: 'merge',
     });
@@ -147,7 +211,7 @@ export class ClientListComponent implements OnDestroy {
   }
 
   openClientFormDialog(id: number) {
-    const modalRef = this.modalService.open(ClientFormComponent, { size: 'md', scrollable: true });
+    const modalRef = this.modalService.open(ClientFormComponent, { size: 'md', scrollable: true, centered: true });
     modalRef.componentInstance.id = id;
     modalRef.result.then((result) => {
       if (result == "confirm") {
@@ -157,7 +221,7 @@ export class ClientListComponent implements OnDestroy {
   }
 
   deleteClient(id: number) {
-    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true });
+    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true, centered: true });
     modalRef.componentInstance.title = "Delete Client";
     modalRef.componentInstance.message = "Are you sure you want to delete this client? All data linked to the client will be removed.";
     modalRef.componentInstance.action = "Delete Client";
@@ -203,7 +267,7 @@ export class ClientListComponent implements OnDestroy {
   }
 
   openClientDetailsDialog(id: number) {
-    const modalRef = this.modalService.open(ClientDetailsComponent, { size: 'md', scrollable: true });
+    const modalRef = this.modalService.open(ClientDetailsComponent, { size: 'md', scrollable: true, centered: true });
     modalRef.componentInstance.id = id;
     modalRef.result.then((result) => {
       if (result == "reload") {
@@ -212,14 +276,57 @@ export class ClientListComponent implements OnDestroy {
     });
   }
 
-  highlighIfInTagFilter(tagName: string){
+  highlighIfInTagFilter(tagName: string) {
     console.log(tagName)
     let index = this.filterTags.split(",").indexOf(tagName);
-    if (index > -1){
+    if (index > -1) {
       return "bg-primary"
     }
-    else{
+    else {
       return "";
     }
+  }
+
+  exportExcel() {
+
+    let headers = [
+      "Id",
+      "Name",
+      "Surname",
+      "Company",
+      "Tags",
+      "Email",
+      "Cell Number",
+      "Tel Number",
+      "Last Contacted",
+      "Follow Up",
+      "Date Added",
+      "Date Updated",
+      "Last Editor",
+      "Recent Information"
+    ]
+
+    let formattedClientData: any = []
+
+    this.clients.forEach(client => {
+      let formattedClient = {
+        id: client.id,
+        name: client.name,
+        surname: client.surname,
+        company: client.companyName,
+        tags: client.tags,
+        email: client.email,
+        cellNumber: client.cellNumber,
+        telNumberL: client.telNumber,
+        dateLastContacted: client.dateLastContacted,
+        dateFollowUp: client.dateFollowUp,
+        dateAdded: client.dateAdded,
+        dateUpdated: client.dateUpdated,
+        lastEditor: client.lastEditor?.name + " " + client.lastEditor?.surname,
+      }
+      formattedClientData.push(formattedClient);
+    });
+
+    this.excelService.exportAsExcelFile(formattedClientData, headers, "Clients");
   }
 }

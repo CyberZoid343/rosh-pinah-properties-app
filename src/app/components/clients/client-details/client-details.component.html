@@ -43,16 +43,20 @@
                 </td>
             </tr>
             <tr>
-                <th>Date added:</th>
-                <td>{{client.dateAdded | date: "mediumDate"}}</td>
-            </tr>
-            <tr>
                 <th>Date last contacted:</th>
                 <td>{{client.dateLastContacted | date: "mediumDate"}}</td>
             </tr>
             <tr>
                 <th>Follow up date:</th>
                 <td>{{client.dateFollowUp | date: "mediumDate"}}</td>
+            </tr>
+            <tr>
+                <th>Date added:</th>
+                <td>{{client.dateAdded | date: "mediumDate"}}</td>
+            </tr>
+            <tr>
+                <th>Date updated:</th>
+                <td>{{client.dateUpdated | date: "mediumDate"}}</td>
             </tr>
             <tr>
                 <th>Last Editor:</th>
@@ -63,5 +67,5 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn" (click)="closeModal('dismiss')">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="openEditClientModal()" [disabled]="gettingClient">Edit Client Details</button>
+    <button type="button" class="btn btn-primary" (click)="openEditClientModal()" [disabled]="gettingClient">Edit Client</button>
 </div>
