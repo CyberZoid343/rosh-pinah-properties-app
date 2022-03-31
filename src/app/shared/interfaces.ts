@@ -49,6 +49,7 @@ export interface Client{
   followUpDays?: number,
   lastContactedDays?: number,
   updatedDays?: number,
+  addedDays?: number,
   tagArray?: any[]
 }
 

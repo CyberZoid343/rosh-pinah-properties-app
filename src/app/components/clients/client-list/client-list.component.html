@@ -174,10 +174,18 @@
                                 {{client.lastEditor!.surname}}</small>
                         </td>
                         <td>
-                            {{client.dateAdded | date: "mediumDate"}}
+                            <span class="d-block">{{client.dateAdded | date: "mediumDate"}}</span>
+                            <small class="text-muted" *ngIf="client.addedDays! < -1">{{client.lastContactedDays!
+                                * -1}} days ago</small>
+                            <small class="text-muted" *ngIf="client.addedDays! == -1">Yesterday</small>
+                            <small class="text-muted" *ngIf="client.addedDays! == 0">Today</small>
                         </td>
                         <td>
-                            {{client.dateUpdated | date: "mediumDate"}}
+                            <span class="d-block">{{client.dateUpdated | date: "mediumDate"}}</span>
+                            <small class="text-muted" *ngIf="client.updatedDays! < -1">{{client.lastContactedDays!
+                                * -1}} days ago</small>
+                            <small class="text-muted" *ngIf="client.updatedDays! == -1">Yesterday</small>
+                            <small class="text-muted" *ngIf="client.updatedDays! == 0">Today</small>
                         </td>
                         <td style="max-width: 50px;">
                             <span *ngIf="client.isActive" class="badge rounded-pill bg-transparent-success"
@@ -244,9 +252,9 @@
 </div>
 
 <div class="offcanvas offcanvas-end " data-bs-scroll="true" data-bs-backdrop="false" id="offcanvasScrolling">
-    <div class="offcanvas-header border-bottom bordet-top">
+    <div class="offcanvas-header border-bottom border-top">
         <h5 class="offcanvas-title">Filters</h5>
-        <button class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+        <button class="btn border" data-bs-dismiss="offcanvas">Close</button>
     </div>
     <div class="offcanvas-body">
         <app-client-filters></app-client-filters>
