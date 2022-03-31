@@ -16,7 +16,7 @@ $danger: #dc3545;
 $light: #f8f9fa;
 
 //box-shadow styles
-$box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+$box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
 
 .box-shadow{
   box-shadow: $box-shadow;
@@ -32,7 +32,7 @@ $container-max-widths: (
 );
 
 //Typography
-$font-size-base: 0.85rem;
+$font-size-base: 0.75rem;
 
 //button styles
 a i, button i, .dropdown-item i{
@@ -106,7 +106,7 @@ $table-striped-bg: $light;
 
 //model styles
 .modal-content{
-  box-shadow: $box-shadow;
+  box-shadow: $box-shadow !important;
 }
 
 .custom-dialog{
@@ -116,6 +116,7 @@ $table-striped-bg: $light;
 .modal-footer{
   background-color: $light;
 }
+
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 

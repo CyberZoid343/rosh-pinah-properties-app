@@ -47,7 +47,7 @@ export class UserListComponent implements OnDestroy {
   }
 
   openUserFormDialog(id: number) {
-    const modalRef = this.modalService.open(UserFormComponent, { size: 'md', scrollable: true });
+    const modalRef = this.modalService.open(UserFormComponent, { size: 'md', scrollable: true, centered: true });
     modalRef.componentInstance.id = id;
     modalRef.result.then((result) => {
       if (result == "confirm") {
@@ -57,7 +57,7 @@ export class UserListComponent implements OnDestroy {
   }
 
   openDeactivateUserDialog(user: User) {
-    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true });
+    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true, centered: true });
     modalRef.componentInstance.title = "Deactivate Client";
     modalRef.componentInstance.message = "Are you sure you want to Deactivate this user? The user will not be able to log in.";
     modalRef.componentInstance.action = "Deactivate Client";
@@ -80,7 +80,7 @@ export class UserListComponent implements OnDestroy {
   }
 
   openActivateUserDialog(user: User) {
-    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true });
+    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true, centered: true });
     modalRef.componentInstance.title = "Ativate User";
     modalRef.componentInstance.message = "Are you sure you want to activate this user? The user will be able to log in.";
     modalRef.componentInstance.action = "Ativate User";
@@ -103,7 +103,7 @@ export class UserListComponent implements OnDestroy {
   }
 
   openDeleteUserDialog(id: number) {
-    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true });
+    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true, centered: true });
     modalRef.componentInstance.title = "Delete User";
     modalRef.componentInstance.message = "Are you sure you want to delete this user? All data linked to the user will be removed.";
     modalRef.componentInstance.action = "Delete User";
