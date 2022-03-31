@@ -34,6 +34,8 @@ export interface Client{
   id: number,
   name: string,
   surname: string,
+  companyName: string,
+  tags?: string
   email: string,
   cellNumber: string,
   telNumber: string,
@@ -41,14 +43,12 @@ export interface Client{
   dateFollowUp: Date,
   dateAdded?: Date,
   dateUpdated?: Date,
-  companyName: string,
   isActive: boolean,
   lastEditorId: number,
   lastEditor?: User,
   followUpDays?: number,
   lastContactedDays?: number,
   updatedDays?: number,
-  tags?: string
   tagArray?: any[]
 }
 
