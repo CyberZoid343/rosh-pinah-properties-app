@@ -5,3 +5,5 @@
 - npm install -g @angular/cli
 - npm install @angular/cli
 - npm install --save @ng-bootstrap/ng-bootstrap
+- npm i file-saver --save
+- npm i xlsx --save
