@@ -1,0 +1,77 @@
+<div class="d-flex align-items-center text-nowrap bg-white border-bottom px-3 py-2 sticky-top">
+    <div class="bg-transparent-primary rounded h5 d-flex align-items-center justify-content-center mb-0 me-2" style="width: 32px; height: 32px;">
+        <i class="fa-solid fa-users"></i>
+    </div>
+    <h4 class="me-auto my-0">Users</h4>
+    <button class="btn btn-primary ms-auto" (click)="openUserFormDialog(0)">
+        <i class="fa-solid fa-plus me-2"></i>Add New User
+    </button>
+</div>
+<div class="p-3">
+    <table class="table border bg-white">
+        <tbody>
+            <tr class="border table-dark align-middle">
+                <th scope="col">User</th>
+                <th scope="col">Updated</th>
+                <th scope="col">Added</th>
+                <th scope="col">Role</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="text-end"></th>
+            </tr>
+            <tr *ngIf="gettingUserSet">
+                <td colspan="12" class="text-center">
+                    <app-loading-indicator [message]="loadingUsersMessage"></app-loading-indicator>
+                </td>
+            </tr>
+            <tr *ngIf="users.length == 0 && !gettingUserSet">
+                <td colspan="12" class="text-center">
+                    <span>No data found</span>
+                </td>
+            </tr>
+            <tr *ngFor="let user of users" class="align-middle table-row-hover-light">
+                <td>
+                    <b class="d-block">{{user.name}} {{user.surname}}</b>
+                    <small class="text-muted">{{user.email}}</small>
+                </td>
+                <td>{{user.dateUpdated | date: "longDate"}}</td>
+                <td>{{user.dateAdded | date: "longDate"}}</td>
+                <td>
+                    <span *ngIf="user.isAdmin">Admin</span>
+                    <span *ngIf="!user.isAdmin">User</span>
+                </td>
+                <td>
+                    <span *ngIf="user.isActivated"><span
+                            class="badge rounded-pill bg-transparent-success">Activated</span></span>
+                    <span *ngIf="!user.isActivated"><span
+                            class="badge rounded-pill bg-transparent-danger">Deactivated</span></span>
+                </td>
+                <td class="text-end">
+                    <div class="dropdown">
+                        <button class="btn" data-bs-toggle="dropdown" ngbTooltip="Actions" placement="bottom">
+                            <i class="fa-solid fa-ellipsis-vertical "></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button class="dropdown-item" (click)="openUserFormDialog(user.id)"><i
+                                        class="fa-solid fa-pen me-2"></i>Edit Details</button>
+                            </li>
+                            <li><button class="dropdown-item" (click)="openActivateUserDialog(user)"
+                                    *ngIf="!user.isActivated"><i
+                                        class="fa-solid fa-user-check me-2"></i>Activate</button>
+                            </li>
+                            <hr class="dropdown-divider">
+                            <li> <button class="dropdown-item text-danger" (click)="openDeactivateUserDialog(user)"
+                                    *ngIf="user.isActivated"><i
+                                        class="fa-solid fa-user-xmark me-2"></i>Deactivate</button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item text-danger" (click)="openDeleteUserDialog(user.id)"><i
+                                        class="fa-solid fa-trash me-2"></i>Delete</button>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

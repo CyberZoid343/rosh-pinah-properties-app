@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h5 class="my-auto">Client Notes</h5>
+    <button type="button" class="btn-close" (click)="closeModal('dismiss')"></button>
+</div>
+<div class="modal-body text-center" *ngIf="loadingClientNotes">
+    <app-loading-indicator [message]="loadingClientNotesMessage"></app-loading-indicator>
+</div>
+<div class="modal-body" *ngIf="!loadingClientNotes">
+    <div class="note">
+        <div class="d-flex align-items-center mb-2">
+            <div class="d-block">
+                <b class="me-2">Luke Greyling</b>
+                <small class="text-muted">10 Jun, 2022</small>
+            </div>
+            <button class="btn ms-auto p-0"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+            quis nostrud aboris nisi ut aliquip ex ea commodo 
+            consequat. <small class="text-muted">(Edited)</small></p>
+    </div>
+</div>
+<form class="modal-footer justify-content-start">
+    <div class="d-block mb-2">
+        <b class="me-2">Luke Greyling</b>
+        <small class="text-muted">10 Jun, 2022</small>
+    </div>
+    <textarea class="form-control" rows="10" style="margin-bottom: 12px;" placeholder="Type your note here..."></textarea>
+    <button type="button" class="btn ms-auto" (click)="closeModal('dismiss')">Close</button>
+    <button type="button" class="btn btn-primary">Add Note</button>
+</form>

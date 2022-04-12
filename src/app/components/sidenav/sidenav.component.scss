@@ -1,0 +1,29 @@
+@import '../../../styles.scss';
+
+.sidebar{
+    transition: all 0.3s;
+}
+
+.collapsed{
+    width: 52px;
+}
+
+.expanded{
+    width: 260px;
+}
+
+.sidbar-button{
+    text-align: start;
+    color: white;
+    width: 100%;
+    transition: all 0s;
+}
+
+.sidbar-button i{
+    margin-right: 22px;
+}
+
+.sidbar-button:hover{
+    background-color: $primary;
+    color: white;
+}
