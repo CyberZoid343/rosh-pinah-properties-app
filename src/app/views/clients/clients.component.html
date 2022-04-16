@@ -11,21 +11,12 @@
     </button>
 </div>
 <div class="d-flex align-items-center text-nowrap p-3">
-    <div class="input-group flex-nowrap" style="width: 500px;">
+
+    <div class="input-group">
         <i class="fa-solid fa-magnifying-glass input-search-icon"></i>
-        <input type="text" class="form-control input-search border rounded-start" placeholder="Search name, surname, company..." value="{{search}}"
-            (keyup)="searchClients($event)">
-        <button class="btn border bg-white" ngbTooltip="More Filters" placement="bottom" data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasScrolling">
-            <i class="fa-solid fa-filter"></i>
-        </button>
-        <button class="btn border bg-white" ngbTooltip="Clear Filtes" placement="bottom" (click)="clearFilters()">
-            <i class="fa-solid fa-filter-circle-xmark"></i>
-        </button>
-    </div>
-    <span class="ms-2 me-auto">{{clients.length}} results found</span>
-    <div class="dropdown ms-2">
-        <button class="btn" data-bs-toggle="dropdown">
+        <input type="text" class="form-control input-search border rounded-start"
+            placeholder="Search..." value="{{search}}" (keyup)="searchClients($event)">
+        <button class="btn border bg-white" data-bs-toggle="dropdown">
             <span class="me-2">Status:</span>
             <b class="text-capitalize">{{status}}</b>
         </button>
@@ -34,9 +25,7 @@
             <li><a class="dropdown-item" (click)="filterByStatus('active')">Active</a></li>
             <li><a class="dropdown-item" (click)="filterByStatus('inactive')">Inactive</a></li>
         </ul>
-    </div>
-    <div class="dropdown ms-2">
-        <button class="btn" data-bs-toggle="dropdown">
+        <button class="btn border bg-white" data-bs-toggle="dropdown">
             <span class="me-2">Follow up:</span>
             <b class="text-capitalize">{{followUp}}</b>
         </button>
@@ -46,9 +35,7 @@
             <li><a class="dropdown-item" (click)="filterByFollowUpPeriod('tomorrow')">Tomorrow</a></li>
             <li><a class="dropdown-item" (click)="filterByFollowUpPeriod('overdue')">Overdue</a></li>
         </ul>
-    </div>
-    <div class="dropdown ms-2">
-        <button class="btn" data-bs-toggle="dropdown">
+        <button class="btn border bg-white" data-bs-toggle="dropdown">
             <span class="me-2">Last contacted:</span>
             <b class="text-capitalize">{{lastContacted}}</b>
         </button>
@@ -58,9 +45,7 @@
             <li><a class="dropdown-item" (click)="filterByLastContactedPeriod('yesterday')">Yesterday</a>
             </li>
         </ul>
-    </div>
-    <div class="dropdown ms-2">
-        <button class="btn" data-bs-toggle="dropdown">
+        <button class="btn border bg-white rounded-start-0" data-bs-toggle="dropdown">
             <span class="me-2">Order by:</span>
             <b class="text-capitalize">{{order}}</b>
         </button>
@@ -71,16 +56,25 @@
             <li><a class="dropdown-item" (click)="orderBy('surname')">Surname</a></li>
             <li><a class="dropdown-item" (click)="orderBy('company')">Company</a></li>
         </ul>
+        <button class="btn border bg-white" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasScrolling">
+            <i class="fa-solid fa-filter me-2"></i> More Filters
+        </button>
+        <button class="btn border bg-white" (click)="clearFilters()">
+            <i class="fa-solid fa-filter-circle-xmark me-2"></i>Clear Filters
+        </button>
     </div>
 </div>
-<!-- <div class="d-flex align-items-center text-nowrap px-3 py-2 border rounded bg-white sticky-bottom mx-3 mb-3">
-    <span class="me-4"><i class="fa-solid fa-circle-check text-success me-1"></i>Active: <b>{{totalActive}}</b></span>
-    <span class="me-4"><i class="fa-solid fa-circle-xmark text-danger me-1"></i>Inactive: <b>{{totalInactive}}</b></span>
+<div class="d-flex align-items-center text-nowrap px-3 mb-3">
+    <span class="me-4"><i class="fa-solid fa-list me-2"></i>Results found: <b>{{clients.length}}</b></span>
     <span class="me-4">|</span>
-    <span class="me-4"><i class="fa-solid fa-triangle-exclamation text-warning me-1"></i>Follow up tomorrow: <b>{{totalFollowUpTomorrow}}</b></span>
-    <span class="me-4"><i class="fa-solid fa-comment-dots text-success me-1"></i>Follow up today: <b>{{totalFollowUpToday}}</b></span>
-    <span class="me-4"><i class="fa-solid fa-circle-exclamation text-danger me-1"></i>Follow up overdue: <b>{{totalFollowUpOverdue}}</b></span>
-</div> -->
+    <span class="me-4"><i class="fa-solid fa-circle-check text-success me-2"></i>Active: <b>{{totalActive}}</b></span>
+    <span class="me-4"><i class="fa-solid fa-circle-xmark text-danger me-2"></i>Inactive: <b>{{totalInactive}}</b></span>
+    <span class="me-4">|</span>
+    <span class="me-4"><i class="fa-solid fa-triangle-exclamation text-warning me-2"></i>Follow up tomorrow: <b>{{totalFollowUpTomorrow}}</b></span>
+    <span class="me-4"><i class="fa-solid fa-comment-dots text-success me-2"></i>Follow up today: <b>{{totalFollowUpToday}}</b></span>
+    <span class="me-4"><i class="fa-solid fa-circle-exclamation text-danger me-2"></i>Follow up overdue: <b>{{totalFollowUpOverdue}}</b></span>
+</div>
 <div class="px-3">
     <table class="table border text-nowrap">
         <tbody class="bg-white">
@@ -89,11 +83,11 @@
                 <th scope="col">Tags</th>
                 <th scope="col">Last Contacted</th>
                 <th scope="col">Follow Up</th>
-                <th scope="col">Added</th>
                 <th scope="col">Updated</th>
                 <th scope="col">Status</th>
                 <th scope="col" class="text-end">
-                    <button class="btn text-white py-0" ngbTooltip="Refresh" placement="bottom" (click)="refreshClientList()">
+                    <button class="btn text-white py-0" ngbTooltip="Refresh" placement="bottom"
+                        (click)="refreshClientList()">
                         <i class="fa-solid fa-refresh"></i>
                     </button>
                 </th>
@@ -151,14 +145,8 @@
                     </div>
                 </td>
                 <td>
-                    <span class="d-block">{{client.dateAdded | date: "mediumDate"}}</span>
-                    <small class="text-muted" *ngIf="client.addedDays! < -1">{{client.lastContactedDays!
-                        * -1}} days ago</small>
-                    <small class="text-muted" *ngIf="client.addedDays! == -1">Yesterday</small>
-                    <small class="text-muted" *ngIf="client.addedDays! == 0">Today</small>
-                </td>
-                <td>
-                    <span class="d-block">{{client.dateUpdated | date: "mediumDate"}} {{client.dateUpdated | date: "shortTime"}}</span>
+                    <span class="d-block">{{client.dateUpdated | date: "mediumDate"}} {{client.dateUpdated | date:
+                        "shortTime"}}</span>
                     <small class="text-muted" *ngIf="client.updatedDays! < -1">{{client.lastContactedDays!
                         * -1}} days ago</small>
                     <small class="text-muted" *ngIf="client.updatedDays! == -1">Yesterday</small>
@@ -225,7 +213,8 @@
 <div class="offcanvas offcanvas-end " data-bs-scroll="true" data-bs-backdrop="false" id="offcanvasScrolling">
     <div class="offcanvas-header border-bottom border-top justify-content-start">
         <h5 class="offcanvas-title">Filters</h5>
-        <button class="btn p-0 ms-auto" ngbTooltip="Close" placement="bottom" data-bs-dismiss="offcanvas"><i class="fa-solid fa-xmark" style="font-size: 18px;"></i></button>
+        <button class="btn p-0 ms-auto" ngbTooltip="Close" placement="bottom" data-bs-dismiss="offcanvas"><i
+                class="fa-solid fa-xmark" style="font-size: 18px;"></i></button>
     </div>
     <div class="offcanvas-body">
         <app-client-filters></app-client-filters>
