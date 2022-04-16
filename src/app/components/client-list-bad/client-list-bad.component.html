@@ -1,0 +1,178 @@
+<div class="d-flex align-items-center p-3 text-nowrap overflow-auto">
+    <div class="input-group">
+        <span class="input-group-text border-0 bg-white ps-0">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </span>
+        <input type="text" class="form-control border-0 rounded" placeholder="Search name, surname, company...">
+    </div>
+    <button class="btn bg-white border ms-2">Order by: <b>Latest</b></button>
+    <button class="btn bg-white border ms-2" data-bs-toggle="offcanvas" data-bs-target="#clientFilters">
+        <i class="fa-solid fa-filter me-2"></i>
+        Filters
+    </button>
+    <button class="btn bg-white border ms-2">
+        <i class="fa-solid fa-download me-2"></i>
+        Export
+    </button>
+    <button class="btn btn-primary ms-2">
+        <i class="fa-solid fa-plus me-2"></i>
+        Add New Client
+    </button>
+</div>
+<table class="custom-table w-100">
+    <thead class="bg-light border-top">
+        <tr>
+            <th class="px-3">Client</th>
+            <th class="px-3">Tags</th>
+            <th class="px-3">Last Contacted</th>
+            <th class="px-3">Follow Up</th>
+            <th class="px-3">Updated</th>
+            <th class="px-3">Status</th>
+            <th class="px-3"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngIf="loadingClientSet border-top">
+            <td colspan="12" class="text-center">
+                <app-loading-indicator [message]="loadingClientSetMessage"></app-loading-indicator>
+            </td>
+        </tr>
+        <tr *ngIf="clients.length == 0 && !loadingClientSet">
+            <td colspan="12" class="text-center">
+                <span>No data found</span>
+            </td>
+        </tr>
+        <tr class="border-top" *ngFor="let client of clients">
+            <td>
+                <span class="d-block">{{client.name}} {{client.surname}}</span>
+                <small class="text-muted">{{client.companyName}}</small>
+            </td>
+            <td style="max-width: 200px;">
+                <span *ngFor="let tag of client.tagArray">
+                    <span class="badge rounded-pill bg-transparent-primary" style="margin: 1px;"
+                        [ngClass]="{'bg-primary text-white': highlighIfInTagFilter(tag)}">{{tag}}</span>
+                </span>
+            </td>
+            <td>
+                <span class="d-block">
+                    {{client.dateLastContacted | date: "mediumDate"}}
+                </span>
+                <small class="text-muted" *ngIf="client.lastContactedDays! < -1">{{client.lastContactedDays!
+                    * -1}} days ago</small>
+                <small class="text-muted" *ngIf="client.lastContactedDays! == -1">Yesterday</small>
+                <small class="text-muted" *ngIf="client.lastContactedDays! == 0">Today</small>
+            </td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <span *ngIf="client.isActive">
+                        <i class="fa-solid fa-circle-exclamation text-danger me-1" *ngIf="client.followUpDays! < 0"></i>
+                        <i class="fa-solid fa-triangle-exclamation text-warning me-1"
+                            *ngIf="client.followUpDays! == 1"></i>
+                        <i class="fa-solid fa-comment-dots text-success me-1" *ngIf="client.followUpDays! == 0"></i>
+                    </span>
+                    <span>{{client.dateFollowUp | date: "mediumDate"}}</span>
+                </div>
+                <div class="d-block">
+                    <small class="text-muted" *ngIf="client.followUpDays! < -1">{{client.followUpDays! *
+                        -1}}
+                        days overdue </small>
+                    <small class="text-muted" *ngIf="client.followUpDays! == -1">Due yesterday</small>
+                    <small class="text-muted" *ngIf="client.followUpDays! == 0">Due today</small>
+                    <small class="text-muted" *ngIf="client.followUpDays! == 1">Due tomorrow</small>
+                    <small class="text-muted" *ngIf="client.followUpDays! > 1">Due in
+                        {{client.followUpDays!}}
+                        days</small>
+                </div>
+            </td>
+            <td>
+                <span class="d-block">{{client.dateUpdated | date: "mediumDate"}}</span>
+                <small class="text-muted" *ngIf="client.updatedDays! == 0">Today by</small>
+                <small class="text-muted" *ngIf="client.updatedDays! == -1">Yesterday by</small>
+                <small class="text-muted" *ngIf="client.updatedDays! < -1">{{client.updatedDays! * -1}} days
+                    ago by {{client.lastEditor!.name}} {{client.lastEditor!.surname}}</small>
+            </td>
+            <td>
+                <span *ngIf="client.isActive" class="badge rounded-pill bg-transparent-success w-100"
+                    [ngClass]="{'bg-success text-white': status=='active'}">Active</span>
+                <span *ngIf="!client.isActive" class="badge rounded-pill bg-transparent-danger w-100"
+                    [ngClass]="{'bg-danger text-white': status=='inactive'}">Inactive</span>
+            </td>
+            <td class="text-end">
+                <div class="dropdown">
+                    <button class="btn" ngbTooltip="Actions" placement="bottom" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <button class="dropdown-item">
+                                <i class="fa-solid fa-folder-open me-2"></i>
+                                Details
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item">
+                                <i class="fa-solid fa-pen me-2"></i>
+                                Edit
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item">
+                                <i class="fa-solid fa-note-sticky me-2"></i>
+                                Notes
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item">
+                                <i class="fa-solid fa-circle-check me-2"></i>
+                                Mark as Active
+                            </button>
+                        </li>
+                        <hr class="dropdown-divider">
+                        <li>
+                            <button class="dropdown-item text-danger">
+                                <i class="fa-solid fa-circle-xmark me-2"></i>
+                                Mark as Inactive
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item text-danger" (click)="deleteClient(client.id)">
+                                <i class="fa-solid fa-trash me-2"></i>
+                                Delete
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="d-flex align-items-center p-3 text-nowrap overflow-auto border-top">
+    <span class="me-auto">
+        <strong>{{clients.length}}</strong>
+        results found
+    </span>
+    <ul class="pagination mb-0">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+        <li class="page-item"><a class="page-link">1</a></li>
+        <li class="page-item">
+            <a class="page-link">Next</a>
+        </li>
+    </ul>
+</div>
+
+<div class="offcanvas offcanvas-end " data-bs-scroll="true" data-bs-backdrop="false" id="clientFilters">
+    <div class="offcanvas-header border-bottom border-top justify-content-start">
+        <h5 class="offcanvas-title">Filters</h5>
+        <button class="btn border ms-auto me-2" ngbTooltip="Clear Filters" placement="bottom">
+            <i class="fa-solid fa-filter-circle-xmark"></i>
+        </button>
+        <button class="btn border" ngbTooltip="Close" placement="bottom" data-bs-dismiss="offcanvas">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+    <div class="offcanvas-body">
+
+    </div>
+</div>

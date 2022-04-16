@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Client, ClientFilters } from 'src/app/shared/interfaces';
+import { Client, ClientFilters } from 'src/app/interfaces';
 import { ApiService } from '../api/api.service';
 
 @Injectable({

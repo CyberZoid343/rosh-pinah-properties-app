@@ -1,0 +1,45 @@
+<div class="d-flex flex-column bg-dark overflow-hidden text-nowrap expanded sidebar" style="height: 100vh;" [ngClass]="{'expanded': !isCollapsed, 'collapsed': isCollapsed}">
+    <div class="px-1 pt-1">
+        <button class="sidbar-button btn mb-1" [routerLink]="['clients']" routerLinkActive="btn-primary" title="Clients">
+            <i class="fa-solid fa-address-book"></i>
+            Clients
+        </button>
+    </div>
+    <div class="px-1">
+        <button class="sidbar-button btn mb-1" [routerLink]="['properties']" routerLinkActive="btn-primary" title="Properties">
+            <i class="fa-solid fa-building"></i>
+            Properties
+        </button>
+    </div>
+    <div class="px-1">
+        <button class="sidbar-button btn mb-1" [routerLink]="['users']" routerLinkActive="btn-primary" [disabled]="!loggedInUser.isAdmin" title="Users">
+            <i class="fa-solid fa-users"></i>
+            Users
+        </button>
+    </div>
+    <div class="px-1">
+        <button class="sidbar-button btn mb-1" [routerLink]="['profile']" routerLinkActive="btn-primary" title="Profile">
+            <i class="fa-solid fa-circle-user"></i>
+            Profile
+        </button>
+    </div>
+    <div class="px-1">
+        <button class="sidbar-button btn mb-1" [routerLink]="['password']" routerLinkActive="btn-primary" title="Password">
+            <i class="fa-solid fa-lock"></i>
+            Password
+        </button>
+    </div>
+    <div class="px-1">
+        <button class="sidbar-button btn mb-1" (click)="logoff()" title="Logoff">
+            <i class="fa-solid fa-sign-out"></i>
+            Logoff
+        </button>
+    </div>
+    <div class="p-1 border-top mt-auto" style="border-top-color: #343a40 !important;">
+        <button class="sidbar-button btn" (click)="handleSideBarCollapse()" title="Collapse Sidebar">
+            <i class="fa-solid fa-arrow-left" *ngIf="!isCollapsed"></i>
+            <i class="fa-solid fa-arrow-right" *ngIf="isCollapsed"></i>
+            Collapse Sidebar
+        </button>
+    </div>
+</div>
