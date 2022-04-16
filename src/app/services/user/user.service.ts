@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { User, UserNewPassword } from 'src/app/shared/interfaces';
+import { User, UserNewPassword } from 'src/app/interfaces';
 import { ApiService } from '../api/api.service';
 
 @Injectable({

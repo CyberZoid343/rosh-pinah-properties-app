@@ -1,13 +1,13 @@
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './views/login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './services/auth/auth.guard';
-import { UserListComponent } from './components/users/user-list/user-list.component';
-import { ClientListComponent } from './components/clients/client-list/client-list.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { PropertyListComponent } from './components/properties/property-list/property-list.component';
-import { PasswordComponent } from './components/password/password.component';
+import { ProfileComponent } from './views/profile/profile.component';
+import { PasswordComponent } from './views/password/password.component';
+import { PropertiesComponent } from './views/properties/properties.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { UsersComponent } from './views/users/users.component';
+import { ClientsComponent } from './views/clients/clients.component';
 
 const routes: Routes = [
   {
@@ -16,17 +16,13 @@ const routes: Routes = [
   {
     path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard], children: [
       {
-        path: "clients", component: ClientListComponent
+        path: "clients", component: ClientsComponent
       },
       {
-        path: "properties", component: PropertyListComponent, children: [
-      
-        ]
+        path: "properties", component: PropertiesComponent
       },
       {
-        path: "users", component: UserListComponent, children: [
-      
-        ]
+        path: "users", component: UsersComponent
       },
       {
         path: "profile", component: ProfileComponent

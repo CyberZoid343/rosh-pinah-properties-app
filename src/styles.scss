@@ -14,9 +14,10 @@ $primary: #0c4c9c;
 $success: #198754;
 $danger: #dc3545;
 $light: #f8f9fa;
+$secondary: #e9ecef;
 
 //box-shadow styles
-$box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+$box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
 
 .box-shadow{
   box-shadow: $box-shadow;
@@ -32,11 +33,11 @@ $container-max-widths: (
 );
 
 //Typography
-$font-size-base: 0.75rem;
+$font-size-base: 0.8rem;
 
 //button styles
 a i, button i, .dropdown-item i{
-  width: 20px !important;
+  width: 16px !important;
   text-align: center !important;
 }
 
@@ -44,6 +45,10 @@ a i, button i, .dropdown-item i{
 $table-cell-padding-y: 0.5rem;
 $table-cell-padding-x: 0.94rem;
 $table-striped-bg: $light;      
+
+.table-row-hover-light:hover{
+  background: $light;
+}
 
 .info-table{
   width: 100%;
@@ -84,9 +89,7 @@ $table-striped-bg: $light;
 }
 
 //Card styles
-.card{
-  box-shadow: $box-shadow;
-}
+
 
 //Background styles
 .bg-transparent-primary{
@@ -113,9 +116,22 @@ $table-striped-bg: $light;
   transform: translate(-50%, -50%);
 }
 
-.modal-footer{
-  background-color: $light;
+//Form control styles
+
+.input-search-icon{
+  transform: translateY(1px); 
+  position: absolute; 
+  z-index: 1000; 
+  margin-left: 8px; 
+  margin-top: 10px;
 }
+
+.input-search{
+  padding-left: 28px !important;
+}
+
+//Badge styles
+$badge-font-size: .70em;
 
 
 @import "../node_modules/bootstrap/scss/bootstrap";
