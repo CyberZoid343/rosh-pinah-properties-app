@@ -116,16 +116,18 @@ $table-striped-bg: $light;
   transform: translate(-50%, -50%);
 }
 
-.modal-footer{
-  background-color: $light;
+//Form control styles
+
+.input-search-icon{
+  transform: translateY(1px); 
+  position: absolute; 
+  z-index: 1000; 
+  margin-left: 8px; 
+  margin-top: 10px;
 }
 
-//Form control styles
-$input-focus-box-shadow: none;
-$input-focus-border-color: $primary;
-
-.form-control:focus {
-  border-color: $primary !important;
+.input-search{
+  padding-left: 28px !important;
 }
 
 

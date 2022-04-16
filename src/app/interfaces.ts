@@ -73,11 +73,12 @@ export interface ClientFilters{
 }
 
 export interface ClientNote{
-  id: number,
+  id?: number,
   description: string,
-  dateAdded: Date,
-  dateUpdated: Date,
+  dateAdded?: Date,
+  dateUpdated?: Date,
   clientId: number,
   userId: number,
-  user: User
+  isEdited: boolean,
+  user?: User
 }

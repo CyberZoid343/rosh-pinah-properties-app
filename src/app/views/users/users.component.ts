@@ -46,6 +46,10 @@ export class UsersComponent implements OnDestroy {
     )
   }
 
+  refreshUserList(){
+    this.getUserSet();
+  }
+
   openUserFormDialog(id: number) {
     const modalRef = this.modalService.open(UserFormComponent, { size: 'md', scrollable: true, centered: true });
     modalRef.componentInstance.id = id;
@@ -83,9 +87,9 @@ export class UsersComponent implements OnDestroy {
     const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true, centered: true });
     modalRef.componentInstance.title = "Ativate User";
     modalRef.componentInstance.message = "Are you sure you want to activate this user? The user will be able to log in.";
-    modalRef.componentInstance.action = "Ativate User";
+    modalRef.componentInstance.action = "Activate User";
     modalRef.componentInstance.themeClass = "success";
-    modalRef.componentInstance.iconClass = "fa-solid fa-circle-exclamation";
+    modalRef.componentInstance.iconClass = "fa-solid fa-circle-check";
     modalRef.result.then((result) => {
       if (result == "confirm") {
         user.isActivated = true;

@@ -27,15 +27,15 @@ export class NoteService {
     return this.http.get(this.apiURL + "/" + id, this.apiService.getHttpHeaders())
   }
 
-  addCompany(clientNote: ClientNote): Observable<any> {
+  addClientNote(clientNote: ClientNote): Observable<any> {
     return this.http.post(this.apiURL, clientNote, this.apiService.getHttpHeaders());
   }
 
-  updateCompany(clientNote: ClientNote, id: number): Observable<any> {
+  updateClientNote(clientNote: ClientNote, id: number): Observable<any> {
     return this.http.put<any>(this.apiURL + "/" + id, clientNote, this.apiService.getHttpHeaders());
   }
 
-  deleteCompany(id: number): Observable<any> {
+  deleteClientNote(id: number): Observable<any> {
     return this.http.delete(this.apiURL + "/" + id, this.apiService.getHttpHeaders())
   }
 }

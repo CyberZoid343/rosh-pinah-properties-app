@@ -1,7 +1,7 @@
-<div class="modal-header">
+<div class="modal-header" ngbAutofocus>
   <h5 class="modal-title" *ngIf="id! == 0">Add New User</h5>
   <h5 class="modal-title" *ngIf="id! > 0">Edit User</h5>
-  <button class="btn-close text-reset" (click)="closeModal('dismiss')"></button>
+  <button class="btn p-0" ngbTooltip="Close" placement="bottom" (click)="closeModal('dismiss')"><i class="fa-solid fa-xmark" style="font-size: 18px;"></i></button>
 </div>
 <div class="modal-body text-center" *ngIf="gettingUser">
   <app-loading-indicator [message]="loadingUserMessage"></app-loading-indicator>

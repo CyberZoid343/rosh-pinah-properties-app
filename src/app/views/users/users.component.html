@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center text-nowrap bg-white border-bottom px-3 py-2 sticky-top">
-    <div class="bg-transparent-primary rounded h5 d-flex align-items-center justify-content-center mb-0 me-2" style="width: 32px; height: 32px;">
-        <i class="fa-solid fa-users"></i>
+    <div class="bg-transparent-primary rounded h5 mb-0 me-2 p-2 text-center">
+        <i class="fa-solid fa-users" style="width: 20px;"></i>
     </div>
     <h4 class="me-auto my-0">Users</h4>
     <button class="btn btn-primary ms-auto" (click)="openUserFormDialog(0)">
@@ -16,7 +16,11 @@
                 <th scope="col">Added</th>
                 <th scope="col">Role</th>
                 <th scope="col">Status</th>
-                <th scope="col" class="text-end"></th>
+                <th scope="col" class="text-end">
+                    <button class="btn text-white py-0" ngbTooltip="Refresh" placement="bottom" (click)="refreshUserList()">
+                        <i class="fa-solid fa-refresh"></i>
+                    </button>
+                </th>
             </tr>
             <tr *ngIf="gettingUserSet">
                 <td colspan="12" class="text-center">
@@ -53,7 +57,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <button class="dropdown-item" (click)="openUserFormDialog(user.id)"><i
-                                        class="fa-solid fa-pen me-2"></i>Edit Details</button>
+                                        class="fa-solid fa-pen me-2"></i>Edit</button>
                             </li>
                             <li><button class="dropdown-item" (click)="openActivateUserDialog(user)"
                                     *ngIf="!user.isActivated"><i

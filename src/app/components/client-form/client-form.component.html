@@ -1,7 +1,7 @@
-<div class="modal-header">
+<div class="modal-header" ngbAutofocus>
     <h5 class="my-auto" *ngIf="id! == 0">Add Client</h5>
     <h5 class="my-auto" *ngIf="id! > 0">Edit Client</h5>
-    <button type="button" class="btn-close" (click)="closeModal('dismiss')"></button>
+    <button class="btn p-0" ngbTooltip="Close" placement="bottom" (click)="closeModal('dismiss')"><i class="fa-solid fa-xmark" style="font-size: 18px;"></i></button>
 </div>
 <div class="modal-body text-center" *ngIf="gettingClient">
     <app-loading-indicator [message]="loadingClientsMessage"></app-loading-indicator>
@@ -111,8 +111,8 @@
         </div>
     </form>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn" (click)="closeModal('dismiss')">Close</button>
+<div class="modal-footer bg-white">
+    <button type="button" class="btn btn-secondary" (click)="closeModal('dismiss')">Cancel</button>
     <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="updatingClient || addingClient || gettingClient || gettingTagSet">
         <div *ngIf="id! == 0">
             <span *ngIf="!addingClient">Add Client</span>

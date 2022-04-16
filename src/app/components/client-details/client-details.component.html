@@ -1,6 +1,9 @@
-<div class="modal-header">
-    <h5 class="my-auto">Client Details</h5>
-    <button type="button" class="btn-close" (click)="closeModal('dismiss')"></button>
+<div class="modal-header" ngbAutofocus>
+    <h5 class="my-auto me-auto">Client Details</h5>
+    <button class="btn me-3 p-0 text-danger" (click)="deleteClient()" ngbTooltip="Delete" placement="bottom"><i class="fa-solid fa-trash"></i></button>
+    <button class="btn me-3 p-0" (click)="openClientNotesModal()" ngbTooltip="Notes" placement="bottom"><i class="fa-solid fa-note-sticky"></i></button>
+    <button class="btn me-3 p-0" (click)="openEditClientModal()" ngbTooltip="Edit" placement="bottom"><i class="fa-solid fa-pen"></i></button>
+    <button class="btn p-0" ngbTooltip="Close" placement="bottom" (click)="closeModal('dismiss')"><i class="fa-solid fa-xmark" style="font-size: 18px;"></i></button>
 </div>
 <div class="modal-body text-center" *ngIf="gettingClient">
     <app-loading-indicator [message]="loadingClientMessage"></app-loading-indicator>
@@ -68,8 +71,4 @@
             </tr>
         </tbody>
     </table>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn" (click)="closeModal('dismiss')">Close</button>
-    <button type="button" class="btn btn-primary" (click)="openEditClientModal()" [disabled]="gettingClient">Edit Client</button>
 </div>

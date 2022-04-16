@@ -183,18 +183,18 @@ export class ClientFormComponent implements OnDestroy, OnInit {
       tags: this.buildTagListString(),
       recentInformation: this.form.controls['recentInformation'].value,
     }
-    // this.clientSubscription = this.clientService.addClient(client).subscribe(
-    //   (response) => {
-    //     console.log(response)
-    //     this.snackBarService.showSuccessSnackBar("Client successfully added.")
-    //     this.closeModal("confirm")
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     this.snackBarService.showErrorSnackBar(error.error)
-    //     this.addingClient = false
-    //   }
-    // )
+    this.clientSubscription = this.clientService.addClient(client).subscribe(
+      (response) => {
+        console.log(response)
+        this.snackBarService.showSuccessSnackBar("Client successfully added.")
+        this.closeModal("confirm")
+      },
+      (error) => {
+        console.log(error);
+        this.snackBarService.showErrorSnackBar(error.error)
+        this.addingClient = false
+      }
+    )
   }
 
   updateClient() {

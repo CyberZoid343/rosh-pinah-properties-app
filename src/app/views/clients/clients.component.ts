@@ -26,6 +26,7 @@ export class ClientsComponent implements OnDestroy {
   loadingClientsMessage = "Loading clients..."
 
   //filters
+  search: string = '';
   order: string = '';
   status: string = '';
   followUp: string = '';
@@ -118,6 +119,13 @@ export class ClientsComponent implements OnDestroy {
   setFilters() {
     this.route.queryParams.subscribe(params => {
 
+      if (params['search'] != undefined) {
+        this.search = params['search'].replace("_", " ");
+      }
+      else {
+        this.search = "";
+      }
+
       if (params['order'] != undefined) {
         this.order = params['order'].replace("_", " ");
       }
@@ -165,6 +173,7 @@ export class ClientsComponent implements OnDestroy {
   }
 
   searchClients(event: any) {
+    this.search = event.target.value;
     this.router.navigate([], {
       queryParams: {
         search: event.target.value
@@ -274,11 +283,14 @@ export class ClientsComponent implements OnDestroy {
       if (result == "reload") {
         this.getClientSet();
       }
+      else if (result == "isDeleted"){
+        this.deleteClient(id);
+      }
     });
   }
 
   openClientNotesDialog(id: number) {
-    const modalRef = this.modalService.open(ClientNotesComponent, { size: 'md', scrollable: true, centered: true });
+    const modalRef = this.modalService.open(ClientNotesComponent, { size: 'lg', scrollable: true, centered: true });
     modalRef.componentInstance.id = id;
     modalRef.result.then((result) => {
       if (result == "reload") {
@@ -288,7 +300,6 @@ export class ClientsComponent implements OnDestroy {
   }
 
   highlighIfInTagFilter(tagName: string) {
-    console.log(tagName)
     let index = this.filterTags.split(",").indexOf(tagName);
     if (index > -1) {
       return "bg-primary"

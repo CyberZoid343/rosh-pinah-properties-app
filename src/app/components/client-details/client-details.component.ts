@@ -5,6 +5,8 @@ import { ClientService } from 'src/app/services/client/client.service';
 import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
 import { Client, Tag } from 'src/app/interfaces';
 import { ClientFormComponent } from '../client-form/client-form.component';
+import { ClientNotesComponent } from '../client-notes/client-notes.component';
+import { ModalConfirmComponent } from '../modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-client-details',
@@ -18,8 +20,9 @@ export class ClientDetailsComponent implements OnDestroy, OnInit {
   tags!: Tag[];
   gettingClient = false;
   isEdited = false;
+  isDeleted = false;
   loadingClientMessage = "Loading client details..."
-  @Input() id: number | undefined;
+  @Input() id!: number;
 
   constructor(
     public clientService: ClientService,
@@ -70,5 +73,14 @@ export class ClientDetailsComponent implements OnDestroy, OnInit {
         this.isEdited = true;
       }
     });
+  }
+
+  openClientNotesModal() {
+    const modalRef = this.modalService.open(ClientNotesComponent, { size: 'lg', scrollable: true, centered: true });
+    modalRef.componentInstance.id = this.id;
+  }
+
+  deleteClient() {
+    this.closeModal('isDeleted');
   }
 }
