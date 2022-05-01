@@ -29,7 +29,7 @@ export class ClientService {
   }
 
   getClientSet(): Observable<any> {
-    return this.http.get(this.apiURL, this.apiService.getHttpHeaders())
+    return this.http.get(this.apiURL + this.getFilters(), this.apiService.getHttpHeaders())
   }
 
   getClient(id: number): Observable<any> {

@@ -1,57 +1,53 @@
-<div class="p-3">
-    <div class="bg-white border rounded">
-        <div class="d-flex flex-wrap align-items-center border-bottom px-3 py-2 overflow-hidden">
-            <h5 class="my-0 me-auto">Properties</h5>
-
-            <div class="search-input me-md-2 me-0" style="width: 400px;">
-                <i class="fa-solid fa-search"></i>
-                <input type="search" class="bg-secondary border-0 form-control w-100" placeholder="Search name, owner...">
-            </div>
-
-            <button class="btn btn-circle btn-circle-secondary me-1" placement="bottom" ngbTooltip="Refresh"><i
-                    class="fa-solid fa-refresh"></i></button>
-            <button class="btn btn-circle btn-circle-secondary me-1" placement="bottom" ngbTooltip="Upload"><i
-                    class="fa-solid fa-upload"></i></button>
-            <button class="btn btn-circle btn-circle-secondary me-1" placement="bottom" ngbTooltip="Download"><i
-                    class="fa-solid fa-download"></i></button>
-            <button class="btn btn-circle btn-circle-primary" placement="bottom" ngbTooltip="Add"
-                (click)="openPropertyFormModal()"><i class="fa-solid fa-plus"></i></button>
-        </div>
-        <div class="overflow-auto" style="max-height: calc(100vh - 128px);">
-            <table class="table table-hover mb-0 align-top text-nowrap">
-                <thead>
-                    <tr class="bg-dark text-white">
-                        <th scope="col">Name</th>
-                        <th scope="col">Owner</th>
-                        <th scope="col">Tags</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">LOI</th>
-                        <th scope="col">Updated</th>
-                        <th scope="col">Last Editor</th>
-                    </tr>
-                </thead>
-                <tbody class="border-top">
-                    <tr>
-                        <td colspan="12" class="text-center" *ngIf="properties.length == 0">No data found</td>
-                    </tr>
-                    <tr *ngFor="let property of properties" (click)="openPropertyDetailsModal(property)">
-                        <td class="border-end">{{property.name}}</td>
-                        <td class="border-end">{{property.owner}}</td>
-                        <td class="text-wrap border-end">
-
-                            <span class="badge rounded-pill bg-transparent-primary me-1" *ngFor="let tag of property.propertyTags">{{tag.tag!.name}}</span>
-
-                        </td>
-                        <td class="border-end">{{property.price}}</td>
-                        <td class="border-end">{{property.dateLoi | date: 'mediumDate'}}</td>
-                        <td class="border-end">{{property.dateUpdated | date: 'mediumDate'}}</td>
-                        <td>{{property.lastEditor}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="d-flex px-3 py-2 border-top" *ngIf="properties.length > 0">
-            <b>{{properties.length}} <span *ngIf="properties.length == 1">result</span><span  *ngIf="properties.length > 1">results</span> found</b>
-        </div>
+<div class="d-flex align-items-center px-3 py-2 bg-white border-bottom">
+    <h5 class="my-0 me-auto">Properties</h5>
+    <button class="btn btn-circle btn-circle-secondary me-1" placement="bottom" ngbTooltip="Refresh"><i class="fa-solid fa-refresh"></i></button>
+    <button class="btn btn-circle btn-circle-secondary me-1" placement="bottom" ngbTooltip="Download"><i class="fa-solid fa-download"></i></button>
+    <button class="btn btn-circle btn-circle-primary" placement="bottom" ngbTooltip="Add" (click)="openPropertyFormModal()"><i class="fa-solid fa-plus"></i></button>
+</div>
+<div class="d-flex align-items-center px-3 py-2">
+    <div class="input-group w-50 me-2">
+        <input type="search" class="form-control" placeholder="Search name, owner...">
+        <button class="btn bg-white border" ngbTooltip="Search" placement="bottom"><i class="fa-solid fa-search"></i></button>
     </div>
+    <span class="me-auto">100 results found</span>
+    <button class="btn bg-white border me-2 text-primary">Previous</button>
+    <button class="btn bg-white border text-primary">Next</button>
+</div>
+<div class="px-3">
+    <table class="table table-hover mb-0 align-middle bg-white border">
+        <thead>
+            <tr class="bg-dark text-white">
+                <th scope="col">Name</th>
+                <th scope="col">Owner</th>
+                <th scope="col">Tags</th>
+                <th scope="col">Price</th>
+                <th scope="col">LOI</th>
+                <th scope="col">Updated</th>
+                <th scope="col">Last Editor</th>
+            </tr>
+        </thead>
+        <tbody class="border-top">
+            <tr>
+                <td colspan="12" class="text-center" *ngIf="loadingProperties">
+                    <app-loading-indicator [loading]="loadingProperties"></app-loading-indicator>
+                </td>
+            </tr>
+            <tr *ngIf="properties.length == 0 && !loadingProperties">
+                <td colspan="12" class="text-center">No data found</td>
+            </tr>
+            <tr *ngFor="let property of properties" (click)="openPropertyDetailsModal(property)">
+                <td class="border-end">{{property.name}}</td>
+                <td class="border-end">{{property.owner}}</td>
+                <td class="text-wrap border-end">
+
+                    <span class="badge rounded-pill bg-transparent-primary me-1" *ngFor="let tag of property.propertyTags">{{tag.tag!.name}}</span>
+
+                </td>
+                <td class="border-end">{{property.price}}</td>
+                <td class="border-end">{{property.dateLoi | date: 'mediumDate'}}</td>
+                <td class="border-end">{{property.dateUpdated | date: 'mediumDate'}}</td>
+                <td>{{property.lastEditor}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

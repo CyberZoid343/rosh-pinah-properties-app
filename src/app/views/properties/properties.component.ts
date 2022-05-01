@@ -17,6 +17,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   propertySubscription: Subscription = new Subscription;
   properties: Property[] = [];
   searchIsVisible = false;
+  loadingProperties = false;
 
   constructor(
     private propertyService: PropertyService,
@@ -42,13 +43,17 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getPropertySet(){
+    this.properties = [];
+    this.loadingProperties = true;
     this.propertySubscription = this.propertyService.getPropertySet().subscribe(
       (resposnse) => {
         this.properties = resposnse;
+        this.loadingProperties = false;
       },
       (error) => {
         console.log(error)
         this.messageModalService.showErrorMessage(error.error)
+        this.loadingProperties = false;
       }
     )
   }

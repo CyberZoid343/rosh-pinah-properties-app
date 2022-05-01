@@ -155,6 +155,10 @@ $table-hover-bg: $secondary;
 
 //Form control styles
 
+.search-input{
+  position: relative;
+}
+
 .search-input i{
   position: absolute;
   transform: translateX(12px) translateY(10px);

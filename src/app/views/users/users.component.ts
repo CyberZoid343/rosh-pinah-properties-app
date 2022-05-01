@@ -16,6 +16,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   userSubscription: Subscription = new Subscription;
   users: User[] = [];
+  loadingUsers = false;
 
   constructor(
     private userService: UserService,
@@ -32,13 +33,17 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   getUserSet(){
+    this.users = [];
+    this.loadingUsers = true;
     this.userSubscription = this.userService.getUserSet().subscribe(
       (resposnse) => {
         this.users = resposnse;
+        this.loadingUsers = false;
       },
       (error) => {
-        console.log(error)
-        this.messageModalService.showErrorMessage(error.error)
+        console.log(error);
+        this.messageModalService.showErrorMessage(error.error);
+        this.loadingUsers = false;
       }
     )
   }

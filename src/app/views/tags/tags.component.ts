@@ -16,6 +16,7 @@ export class TagsComponent implements OnInit {
 
   tagSubscription: Subscription = new Subscription;
   tags: Tag[] = [];
+  loadingTags = false;
 
   constructor(
     private tagService: TagService,
@@ -32,13 +33,17 @@ export class TagsComponent implements OnInit {
   }
 
   getTagSet(){
+    this.tags = [];
+    this.loadingTags = true;
     this.tagSubscription = this.tagService.getTagSet().subscribe(
       (resposnse) => {
         this.tags = resposnse;
+        this.loadingTags = false;
       },
       (error) => {
         console.log(error)
         this.messageModalService.showErrorMessage(error.error)
+        this.loadingTags = false;
       }
     )
   }

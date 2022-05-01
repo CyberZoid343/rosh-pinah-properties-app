@@ -1,45 +1,39 @@
-<div class="p-3">
-    <div class="bg-white border rounded">
-        <div class="d-flex flex-wrap align-items-center border-bottom px-3 py-2 overflow-hidden">
-            <h5 class="my-0 me-auto">Users</h5>
-
-            <button class="btn btn-circle btn-circle-secondary me-1" placement="bottom" ngbTooltip="Refresh"><i
-                    class="fa-solid fa-refresh"></i></button>
-            <button class="btn btn-circle btn-circle-primary" placement="bottom" ngbTooltip="Add"
-                (click)="openUserFormModal()"><i class="fa-solid fa-plus"></i></button>
-        </div>
-        <div class="overflow-auto" style="max-height: calc(100vh - 128px);">
-            <table class="table table-hover mb-0 align-top text-nowrap">
-                <thead>
-                    <tr class="bg-dark text-white">
-                        <th scope="col">Full Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Added</th>
-                        <th scope="col">Updated</th>
-                    </tr>
-                </thead>
-                <tbody class="border-top">
-                    <tr>
-                        <td colspan="12" class="text-center" *ngIf="users.length == 0">No data found</td>
-                    </tr>
-                    <tr *ngFor="let user of users" (click)="openUserDetailsModal(user)">
-                        <td class="border-end">{{user.firstName}} {{user.lastName}}</td>
-                        <td class="border-end">{{user.email}}</td>
-
-                        <td class="border-end">
-                            <span *ngIf="user.isAdmin">Admin</span>
-                            <span *ngIf="!user.isAdmin">User</span>
-                        </td>
-                        <td class="border-end">{{user.dateAdded | date: 'mediumDate'}}</td>
-                        <td class="border-end">{{user.dateUpdated | date: 'mediumDate'}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="d-flex px-3 py-2 border-top" *ngIf="users.length > 0">
-            <b>{{users.length}} <span *ngIf="users.length == 1">result</span><span  *ngIf="users.length > 1">results</span> found</b>
-        </div>
-    </div>
+<div class="d-flex align-items-center border-bottom px-3 py-2 bg-white mb-3">
+    <h5 class="my-0 me-auto">Users</h5>
+    <button class="btn btn-circle btn-circle-secondary me-1" placement="bottom" ngbTooltip="Refresh"><i class="fa-solid fa-refresh"></i></button>
+    <button class="btn btn-circle btn-circle-primary" placement="bottom" ngbTooltip="Add" (click)="openUserFormModal()"><i class="fa-solid fa-plus"></i></button>
 </div>
+<div class="px-3">
+    <table class="table table-hover align-middle border bg-white">
+        <thead>
+            <tr class="bg-dark text-white">
+                <th scope="col">Full Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Added</th>
+                <th scope="col">Updated</th>
+            </tr>
+        </thead>
+        <tbody class="border-top">
+            <tr>
+                <td colspan="12" class="text-center" *ngIf="loadingUsers">
+                    <app-loading-indicator [loading]="loadingUsers"></app-loading-indicator>
+                </td>
+            </tr>
+            <tr *ngIf="users.length == 0 && !loadingUsers">
+                <td colspan="12" class="text-center">No data found</td>
+            </tr>
+            <tr *ngFor="let user of users" (click)="openUserDetailsModal(user)">
+                <td class="border-end">{{user.firstName}} {{user.lastName}}</td>
+                <td class="border-end">{{user.email}}</td>
 
+                <td class="border-end">
+                    <span *ngIf="user.isAdmin">Admin</span>
+                    <span *ngIf="!user.isAdmin">User</span>
+                </td>
+                <td class="border-end">{{user.dateAdded | date: 'mediumDate'}}</td>
+                <td class="border-end">{{user.dateUpdated | date: 'mediumDate'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

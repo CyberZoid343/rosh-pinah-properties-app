@@ -1,47 +1,38 @@
-<div class="p-3">
-    <div class="bg-white border rounded">
-        <div class="d-flex flex-wrap align-items-center border-bottom px-3 py-2 overflow-hidden">
-            <h5 class="my-0 me-auto">Tags</h5>
-
-            <button class="btn btn-circle btn-circle-secondary me-1" placement="bottom" ngbTooltip="Refresh"><i
-                    class="fa-solid fa-refresh"></i></button>
-            <button class="btn btn-circle btn-circle-primary" placement="bottom" ngbTooltip="Add"
-                (click)="openTagFormModal()"><i class="fa-solid fa-plus"></i></button>
-        </div>
-        <div class="overflow-auto" style="max-height: calc(100vh - 128px);">
-            <table class="table table-hover mb-0 align-top text-nowrap">
-                <thead>
-                    <tr class="bg-dark text-white">
-                        <th scope="col">Name</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Added</th>
-                        <th scope="col">Updated</th>
-                        <th scope="col">Last Editor</th>
-                    </tr>
-                </thead>
-                <tbody class="border-top">
-                    <tr>
-                        <td colspan="12" class="text-center" *ngIf="tags.length == 0">No data found</td>
-                    </tr>
-                    <tr *ngFor="let tag of tags" (click)="openTagDetailsModal(tag)">
-                        <td class="border-end">{{tag.name}}</td>
-                        <td class="border-end">
-                            <span class="badge rounded-pill bg-transparent-primary me-1" *ngIf="tag.isClientTag">Client Tag</span>
-                            <span class="badge rounded-pill bg-transparent-primary me-1" *ngIf="tag.isPropertyTag">Property Tag</span>
-                        </td>
-                        <td class="border-end text-wrap">{{tag.description}}</td>
-                        <td class="border-end">{{tag.dateAdded | date: 'mediumDate'}}</td>
-                        <td class="border-end">{{tag.dateUpdated | date: 'mediumDate'}}</td>
-                        <td class="border-end">{{tag.lastEditor}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="d-flex px-3 py-2 border-top" *ngIf="tags.length > 0">
-            <b>{{tags.length}} <span *ngIf="tags.length == 1">result</span><span  *ngIf="tags.length > 1">results</span> found</b>
-        </div>
-    </div>
+<div class="d-flex align-items-center border-bottom px-3 py-2 bg-white mb-3">
+    <h5 class="my-0 me-auto">Tags</h5>
+    <button class="btn btn-circle btn-circle-secondary me-1" placement="bottom" ngbTooltip="Refresh"><i class="fa-solid fa-refresh"></i></button>
+    <button class="btn btn-circle btn-circle-primary" placement="bottom" ngbTooltip="Add" (click)="openTagFormModal()"><i class="fa-solid fa-plus"></i></button>
 </div>
-
-
+<div class="px-3">
+    <table class="table table-hover mb-0 align-middle text-nowrap bg-white border">
+        <thead>
+            <tr class="bg-dark text-white">
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Added</th>
+                <th scope="col">Updated</th>
+                <th scope="col">Last Editor</th>
+            </tr>
+        </thead>
+        <tbody class="border-top">
+            <tr>
+                <td colspan="12" class="text-center" *ngIf="loadingTags">
+                    <app-loading-indicator [loading]="loadingTags"></app-loading-indicator>
+                </td>
+            </tr>
+            <tr *ngIf="tags.length == 0 && !loadingTags">
+                <td colspan="12" class="text-center">No data found</td>
+            </tr>
+            <tr *ngFor="let tag of tags" (click)="openTagDetailsModal(tag)">
+                <td class="border-end">{{tag.name}}</td>
+                <td class="border-end">
+                    <span class="badge rounded-pill bg-transparent-primary me-1" *ngIf="tag.isClientTag">Client Tag</span>
+                    <span class="badge rounded-pill bg-transparent-primary me-1" *ngIf="tag.isPropertyTag">Property Tag</span>
+                </td>
+                <td class="border-end">{{tag.dateAdded | date: 'mediumDate'}}</td>
+                <td class="border-end">{{tag.dateUpdated | date: 'mediumDate'}}</td>
+                <td class="border-end">{{tag.lastEditor}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

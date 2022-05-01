@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
 
-  apiConnectionString = "https://localhost:44303/api/";
+  apiConnectionString = "https://localhost:5001/api/";
   auth: any;
   authorizationData: any;
   headerOptions: any;

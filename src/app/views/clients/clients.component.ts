@@ -1,5 +1,6 @@
 import { OnDestroy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { ClientDetailsComponent } from 'src/app/components/client-details/client-details.component';
@@ -19,12 +20,16 @@ export class ClientsComponent implements OnInit, OnDestroy {
   clients: Client[] = [];
   searchIsVisible = false;
 
+  page = 1;
+
   loadingClients = false;
 
   constructor(
     private clientService: ClientService,
     private modalService: NgbModal,
-    private messageModalService: MessageModalService
+    private messageModalService: MessageModalService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnDestroy(): void {
@@ -44,7 +49,60 @@ export class ClientsComponent implements OnInit, OnDestroy {
     }
   }
 
+  nextPage(){
+    
+    this.page += 1;
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        page: this.page
+      },
+      queryParamsHandling: 'merge',
+      skipLocationChange: false
+    });
+
+    this.getClientSet()
+
+  }
+
+  previousPage(){
+    if (this.page >= 1){
+      this.page -= 1;
+
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          page: this.page
+        },
+        queryParamsHandling: 'merge',
+        skipLocationChange: false
+      });
+  
+      this.getClientSet()
+    }
+    else{
+      this.page = 1;
+    }
+  }
+
+  resetPage(){
+    this.page = 1;
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        page: this.page
+      },
+      queryParamsHandling: 'merge',
+      skipLocationChange: false
+    });
+
+    this.getClientSet()
+  }
+
   getClientSet(){
+    this.clients = [];
     this.loadingClients = true;
     this.clientSubscription = this.clientService.getClientSet().subscribe(
       (resposnse) => {
