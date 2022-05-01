@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Client, ClientFilters } from 'src/app/interfaces';
+import { Client } from 'src/app/interfaces';
 import { ApiService } from '../api/api.service';
 
 @Injectable({
@@ -11,9 +11,9 @@ import { ApiService } from '../api/api.service';
 export class ClientService {
 
   constructor(
-    public http: HttpClient,
-    public apiService: ApiService,
-    public router: Router
+    private http: HttpClient,
+    private apiService: ApiService,
+    private router: Router
   ) { }
 
   apiURL = this.apiService.apiConnectionString + "client";
@@ -29,7 +29,7 @@ export class ClientService {
   }
 
   getClientSet(): Observable<any> {
-    return this.http.get(this.apiURL + this.getFilters(), this.apiService.getHttpHeaders())
+    return this.http.get(this.apiURL, this.apiService.getHttpHeaders())
   }
 
   getClient(id: number): Observable<any> {

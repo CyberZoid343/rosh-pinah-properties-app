@@ -1,64 +1,52 @@
-<div class="modal-header" ngbAutofocus>
-  <h5 class="modal-title" *ngIf="id! == 0">Add New User</h5>
-  <h5 class="modal-title" *ngIf="id! > 0">Edit User</h5>
-  <button class="btn p-0" ngbTooltip="Close" placement="bottom" (click)="closeModal('dismiss')"><i class="fa-solid fa-xmark" style="font-size: 18px;"></i></button>
+
+<div class="modal-header py-2" ngbAutofocus>
+    <h5 class="modal-title">
+        <span *ngIf="!isUpdateMode">Add User</span>
+        <span *ngIf="isUpdateMode">Edit User</span>
+    </h5>
+    <button class="btn btn-lg btn-circle btn-circle-secondary" (click)="closeModal()"><i
+            class="fa-solid fa-xmark"></i></button>
 </div>
-<div class="modal-body text-center" *ngIf="gettingUser">
-  <app-loading-indicator [message]="loadingUserMessage"></app-loading-indicator>
-</div>
-<div class="modal-body" *ngIf="!gettingUser">
-  <form [formGroup]="form">
+<form class="modal-body" [formGroup]="form">
     <div class="mb-3">
-      <label for="name" class="form-label">Name</label>
-      <input type="text" class="form-control" id="name" formControlName="name"
-        [ngClass]="{ 'is-invalid': submitted && form.controls.name.errors}">
-      <div class="invalid-feedback">
-        <div *ngIf="form.controls.name.errors?.required">Required field</div>
-        <div *ngIf="form.controls.name.errors?.maxlength">Exceeded the max length of 500 characters</div>
-      </div>
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="firstName" formControlName="firstName"
+            [ngClass]="{ 'is-invalid': form.controls.firstName.errors && submitted}">
+        <div class="invalid-feedback">
+            <div *ngIf="form.controls.firstName.errors?.required">Required field</div>
+        </div>
     </div>
     <div class="mb-3">
-      <label for="surname" class="form-label">Surname</label>
-      <input type="text" class="form-control" id="surname" formControlName="surname"
-        [ngClass]="{ 'is-invalid': submitted && form.controls.surname.errors}">
-      <div class="invalid-feedback">
-        <div *ngIf="form.controls.surname.errors?.required">Required field</div>
-        <div *ngIf="form.controls.surname.errors?.maxlength">Exceeded the max length of 500 characters</div>
-      </div>
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="lastName" formControlName="lastName"
+            [ngClass]="{ 'is-invalid': form.controls.lastName.errors && submitted}">
+        <div class="invalid-feedback">
+            <div *ngIf="form.controls.lastName.errors?.required">Required field</div>
+        </div>
     </div>
     <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input type="email" class="form-control" id="email" formControlName="email"
-        [ngClass]="{ 'is-invalid': submitted && form.controls.email.errors}">
-      <div class="invalid-feedback">
-        <div *ngIf="form.controls.email.errors?.required">Required field</div>
-        <div *ngIf="form.controls.email.errors?.email">Invalid email</div>
-        <div *ngIf="form.controls.email.errors?.maxlength">Exceeded the max length of 500 characters</div>
-      </div>
+        <label for="email" class="form-label">Email</label>
+        <input type="text" class="form-control" id="email" formControlName="email"
+            [ngClass]="{ 'is-invalid': form.controls.email.errors && submitted}">
+        <div class="invalid-feedback">
+            <div *ngIf="form.controls.email.errors?.required">Required field</div>
+            <div *ngIf="form.controls.email.errors?.email">Invalid email</div>
+        </div>
     </div>
-  </form>
-  <div *ngIf="id! == 0">
-    <p>The default password will be set to "initpass".</p>
-    <p class="mb-0">Request the user to change their account password when they login in for the first time.</p>
-  </div>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn" (click)="closeModal('dismiss')">Cancel</button>
-  <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="updatingUser || addingUser || gettingUser">
-    <span *ngIf="id! == 0">
-      <span *ngIf="!addingUser">Add User</span>
-      <span *ngIf="addingUser">
-        <span class="spinner-border spinner-border-sm" role="status"></span>
-        <span class="ms-2">Adding User
-        </span>
-      </span>
-    </span>
-    <span *ngIf="id! > 0">
-      <span *ngIf="!updatingUser">Update User</span>
-      <span *ngIf="updatingUser">
-        <span class="spinner-border spinner-border-sm" role="status"></span>
-        <span class="ms-2">Updating User</span>
-      </span>
-    </span>
-  </button>
+    <div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isAdmin" formControlName="isAdmin">
+            <label class="form-check-label" for="flexCheckDefault">
+              Admin
+            </label>
+        </div>
+    </div>
+    <p *ngIf="!isUpdateMode">The user's password will be set to "initpass" initially. Request the user to login and change their password.</p>
+</form>
+<div class="modal-footer border-top-0 bg-secondary">
+    <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+    <button class="btn btn-primary" (click)="submit()">
+        <span *ngIf="!isUpdateMode">Add User</span>
+        <span *ngIf="isUpdateMode">Update User</span>
+    </button>
 </div>

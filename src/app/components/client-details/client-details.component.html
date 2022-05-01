@@ -1,73 +1,59 @@
-<div class="modal-header" ngbAutofocus>
-    <h5 class="my-auto me-auto">Client Details</h5>
-    <button class="btn me-3 p-0 text-danger" (click)="deleteClient()" ngbTooltip="Delete" placement="bottom"><i class="fa-solid fa-trash"></i></button>
-    <button class="btn me-3 p-0" (click)="openClientNotesModal()" ngbTooltip="Notes" placement="bottom"><i class="fa-solid fa-note-sticky"></i></button>
-    <button class="btn me-3 p-0" (click)="openEditClientModal()" ngbTooltip="Edit" placement="bottom"><i class="fa-solid fa-pen"></i></button>
-    <button class="btn p-0" ngbTooltip="Close" placement="bottom" (click)="closeModal('dismiss')"><i class="fa-solid fa-xmark" style="font-size: 18px;"></i></button>
+<div class="modal-header py-2 justify-content-start" ngbAutoFocus>
+    <h5 class="modal-title me-auto" >Client Details</h5>
+    <button class="btn btn-circle btn-circle-danger me-1" placement="bottom" ngbTooltip="Delete" (click)="deleteClient()"><i class="fa-solid fa-trash"></i></button>
+    <button class="btn btn-circle btn-circle-primary me-1" placement="bottom" ngbTooltip="Edit" (click)="openClientFormModal()"><i class="fa-solid fa-pencil"></i></button>
+    <button class="btn btn-lg btn-circle btn-circle-secondary" (click)="closeModal()"><i class="fa-solid fa-xmark"></i></button>
 </div>
-<div class="modal-body text-center" *ngIf="gettingClient">
-    <app-loading-indicator [message]="loadingClientMessage"></app-loading-indicator>
-</div>
-<div class="modal-body" *ngIf="!gettingClient">
-    <table class="mb-0 info-table">
+<div class="modal-body px-0 pb-0">
+    <table class="table table-borderless">
         <tbody>
             <tr>
-                <th>Full name:</th>
-                <td>{{client.name}} {{client.surname}}</td>
+                <th>Full Name</th>
+                <td>{{selectedClient.firstName}} {{selectedClient.lastName}}</td>
             </tr>
             <tr>
-                <th>Company:</th>
-                <td>{{client.companyName}}</td>
+                <th>Company</th>
+                <td>{{selectedClient.company}}</td>
             </tr>
             <tr>
-                <th>Tags:</th>
-                <td class="text-wrap" style="max-width: 300px;">
-                    <span class="badge rounded-pill bg-transparent-primary" style="margin: 1px;"
-                        *ngFor="let tag of client.tagArray">{{tag}}</span>
-                </td>
+                <th>Tags</th>
+                <td class="text-wrap" style="min-width: 340px;"> <span class="badge rounded-pill bg-transparent-primary me-1" *ngFor="let tag of selectedClient.clientTags">{{tag.tag!.name}}</span></td>
             </tr>
             <tr>
-                <th>Email:</th>
-                <td>{{client.email}}</td>
+                <th>Email</th>
+                <td>{{selectedClient.email}}</td>
             </tr>
             <tr>
-                <th>Cell number:</th>
-                <td>{{client.cellNumber}}</td>
+                <th>Cellphone</th>
+                <td>{{selectedClient.cellphone}}</td>
             </tr>
             <tr>
-                <th>Telephone number:</th>
-                <td>{{client.telNumber}}</td>
+                <th>Telephone</th>
+                <td>{{selectedClient.telephone}}</td>
             </tr>
             <tr>
-                <th>Status:</th>
-                <td>
-                    <span *ngIf="client.isActive" class="badge rounded-pill bg-transparent-success">Active</span>
-                    <span *ngIf="!client.isActive" class="badge rounded-pill bg-transparent-danger">Inactive</span>
-                </td>
+                <th>Last Contacted</th>
+                <td>{{selectedClient.dateLastContacted | date: "mediumDate"}}</td>
             </tr>
             <tr>
-                <th>Date last contacted:</th>
-                <td>{{client.dateLastContacted | date: "mediumDate"}}</td>
+                <th>Follow Up</th>
+                <td>{{selectedClient.dateFollowUp | date: "mediumDate"}}</td>
             </tr>
             <tr>
-                <th>Follow up date:</th>
-                <td>{{client.dateFollowUp | date: "mediumDate"}}</td>
+                <th>Updated</th>
+                <td>{{selectedClient.dateUpdated | date: "mediumDate"}}</td>
             </tr>
             <tr>
-                <th>Date added:</th>
-                <td>{{client.dateAdded | date: "mediumDate"}}</td>
+                <th>Added</th>
+                <td>{{selectedClient.dateUpdated | date: "mediumDate"}}</td>
             </tr>
             <tr>
-                <th>Date updated:</th>
-                <td>{{client.dateUpdated | date: "mediumDate"}}</td>
+                <th>Last Editor</th>
+                <td>{{selectedClient.lastEditor}}</td>
             </tr>
-            <tr>
-                <th>Last Editor:</th>
-                <td>{{client.lastEditor!.name}} {{client.lastEditor!.surname}}</td>
-            </tr>
-            <tr>
-                <th>Recent Information:</th>
-                <td>{{client.recentInformation}}</td>
+            <tr class="align-top">
+                <th>Recent Info</th>
+                <td>{{selectedClient.recentInfo}}</td>
             </tr>
         </tbody>
     </table>

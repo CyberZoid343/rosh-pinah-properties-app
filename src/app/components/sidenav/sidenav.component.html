@@ -1,4 +1,4 @@
-<div class="d-flex flex-column bg-dark overflow-hidden text-nowrap expanded sidebar" style="height: 100vh;" [ngClass]="{'expanded': !isCollapsed, 'collapsed': isCollapsed}">
+<nav class="d-flex flex-column bg-dark text-nowrap expanded sidebar" style="height: 100vh;" [ngClass]="{'expanded': !isCollapsed, 'collapsed': isCollapsed}">
     <div class="px-1 pt-1">
         <button class="sidbar-button btn mb-1" [routerLink]="['clients']" routerLinkActive="btn-primary" title="Clients">
             <i class="fa-solid fa-address-book"></i>
@@ -9,6 +9,12 @@
         <button class="sidbar-button btn mb-1" [routerLink]="['properties']" routerLinkActive="btn-primary" title="Properties">
             <i class="fa-solid fa-building"></i>
             Properties
+        </button>
+    </div>
+    <div class="px-1">
+        <button class="sidbar-button btn mb-1" [routerLink]="['tags']" routerLinkActive="btn-primary" title="Properties">
+            <i class="fa-solid fa-tags"></i>
+            Tags
         </button>
     </div>
     <div class="px-1">
@@ -24,12 +30,6 @@
         </button>
     </div>
     <div class="px-1">
-        <button class="sidbar-button btn mb-1" [routerLink]="['password']" routerLinkActive="btn-primary" title="Password">
-            <i class="fa-solid fa-lock"></i>
-            Password
-        </button>
-    </div>
-    <div class="px-1">
         <button class="sidbar-button btn mb-1" (click)="logoff()" title="Logoff">
             <i class="fa-solid fa-sign-out"></i>
             Logoff
@@ -42,4 +42,4 @@
             Collapse Sidebar
         </button>
     </div>
-</div>
+</nav>

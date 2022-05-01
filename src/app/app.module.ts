@@ -9,44 +9,61 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
-import { ProfileComponent } from './views/profile/profile.component';
-import { PasswordComponent } from './views/password/password.component';
-import { UserFormComponent } from './components/user-form/user-form.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingIndicatorComponent } from './components/loading-indicator/loading-indicator.component';
-import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
-import { ClientDetailsComponent } from './components/client-details/client-details.component';
-import { ClientFiltersComponent } from './components/client-filters/client-filters.component';
-import { ClientListBadComponent } from './components/client-list-bad/client-list-bad.component';
 import { ClientFormComponent } from './components/client-form/client-form.component';
 import { PropertiesComponent } from './views/properties/properties.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
-import { ClientNotesComponent } from './components/client-notes/client-notes.component';
-import { UserProfileHandleComponent } from './components/user-profile-handle/user-profile-handle.component';
-import { UsersComponent } from './views/users/users.component';
+import { ErrorMessageComponent } from './components/error-message/error-message.component';
+import { SuccessMessageComponent } from './components/success-message/success-message.component';
 import { ClientsComponent } from './views/clients/clients.component';
+import { CommonModule, DatePipe } from '@angular/common';
+import { ClientDetailsComponent } from './components/client-details/client-details.component';
+import { DeleteMessageComponent } from './components/delete-message/delete-message.component';
+import { ClientFiltersComponent } from './components/client-filters/client-filters.component';
+import { PropertyFormComponent } from './components/property-form/property-form.component';
+import { UserFormComponent } from './components/user-form/user-form.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { UsersComponent } from './views/users/users.component';
+import { TagsComponent } from './views/tags/tags.component';
+import { TagFormComponent } from './components/tag-form/tag-form.component';
+import { TagDetailsComponent } from './components/tag-details/tag-details.component';
+import { ProfilePasswordFormComponent } from './components/profile-password-form/profile-password-form.component';
+import { PropertyDetailsComponent } from './components/property-details/property-details.component';
+import { ProfileComponent } from './views/profile/profile.component';
+import { ProfileDetailsFormComponent } from './components/profile-details-form/profile-details-form.component';
+import { TagSelectorComponent } from './components/tag-selector/tag-selector.component';
+import { TagListComponent } from './components/tag-list/tag-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ClientListBadComponent,
-    ProfileComponent,
-    PasswordComponent,
-    UserFormComponent,
     ClientFormComponent,
     LoadingIndicatorComponent,
-    ModalConfirmComponent,
-    ClientDetailsComponent,
-    ClientFiltersComponent,
     PropertiesComponent,
     SidenavComponent,
     DashboardComponent,
-    ClientNotesComponent,
-    UserProfileHandleComponent,
+    ErrorMessageComponent,
+    SuccessMessageComponent,
+    ClientsComponent,
+    ClientDetailsComponent,
+    DeleteMessageComponent,
+    ClientFiltersComponent,
+    PropertyFormComponent,
+    UserFormComponent,
+    UserDetailsComponent,
     UsersComponent,
-    ClientsComponent
+    TagsComponent,
+    TagFormComponent,
+    TagDetailsComponent,
+    ProfilePasswordFormComponent,
+    PropertyDetailsComponent,
+    ProfileComponent,
+    ProfileDetailsFormComponent,
+    TagSelectorComponent,
+    TagListComponent
   ],
   imports: [
     NgbModule,
@@ -58,9 +75,10 @@ import { ClientsComponent } from './views/clients/clients.component';
     MatDialogModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
-    MatMenuModule
+    MatMenuModule,
+    CommonModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

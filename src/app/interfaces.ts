@@ -1,15 +1,11 @@
 export interface User {
-  id: number,
-  name: string,
-  surname: string,
+  userId?: number,
+  firstName: string,
+  lastName: string,
   email: string,
   dateAdded?: Date,
   dateUpdated?: Date,
-  dateLogin?: Date,
-  dateLogoff?: Date,
-  isAdmin: boolean,
-  isOnline: boolean,
-  isActivated: boolean
+  isAdmin?: boolean
 }
 
 export interface UserAuthentication {
@@ -17,68 +13,64 @@ export interface UserAuthentication {
   password: string
 }
 
-export interface UserNewPassword {
+export interface ChangePassword {
+  currentPassword: string,
   newPassword: string,
-  confirmPassword: string
-}
-
-export interface Company{
-  id: number,
-  name: string,
-  dateAdded: Date,
-  dateLastUpdated: Date,
-  lastEditor: string
+  confirmNewPassword: string
 }
 
 export interface Client{
-  id: number,
-  name: string,
-  surname: string,
-  companyName: string,
-  tags?: string
+  clientId?: number,
+  firstName: string,
+  lastName: string,
+  company: string,
   email: string,
-  cellNumber: string,
-  telNumber: string,
-  dateLastContacted: Date,
-  dateFollowUp: Date,
+  cellphone: string,
+  telephone: string,
   dateAdded?: Date,
   dateUpdated?: Date,
-  isActive: boolean,
-  lastEditorId: number,
-  lastEditor?: User,
-  followUpDays?: number,
-  lastContactedDays?: number,
-  updatedDays?: number,
-  addedDays?: number,
-  tagArray?: any[],
-  recentInformation: string,
-}
-
-export interface Tag{
-  id: number,
-  name: string
+  lastEditor: string,
+  recentInfo: string,
+  dateLastContacted: Date,
+  dateFollowUp: Date,  
+  clientTags?: ClientTag[]
 }
 
 export interface ClientTag{
-  clientId: number,
+  clientTagId?: number,
+  clientId?: number,
   tagId: number,
   tag?: Tag
 }
 
-export interface ClientFilters{
-  search?: string | null,
-  status?: string | null,
-  followUpPeriod?: string | null,
-  lastContactedPeriod?: string | null
-}
-
-export interface ClientNote{
-  id?: number,
-  description: string,
+export interface Property{
+  propertyId?: number,
+  name: string,
+  owner: string,
+  price: number,
+  dateLoi: Date,
   dateAdded?: Date,
   dateUpdated?: Date,
-  clientId: number,
-  userId: number,
-  isEdited: boolean,
-  user?: User
+  lastEditor: string,
+  propertyTags?: PropertyTag[]
 }
+
+export interface PropertyTag{
+  propertyTagId?: number,
+  propertyId?: number,
+  tagId: number,
+  tag?: Tag
+}
+
+export interface Tag{
+  tagId?: number,
+  name: string,
+  description: string,
+  isClientTag: boolean,
+  isPropertyTag: boolean,
+  dateAdded?: Date,
+  dateUpdated?: Date,
+  lastEditor: string,
+  isSelected?: boolean
+}
+

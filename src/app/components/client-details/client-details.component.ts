@@ -1,86 +1,92 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { Client } from 'src/app/interfaces';
 import { ClientService } from 'src/app/services/client/client.service';
-import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
-import { Client, Tag } from 'src/app/interfaces';
+import { MessageModalService } from 'src/app/services/message-modal/message-modal.service';
 import { ClientFormComponent } from '../client-form/client-form.component';
-import { ClientNotesComponent } from '../client-notes/client-notes.component';
-import { ModalConfirmComponent } from '../modal-confirm/modal-confirm.component';
+import { DeleteMessageComponent } from '../delete-message/delete-message.component';
 
 @Component({
   selector: 'app-client-details',
   templateUrl: './client-details.component.html',
   styleUrls: ['./client-details.component.scss']
 })
-export class ClientDetailsComponent implements OnDestroy, OnInit {
+export class ClientDetailsComponent implements OnInit, OnDestroy {
+
+  @Input() clientId!: number
+
+  selectedClient!: Client;
 
   clientSubscription: Subscription = new Subscription;
-  client!: Client;
-  tags!: Tag[];
-  gettingClient = false;
-  isEdited = false;
-  isDeleted = false;
-  loadingClientMessage = "Loading client details..."
-  @Input() id!: number;
+
+  refreshClientList = false;
 
   constructor(
-    public clientService: ClientService,
-    public snackBarService: SnackBarService,
-    public activeModal: NgbActiveModal,
-    public modalService: NgbModal,
+    private activeModal: NgbActiveModal,
+    private modalService: NgbModal,
+    private clientService: ClientService,
+    private messageModalService: MessageModalService
   ) { }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.clientSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.getClient(this.id!);
+    this.getClient();
   }
 
-  closeModal(result: string) {
-    if (this.isEdited){
-      this.activeModal.close("reload");
+  closeModal() {
+    if (this.refreshClientList){
+      this.activeModal.close("refresh");
     }
     else{
-      this.activeModal.close(result);
+      this.activeModal.close();
     }
   }
 
-  getClient(id: number) {
-    this.gettingClient = true;
-    this.clientSubscription = this.clientService.getClient(id).subscribe(
-      (response) => {
-        console.log(response);
-        this.client = response;
-        this.client.tagArray = this.client.tags?.split(",")!
-        this.gettingClient = false;
+  getClient(){
+    this.clientSubscription = this.clientService.getClient(this.clientId).subscribe(
+      (response: Client) => {
+        this.selectedClient = response;
       },
       (error) => {
-        console.log(error);
-        this.snackBarService.showErrorSnackBar(error.error)
+        console.error(error);
+        this.messageModalService.showErrorMessage(error.error)
       }
     )
   }
 
-  openEditClientModal(){
-    const modalRef = this.modalService.open(ClientFormComponent, { size: 'md', scrollable: true });
-    modalRef.componentInstance.id = this.id;
+  openClientFormModal() {
+    const modalRef = this.modalService.open(ClientFormComponent, { size: 'md', scrollable: true, centered: true })
+    modalRef.componentInstance.selectedClient = this.selectedClient;
     modalRef.result.then((result) => {
-      if (result == "confirm") {
-        this.getClient(this.id!);
-        this.isEdited = true;
+      if (result) {
+        this.getClient();
+        this.refreshClientList = true;
       }
     });
   }
 
-  openClientNotesModal() {
-    const modalRef = this.modalService.open(ClientNotesComponent, { size: 'lg', scrollable: true, centered: true });
-    modalRef.componentInstance.id = this.id;
-  }
-
-  deleteClient() {
-    this.closeModal('isDeleted');
+  deleteClient(){
+    const modalRef = this.modalService.open(DeleteMessageComponent, { size: 'sm', centered: true });
+    modalRef.componentInstance.message = "Are you sure you want to delete this client?";
+    modalRef.result.then((result) => {
+      if (result == "delete") {
+        this.clientSubscription = this.clientService.deleteClient(this.selectedClient.clientId!).subscribe(
+          (response) => {
+            console.log(response);
+            this.messageModalService.showSuccessMessage("The client was successfully deleted");
+            this.refreshClientList = true;
+            this.closeModal();
+          },
+          (error) => {
+            console.error(error);
+            this.messageModalService.showErrorMessage(error.error)
+          }
+        )
+      }
+    });
   }
 }

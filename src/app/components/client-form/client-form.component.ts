@@ -1,226 +1,188 @@
-import { formatDate } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { Client, ClientTag, Tag } from 'src/app/interfaces';
 import { ClientService } from 'src/app/services/client/client.service';
-import { CompanyService } from 'src/app/services/company/company.service';
-import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
-import { TagService } from 'src/app/services/tag/tag.service';
+import { MessageModalService } from 'src/app/services/message-modal/message-modal.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { Client, Tag } from 'src/app/interfaces';
+import { DatePipe } from '@angular/common';
+import { TagService } from 'src/app/services/tag/tag.service';
 
 @Component({
   selector: 'app-client-form',
   templateUrl: './client-form.component.html',
   styleUrls: ['./client-form.component.scss']
 })
-export class ClientFormComponent implements OnDestroy, OnInit {
+export class ClientFormComponent implements OnInit, OnDestroy {
 
-  form: FormGroup;
-  submitted = false;
+  @Input() selectedClient!: Client;
+
   clientSubscription: Subscription = new Subscription;
   tagSubscription: Subscription = new Subscription;
-  client!: Client;
-  tags!: Tag[];
-  gettingTagSet = false;
-  gettingClient = false;
-  addingClient = false;
-  updatingClient = false;
-  today = new Date();
-  tagListString: string = '';
+  isUpdateMode = false;
 
-  loadingClientsMessage = "Loading client details..."
-  loadingTagsMessage = "Loading tags..."
+  form: FormGroup
+  submitted = false;
+  today = new Date()
 
-  @Input() id: number | undefined;
+  tags: Tag[] = [];
+  selectedTags: Tag[] = [];
 
   constructor(
-    public formBuilder: FormBuilder,
-    public clientService: ClientService,
-    public tagService: TagService,
-    public userService: UserService,
-    public companyService: CompanyService,
-    public snackBarService: SnackBarService,
-    public activeModal: NgbActiveModal,
-  ) {
+    private activeModal: NgbActiveModal,
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private clientService: ClientService,
+    private tagService: TagService,
+    private messageModalService: MessageModalService,
+    private datePipe: DatePipe
+  ) { 
     this.form = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.maxLength(255)]],
-      surname: ['', [Validators.required, Validators.maxLength(255)]],
-      companyName: ['', Validators.maxLength(500)],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(500)]],
-      cellNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[0-9]\d*)?$/)]],
-      telNumber: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(/^-?(0|[0-9]\d*)?$/)]],
-      dateLastContacted: ['', [Validators.required]],
-      dateFollowUp: ['', Validators.required],
-      tags: this.formBuilder.array([]),
-      recentInformation: ['', [Validators.maxLength(5000)]]
-    });
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      company: [''],
+      email: ['', [Validators.required, Validators.email]],
+      cellphone: [''],
+      telephone: [''],
+      recentInfo: [''],
+      dateLastContacted: [''],
+      dateFollowUp: [''],
+    })
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.clientSubscription.unsubscribe();
     this.tagSubscription.unsubscribe();
   }
 
-  ngOnInit() {
-    this.getTagSet();
-
-    if (this.id! > 0) {
-      this.getClient(this.id!);
-    }
-  }
-
-  toggleTag(event: any){
-    const tags = (this.form.controls.tags as FormArray)
-    if (event.target.checked){
-      tags.push(new FormControl(event.target.value))
+  ngOnInit(): void {
+    if (this.selectedClient == undefined){
+      this.isUpdateMode = false;
     }
     else{
-      const index = tags.controls.findIndex(x => x.value === event.target.value)
-      tags.removeAt(index);
+      this.isUpdateMode = true;
+      this.setClientForm();
     }
+
+    this.getTags();
   }
 
-  buildTagListString(){
-    const tags = (this.form.controls.tags as FormArray)
-    let str = ''
-    tags.controls.forEach(tag => {
-      if(tag.value != ''){
-        str += tag.value + ',';
-      }
-    });
-    str = str.slice(0, -1);
-    return str;
+  setClientForm(){
+    this.form.controls['firstName'].setValue(this.selectedClient.firstName);
+    this.form.controls['lastName'].setValue(this.selectedClient.lastName);
+    this.form.controls['company'].setValue(this.selectedClient.company);
+    this.form.controls['email'].setValue(this.selectedClient.email);
+    this.form.controls['cellphone'].setValue(this.selectedClient.cellphone);
+    this.form.controls['telephone'].setValue(this.selectedClient.telephone);
+    this.form.controls['recentInfo'].setValue(this.selectedClient.recentInfo);
+    this.form.controls['dateLastContacted'].setValue(this.datePipe.transform(this.selectedClient.dateLastContacted, 'yyyy-MM-dd'));
+    this.form.controls['dateFollowUp'].setValue(this.datePipe.transform(this.selectedClient.dateFollowUp, 'yyyy-MM-dd'));
   }
 
-  checkTag(tagName: string){
-    const tags = (this.form.controls.tags as FormArray)
-    const index = tags.controls.findIndex(x => x.value === tagName)
-    if (index > -1){
-      return true
-    } 
-    else{
-      return false
-    }
-  } 
-
-  submit() {
-    this.submitted = true;
-    if (this.form.invalid) {
-      return;
-    }
-    else {
-      if (this.id == 0) {
-        this.addClient();
-      }
-      else {
-        this.updateClient();
-      }
-    }
-  }
-
-  closeModal(result: string) {
+  closeModal(result?: any){
     this.activeModal.close(result);
   }
 
-  getTagSet(){
-    this.gettingTagSet = true;
+  getTags(){
     this.tagSubscription = this.tagService.getTagSet().subscribe(
-      (response) => {
-        this.tags = response;
-        this.gettingTagSet = false;
+      (response: Tag[]) => {
+
+        if (this.isUpdateMode){
+          let clientTags = this.selectedClient.clientTags!;
+          response.forEach(tag => {
+            clientTags.forEach(clientTag => {
+              if (clientTag.tagId == tag.tagId){
+                tag.isSelected = true;
+              }
+            });
+          });
+          this.tags = response;
+        }
+        else{
+          this.tags = response;
+        }
+
       },
       (error) => {
-        console.log(error);
-        this.snackBarService.showErrorSnackBar(error.error)
+        console.error(error);
+        this.messageModalService.showErrorMessage(error.error);
       }
     )
   }
 
-  getClient(id: number) {
-    this.gettingClient = true;
-    this.clientSubscription = this.clientService.getClient(id).subscribe(
-      (response) => {
-        console.log(response);
-        this.client = response;
-        this.form.controls['name'].setValue(this.client?.name);
-        this.form.controls['surname'].setValue(this.client?.surname);
-        this.form.controls['companyName'].setValue(this.client?.companyName);
-        this.form.controls['email'].setValue(this.client?.email);
-        this.form.controls['cellNumber'].setValue(this.client?.cellNumber);
-        this.form.controls['telNumber'].setValue(this.client?.telNumber);
-        this.form.controls['dateLastContacted'].setValue(formatDate(this.client?.dateLastContacted,'yyyy-MM-dd','en'));
-        this.form.controls['dateFollowUp'].setValue(formatDate(this.client?.dateFollowUp,'yyyy-MM-dd','en'));  
-        this.form.controls['recentInformation'].setValue(this.client?.recentInformation); 
-        this.client?.tags?.split(",")!.forEach(tag => {
-          (this.form.controls.tags as FormArray).push(new FormControl(tag))
-        });
-        this.gettingClient = false;
-      },
-      (error) => {
-        console.log(error);
-        this.snackBarService.showErrorSnackBar(error.error)
-      }
-    )
+  selectedTagsEventHandler(event:Tag[]){
+    this.selectedTags = event;
   }
 
-  addClient() {
-    this.addingClient = true;
-    var client: Client = {
-      id: 0,
-      name: this.form.controls['name'].value,
-      surname: this.form.controls['surname'].value,
-      companyName: this.form.controls['companyName'].value,
+  submit(){
+    this.submitted = true;
+
+    let clientTags: ClientTag[] = [];
+    let selectedTags = this.selectedTags;
+
+    selectedTags.forEach(selectedTag => {
+      if (selectedTag.isSelected){
+        let clientTag: ClientTag = {
+          tagId: selectedTag.tagId!,
+        }
+        clientTags.push(clientTag)
+      }
+    });
+
+    let client: Client = {
+      firstName: this.form.controls['firstName'].value,
+      lastName: this.form.controls['lastName'].value,
+      company: this.form.controls['company'].value,
       email: this.form.controls['email'].value,
-      cellNumber: this.form.controls['cellNumber'].value,
-      telNumber: this.form.controls['telNumber'].value,
+      cellphone: this.form.controls['cellphone'].value,
+      telephone: this.form.controls['telephone'].value,
+      lastEditor: this.userService.getLoggedInUser().firstName + ' ' + this.userService.getLoggedInUser().lastName,
+      recentInfo: this.form.controls['recentInfo'].value,
       dateLastContacted: this.form.controls['dateLastContacted'].value,
       dateFollowUp: this.form.controls['dateFollowUp'].value,
-      lastEditorId: this.userService.getLoggedInUserId(),
-      isActive: true,
-      tags: this.buildTagListString(),
-      recentInformation: this.form.controls['recentInformation'].value,
+      clientTags: clientTags
     }
+
+    if (this.form.valid){
+      if (!this.isUpdateMode){
+        this.addClient(client);
+      }
+      else{
+        this.updateClient(client);
+      }
+    }
+    else{
+      return;
+    }
+  }
+
+  addClient(client: Client){
     this.clientSubscription = this.clientService.addClient(client).subscribe(
       (response) => {
-        console.log(response)
-        this.snackBarService.showSuccessSnackBar("Client successfully added.")
-        this.closeModal("confirm")
+        this.messageModalService.showSuccessMessage("The client has been successfully added.");
+        this.closeModal('refresh');
       },
       (error) => {
-        console.log(error);
-        this.snackBarService.showErrorSnackBar(error.error)
-        this.addingClient = false
+        console.error(error);
+        this.messageModalService.showErrorMessage(error.error);
       }
     )
   }
 
-  updateClient() {
-    this.updatingClient = true;
-    this.client.name = this.form.controls['name'].value;
-    this.client.surname = this.form.controls['surname'].value;
-    this.client.email = this.form.controls['email'].value;
-    this.client.cellNumber = this.form.controls['cellNumber'].value;
-    this.client.telNumber = this.form.controls['telNumber']?.value;
-    this.client.companyName = this.form.controls['companyName'].value;
-    this.client.dateLastContacted = this.form.controls['dateLastContacted'].value;
-    this.client.dateFollowUp = this.form.controls['dateFollowUp'].value;
-    this.client.recentInformation = this.form.controls['recentInformation'].value;
-    this.client.lastEditorId = this.userService.getLoggedInUserId();
-    alert(this.form.controls['recentInformation'].value)
-    this.clientSubscription = this.clientService.updateClient(this.client, this.id!).subscribe(
+  updateClient(client: Client){
+
+    client.clientId = this.selectedClient.clientId!;
+    this.clientSubscription = this.clientService.updateClient(client, client.clientId).subscribe(
       (response) => {
-        console.log(response)
-        this.snackBarService.showSuccessSnackBar("Client successfully updated.")
-        this.closeModal("confirm")
+        this.messageModalService.showSuccessMessage("The client has been successfully updated.");
+        this.closeModal(response);
       },
       (error) => {
-        console.log(error);
-        this.snackBarService.showErrorSnackBar(error.error)
-        this.updatingClient = false;
+        console.error(error);
+        this.messageModalService.showErrorMessage(error.error);
       }
     )
   }
+
 }

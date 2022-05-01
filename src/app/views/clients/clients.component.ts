@@ -1,355 +1,80 @@
-import { Component, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { ClientService } from 'src/app/services/client/client.service';
-import { SnackBarService } from 'src/app/services/snackBar/snack-bar.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { Client, Tag } from 'src/app/interfaces';
-import { ClientFormComponent } from '../../components/client-form/client-form.component';
+import { OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ClientDetailsComponent } from '../../components/client-details/client-details.component';
-import { ExcelService } from 'src/app/services/excel/excel.service';
-import { ModalConfirmComponent } from 'src/app/components/modal-confirm/modal-confirm.component';
-import { ClientNotesComponent } from '../../components/client-notes/client-notes.component';
+import { Subscription } from 'rxjs';
+import { ClientDetailsComponent } from 'src/app/components/client-details/client-details.component';
+import { ClientFormComponent } from 'src/app/components/client-form/client-form.component';
+import { Client } from 'src/app/interfaces';
+import { ClientService } from 'src/app/services/client/client.service';
+import { MessageModalService } from 'src/app/services/message-modal/message-modal.service';
 
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss']
 })
-export class ClientsComponent implements OnDestroy {
+export class ClientsComponent implements OnInit, OnDestroy {
 
-  clients: Client[] = [];
   clientSubscription: Subscription = new Subscription;
-  gettingClientSet = true;
-  loadingClientsMessage = "Loading clients..."
+  clients: Client[] = [];
+  searchIsVisible = false;
 
-  //filters
-  search: string = '';
-  order: string = '';
-  status: string = '';
-  followUp: string = '';
-  lastContacted: string = '';
-  filterTags: string = '';
-
-  //stats
-  totalActive = 0;
-  totalInactive = 0;
-  totalFollowUpTomorrow = 0;
-  totalFollowUpToday = 0;
-  totalFollowUpOverdue = 0;
+  loadingClients = false;
 
   constructor(
-    public modalService: NgbModal,
-    public clientService: ClientService,
-    public dialog: MatDialog,
-    public router: Router,
-    public route: ActivatedRoute,
-    public snackBarService: SnackBarService,
-    public userService: UserService,
-    public excelService: ExcelService
-  ) {
-    this.router.events.subscribe(
-      (event) => {
-        if (event instanceof NavigationEnd) {
-          this.setFilters()
-          this.getClientSet()
-        }
-      }
-    );
-  }
+    private clientService: ClientService,
+    private modalService: NgbModal,
+    private messageModalService: MessageModalService
+  ) { }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.clientSubscription.unsubscribe();
   }
 
-  getClientSet() {
-    this.clients = [];
-    this.gettingClientSet = true;
-    this.clientSubscription = this.clientService.getClientSet().subscribe(
-      (reponse) => {
-        console.log(reponse)
-        this.clients = reponse
-        this.clients.forEach(client => {
-          client.tagArray = client.tags?.split(",")!
-        });
-        this.setClientSetStats();
-        this.gettingClientSet = false
-      },
-      (error) => {
-        console.log(error)
-        this.snackBarService.showErrorSnackBar(error.error)
-      }
-    )
-  }
-
-  setClientSetStats() {
-
-    this.totalActive = 0;
-    this.totalInactive = 0;
-    this.totalFollowUpTomorrow = 0;
-    this.totalFollowUpToday = 0;
-    this.totalFollowUpOverdue = 0;
-
-    this.clients.forEach(client => {
-
-      if (client.isActive && this.status != "inactive") {
-        this.totalActive += 1;
-      }
-      else if (!client.isActive && this.status != "active") {
-        this.totalInactive += 1;
-      }
-
-      if (client.isActive) {
-        if (client.followUpDays! == 1) {
-          this.totalFollowUpTomorrow += 1;
-        }
-        if (client.followUpDays! == 0) {
-          this.totalFollowUpToday += 1;
-        }
-        if (client.followUpDays! <= -1) {
-          this.totalFollowUpOverdue += 1;
-        }
-      }
-
-    });
-  }
-
-  setFilters() {
-    this.route.queryParams.subscribe(params => {
-
-      if (params['search'] != undefined) {
-        this.search = params['search'].replace("_", " ");
-      }
-      else {
-        this.search = "";
-      }
-
-      if (params['order'] != undefined) {
-        this.order = params['order'].replace("_", " ");
-      }
-      else {
-        this.order = "Recently Added";
-      }
-
-      if (params['status'] != undefined) {
-        this.status = params['status'].replace("_", " ");
-      }
-      else {
-        this.status = "all";
-      }
-
-      if (params['follow_up'] != undefined) {
-        this.followUp = params['follow_up'].replace("_", " ");
-      }
-      else {
-        this.followUp = "all";
-      }
-
-      if (params['last_contacted'] != undefined) {
-        this.lastContacted = params['last_contacted'].replace("_", " ");
-      }
-      else {
-        this.lastContacted = "all";
-      }
-
-      if (params['tags'] != undefined) {
-        this.filterTags = params['tags'].replace("_", " ");
-      }
-      else {
-        this.filterTags = "";
-      }
-
-    });
-  }
-
-  refreshClientList() {
+  ngOnInit(): void {
     this.getClientSet();
   }
 
-  clearFilters() {
-    this.router.navigate([]);
-  }
-
-  searchClients(event: any) {
-    this.search = event.target.value;
-    this.router.navigate([], {
-      queryParams: {
-        search: event.target.value
-      },
-      queryParamsHandling: 'merge',
-    });
-  }
-
-  orderBy(order: string) {
-    this.router.navigate([], {
-      queryParams: {
-        order: order,
-      },
-      queryParamsHandling: 'merge',
-    });
-  }
-
-  filterByStatus(status: string) {
-    this.router.navigate([], {
-      queryParams: {
-        status: status
-      },
-      queryParamsHandling: 'merge',
-    });
-  }
-
-  filterByFollowUpPeriod(period: string) {
-    this.router.navigate([], {
-      queryParams: {
-        follow_up: period,
-        last_contacted: 'all'
-      },
-      queryParamsHandling: 'merge',
-    });
-  }
-
-  filterByLastContactedPeriod(period: string) {
-    this.router.navigate([], {
-      queryParams: {
-        last_contacted: period,
-        follow_up: 'all'
-      },
-      queryParamsHandling: 'merge',
-    });
-  }
-
-  openClientFormDialog(id: number) {
-    const modalRef = this.modalService.open(ClientFormComponent, { size: 'md', scrollable: true, centered: true });
-    modalRef.componentInstance.id = id;
-    modalRef.result.then((result) => {
-      if (result == "confirm") {
-        this.getClientSet();
-      }
-    });
-  }
-
-  deleteClient(id: number) {
-    const modalRef = this.modalService.open(ModalConfirmComponent, { size: 'md', scrollable: true, centered: true });
-    modalRef.componentInstance.title = "Delete Client";
-    modalRef.componentInstance.message = "Are you sure you want to delete this client? All data linked to the client will be removed.";
-    modalRef.componentInstance.action = "Delete Client";
-    modalRef.componentInstance.themeClass = "danger";
-    modalRef.componentInstance.iconClass = "fa-solid fa-circle-exclamation";
-    modalRef.result.then((result) => {
-      if (result == "confirm") {
-        this.clientSubscription = this.clientService.deleteClient(id).subscribe(
-          (response) => {
-            console.log(response);
-            this.snackBarService.showSuccessSnackBar("Client successfully deleted.")
-            this.getClientSet()
-          },
-          (error) => {
-            console.log(error);
-            this.snackBarService.showErrorSnackBar(error.error)
-          }
-        )
-      }
-    });
-  }
-
-  updateClientStatus(client: Client) {
-    if (client.isActive) {
-      client.isActive = false;
+  showSeach(){
+    if (this.searchIsVisible){
+      this.searchIsVisible = false;
     }
-    else {
-      client.isActive = true;
+    else{
+      this.searchIsVisible = true;
     }
-    client.lastEditorId = this.userService.getLoggedInUserId();
-    client.lastEditor!.name = this.userService.getLoggedInUser().name;
-    client.lastEditor!.surname = this.userService.getLoggedInUser().surname;
-    this.clientSubscription = this.clientService.updateClient(client, client.id).subscribe(
-      (response) => {
-        this.getClientSet();
-        console.log(response);
+  }
+
+  getClientSet(){
+    this.loadingClients = true;
+    this.clientSubscription = this.clientService.getClientSet().subscribe(
+      (resposnse) => {
+        this.clients = resposnse;
+        this.loadingClients = false;
       },
       (error) => {
-        console.log(error);
-        this.snackBarService.showErrorSnackBar(error.error)
+        console.error(error);
+        this.messageModalService.showErrorMessage(error.error)
+        this.loadingClients = false;
       }
     )
   }
 
-  openClientDetailsDialog(id: number) {
-    const modalRef = this.modalService.open(ClientDetailsComponent, { size: 'md', scrollable: true, centered: true });
-    modalRef.componentInstance.id = id;
+  openClientFormModal(){
+    const modalRef = this.modalService.open(ClientFormComponent, { size: 'md', scrollable: true, centered: true })
     modalRef.result.then((result) => {
-      if (result == "reload") {
-        this.getClientSet();
-      }
-      else if (result == "isDeleted"){
-        this.deleteClient(id);
-      }
-    });
-  }
-
-  openClientNotesDialog(id: number) {
-    const modalRef = this.modalService.open(ClientNotesComponent, { size: 'lg', scrollable: true, centered: true });
-    modalRef.componentInstance.id = id;
-    modalRef.result.then((result) => {
-      if (result == "reload") {
+      if (result == "refresh") {
         this.getClientSet();
       }
     });
   }
 
-  highlighIfInTagFilter(tagName: string) {
-    let index = this.filterTags.split(",").indexOf(tagName);
-    if (index > -1) {
-      return "bg-primary"
-    }
-    else {
-      return "";
-    }
-  }
-
-  exportExcel() {
-
-    let headers = [
-      "Id",
-      "Name",
-      "Surname",
-      "Company",
-      "Tags",
-      "Email",
-      "Cell Number",
-      "Tel Number",
-      "Last Contacted",
-      "Follow Up",
-      "Date Added",
-      "Date Updated",
-      "Last Editor",
-      "Recent Information"
-    ]
-
-    let formattedClientData: any = []
-
-    this.clients.forEach(client => {
-      let formattedClient = {
-        id: client.id,
-        name: client.name,
-        surname: client.surname,
-        company: client.companyName,
-        tags: client.tags,
-        email: client.email,
-        cellNumber: client.cellNumber,
-        telNumberL: client.telNumber,
-        dateLastContacted: client.dateLastContacted,
-        dateFollowUp: client.dateFollowUp,
-        dateAdded: client.dateAdded,
-        dateUpdated: client.dateUpdated,
-        lastEditor: client.lastEditor?.name + " " + client.lastEditor?.surname,
-        recentInformation: client.recentInformation,
+  openClientDetailsModal(selectedClient: Client){
+    const modalRef = this.modalService.open(ClientDetailsComponent, { size: 'lg', scrollable: true, centered: true })
+    modalRef.componentInstance.clientId = selectedClient.clientId;
+    modalRef.result.then((result) => {
+      if (result == "refresh") {
+        this.getClientSet();
       }
-      formattedClientData.push(formattedClient);
     });
-
-    this.excelService.exportAsExcelFile(formattedClientData, headers, "Clients");
   }
 }
