@@ -1,3 +1,4 @@
+import { PropertySet } from './../../interfaces';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -6,6 +7,8 @@ import { PropertyFormComponent } from 'src/app/components/property-form/property
 import { Property } from 'src/app/interfaces';
 import { MessageModalService } from 'src/app/services/message-modal/message-modal.service';
 import { PropertyService } from 'src/app/services/property/property.service';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-properties',
@@ -16,14 +19,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   propertySubscription: Subscription = new Subscription;
   properties: Property[] = [];
-  searchIsVisible = false;
   loadingProperties = false;
+  resultsFound = 0;
+  search = new FormControl()
 
   constructor(
     private propertyService: PropertyService,
     private modalService: NgbModal,
-    private messageModalService: MessageModalService
-  ) { }
+    private messageModalService: MessageModalService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { 
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        this.getPropertySet();
+      }
+    });
+  }
 
   ngOnDestroy(): void {
     this.propertySubscription.unsubscribe();
@@ -33,21 +45,24 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.getPropertySet();
   }
 
-  showSeach(){
-    if (this.searchIsVisible){
-      this.searchIsVisible = false;
-    }
-    else{
-      this.searchIsVisible = true;
-    }
+  searchProperties(){
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        search: this.search.value
+      },
+      queryParamsHandling: 'merge',
+      skipLocationChange: false
+    });
   }
 
   getPropertySet(){
     this.properties = [];
     this.loadingProperties = true;
     this.propertySubscription = this.propertyService.getPropertySet().subscribe(
-      (resposnse) => {
-        this.properties = resposnse;
+      (response: PropertySet) => {
+        this.properties = response.properties;
+        this.resultsFound = response.resultsFound;
         this.loadingProperties = false;
       },
       (error) => {
@@ -76,5 +91,4 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 }

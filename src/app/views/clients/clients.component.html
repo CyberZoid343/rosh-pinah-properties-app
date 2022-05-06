@@ -1,23 +1,28 @@
 <div class="d-flex border-bottom align-items-center px-3 py-2 bg-white">
     <h5 class="mb-0 me-auto">Clients</h5>
-    <button class="btn btn-circle btn-circle-secondary me-1" ngbTooltip="Refresh">
-        <i class="fa-solid fa-refresh"></i>
+    <button class="btn btn-hover-secondary ms-3 me-1" (click)="getClientSet()">
+        <i class="fa-solid fa-refresh me-2"></i>Refresh
     </button>
-    <button class="btn btn-circle btn-circle-secondary me-1" ngbTooltip="Download">
-        <i class="fa-solid fa-download"></i>
+    <button class="btn btn-hover-secondary me-1" (click)="downloadExcel()">
+        <i class="fa-solid fa-download me-2"></i>Download Excel
     </button>
-    <button class="btn btn-circle btn-circle-primary" ngbTooltip="Add" (click)="openClientFormModal()">
-        <i class="fa-solid fa-plus"></i>        
+    <button class="btn btn-primary" (click)="openClientFormModal()">
+        <i class="fa-solid fa-plus me-2"></i>New Client
     </button>
 </div>
-<div class="d-flex align-items-center p-3">
-    <div class="input-group w-50 me-2">
+<div class="d-flex align-items-center p-3 text-nowrap">
+    <div class="input-group me-2 flex-nowrap" style="max-width: 440px;">
         <input type="search" class="form-control" placeholder="Search name, surname, company..." [formControl]="search" (keydown.enter)="searchClients()">
         <button class="btn bg-white border" ngbTooltip="Search" (click)="searchClients()"><i class="fa-solid fa-search"></i></button>
-        <button class="btn bg-white border" ngbTooltip="Filters" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"><i class="fa-solid fa-filter"></i></button>
-      </div>
-    <span class="me-auto">{{total}} results found</span>
-    <button class="btn btn-link" (click)="resetPage()" [disabled]="loadingClients">Reset All</button>
+        <button class="btn bg-white border" ngbTooltip="Filters" (click)="showClientFiltersForm()"><i class="fa-solid fa-filter"></i></button>
+        <button class="btn bg-white border" ngbTooltip="Clear Filters" (click)="clearFilters()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <span class="me-auto">{{resultsFound}} results found</span>
+    <div class="btn-group align-items-center">
+        <button class="btn btn-circle btn-hover-secondary" [ngClass]="{'disabled': currentPage == 1}" ngbTooltip="Previous" (click)="handlePaging(-1)"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="px-2">Page {{currentPage}} of {{totalPages}}</span>
+        <button class="btn btn-circle btn-hover-secondary" [ngClass]="{'disabled': currentPage == totalPages}" ngbTooltip="Next" (click)="handlePaging(1)"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
 </div>
 <div class="px-3">
     <table class="table table-hover border bg-white align-middle mb-0">
@@ -41,9 +46,9 @@
                 <td colspan="12" class="text-center">No data found</td>
             </tr>
             <tr *ngFor="let client of clients" (click)="openClientDetailsModal(client)">
-                <td class="border-end text-nowrap">{{client.firstName}} {{client.lastName}}</td>
-                <td class="border-end text-wrap">{{client.company}}</td>
-                <td class="text-wrap border-end">{{client.tags}}</td>
+                <td class="border-end">{{client.firstName}} {{client.lastName}}</td>
+                <td class="border-end">{{client.company}}</td>
+                <td class="border-end"><app-tag-list [tagListString]="client.tags" [selectedTagListString]="'Investor,Residential'"></app-tag-list></td>
                 <td class="border-end text-nowrap">{{client.dateLastContacted | date: 'mediumDate'}}</td>
                 <td class="border-end text-nowrap">{{client.dateUpdated | date: 'mediumDate'}}</td>
                 <td class="text-nowrap">{{client.lastEditor}}</td>
@@ -51,19 +56,13 @@
         </tbody>
     </table>
 </div>
-<div class="d-flex align-items-center justify-content-center p-3" *ngIf="clients.length > 0">
-    <button class="btn btn-circle btn-circle-secondary" ngbTooltip="Previous" (click)="previousPage()" *ngIf="page > 0" [disabled]="loadingClients || page == 1"><i class="fa-solid fa-arrow-left"></i></button>
-    <span class="mx-3">Page {{page}}</span>
-    <button class="btn btn-circle btn-circle-secondary" ngbTooltip="Next" (click)="nextPage()" [disabled]="loadingClients || this.clients.length == 0"><i class="fa-solid fa-arrow-right"></i></button>
-</div>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+<!-- <div class="offcanvas offcanvas-end" id="offcanvasRight" data-bs-scroll="true" data-bs-backdrop="false">
     <div class="offcanvas-header border-bottom border-top py-2">
-      <h5 class="mb-0">Filters</h5>
-      <button class="btn btn-lg btn-circle btn-circle-secondary" data-bs-dismiss="offcanvas"><i
-        class="fa-solid fa-xmark"></i></button>
+        <h5 class="mb-0">Filters</h5>
+        <button class="btn btn-circle btn-hover-secondary" data-bs-dismiss="offcanvas"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="offcanvas-body p-0">
-      <app-client-filters></app-client-filters>
+        <app-client-filters></app-client-filters>
     </div>
-  </div>
+</div> -->

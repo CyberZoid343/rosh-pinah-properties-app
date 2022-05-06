@@ -3,7 +3,7 @@
         <span *ngIf="!isUpdateMode">Add Client</span>
         <span *ngIf="isUpdateMode">Edit Client</span>
     </h5>
-    <button class="btn btn-lg btn-circle btn-circle-secondary" (click)="closeModal()"><i
+    <button class="btn btn-circle btn-hover-secondary" (click)="closeModal()"><i
             class="fa-solid fa-xmark"></i></button>
 </div>
 <form class="modal-body" [formGroup]="form">
@@ -30,7 +30,7 @@
 
     <div class="mb-3">
         <label class="form-label">Tags</label>
-        <!-- <app-tag-selector [tags]="tags" (selectedTags)="selectedTagsEventHandler($event)"></app-tag-selector> -->
+        <app-tag-selector [tagListString]="form.controls.tags.value" (outputTags)="getSelectedTags($event)"></app-tag-selector>
     </div>
 
     <div class="mb-3">

@@ -3,8 +3,9 @@
         <span *ngIf="!isUpdateMode">Add Property</span>
         <span *ngIf="isUpdateMode">Edit Property</span>
     </h5>
-    <button class="btn btn-lg btn-circle btn-circle-secondary" (click)="closeModal()"><i
-            class="fa-solid fa-xmark"></i></button>
+    <button class="btn btn-circle btn-hover-secondary" (click)="closeModal()">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
 </div>
 <form class="modal-body" [formGroup]="form">
     <div class="mb-3">

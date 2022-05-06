@@ -1,8 +1,10 @@
+import { ClientFiltersComponent } from './../../components/client-filters/client-filters.component';
+import { ClientSet } from './../../interfaces';
 import { HttpHeaders } from '@angular/common/http';
 import { OnDestroy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { ClientDetailsComponent } from 'src/app/components/client-details/client-details.component';
@@ -20,60 +22,40 @@ export class ClientsComponent implements OnInit, OnDestroy {
 
   clientSubscription: Subscription = new Subscription;
   clients: Client[] = [];
-  searchIsVisible = false;
-
-  total = 0;
-
-  search = new FormControl()
-  urlTags = '';
-  page = 1;
-
   loadingClients = false;
+  resultsFound = 0;
+  currentPage = 1;
+  totalPages = 1;
+  search = new FormControl()
+  routeSubsctiption: Subscription = new Subscription;
 
   constructor(
     private clientService: ClientService,
     private modalService: NgbModal,
     private messageModalService: MessageModalService,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private router: Router
   ) {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.getClientSet();
       }
-    });
+    }); 
   }
 
   ngOnDestroy(): void {
     this.clientSubscription.unsubscribe();
   }
 
-  isSelectedInFilter(tagId: any) {
-
-    return false;
-
-  }
-
   ngOnInit(): void {
     this.getClientSet();
-  }
-
-  nextPage() {
-    this.page += 1;
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        page: this.page
-      },
-      queryParamsHandling: 'merge',
-      skipLocationChange: false
-    });
   }
 
   searchClients() {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
+        page: 1,
         search: this.search.value
       },
       queryParamsHandling: 'merge',
@@ -81,49 +63,47 @@ export class ClientsComponent implements OnInit, OnDestroy {
     });
   }
 
-  previousPage() {
-    if (this.page >= 1) {
-      this.page -= 1;
+  showClientFiltersForm() {
+    const modalRef = this.modalService.open(ClientFiltersComponent, { size: 'md', scrollable: true, centered: true })
+    modalRef.result.then((result) => {
+      if (result == "refresh") {
+        this.getClientSet();
+      }
+    });
+  }
+
+  handlePaging(increment: number){
+    this.currentPage += increment;
+    if (this.currentPage > 0){
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: {
-          page: this.page
+          page: this.currentPage
         },
         queryParamsHandling: 'merge',
         skipLocationChange: false
       });
     }
-    else {
-      this.page = 1;
-    }
   }
 
-  resetPage() {
-    this.page = 1;
-    this.search.setValue('');
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        page: this.page,
-        search: ''
-      },
-      queryParamsHandling: 'merge',
-      skipLocationChange: false
-    });
+  clearFilters(){
+    this.search.setValue(null);
+    this.router.navigate([]);
+  }
+
+  downloadExcel(){
+
   }
 
   getClientSet() {
-
-    this.route.queryParams.subscribe(params => {
-      this.urlTags = params['tags'];
-    });
-
     this.clients = [];
     this.loadingClients = true;
     this.clientSubscription = this.clientService.getClientSet().subscribe(
-      (response) => {
-        this.clients = response;
-        this.total = response[0].total;
+      (response: ClientSet) => {
+        this.clients = response.clients;
+        this.resultsFound = response.resultsFound;
+        this.currentPage = response.currentPage;
+        this.totalPages = response.totalPages;
         this.loadingClients = false;
       },
       (error) => {

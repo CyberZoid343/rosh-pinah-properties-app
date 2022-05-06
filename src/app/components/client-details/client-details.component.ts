@@ -37,13 +37,8 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     this.getClient();
   }
 
-  closeModal() {
-    if (this.refreshClientList){
-      this.activeModal.close("refresh");
-    }
-    else{
-      this.activeModal.close();
-    }
+  closeModal(result?: any){
+    this.activeModal.close(result);
   }
 
   getClient(){

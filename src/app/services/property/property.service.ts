@@ -29,7 +29,7 @@ export class PropertyService {
   }
 
   getPropertySet(): Observable<any> {
-    return this.http.get(this.apiURL, this.apiService.getHttpHeaders())
+    return this.http.get(this.apiURL + this.getFilters(), this.apiService.getHttpHeaders())
   }
 
   getProperty(id: number): Observable<any> {

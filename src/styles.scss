@@ -54,16 +54,16 @@ a i, button i, .dropdown-item i{
   padding: 0px !important;
 }
 
-.btn-circle-secondary:hover{
+.btn-hover-secondary:hover{
   background-color: $secondary;
 }
 
-.btn-circle-danger:hover{
+.btn-hover-danger:hover{
   color: $danger !important;
   background-color: rgba($danger, 0.1) !important;
 }
 
-.btn-circle-primary:hover{
+.btn-hover-primary:hover{
   color: $primary !important;
   background-color: rgba($primary, 0.1) !important;
 }
@@ -195,3 +195,6 @@ $badge-font-size: .70em;
 
 
 
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

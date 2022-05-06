@@ -18,7 +18,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   @Input() selectedClient!: Client;
 
   clientSubscription: Subscription = new Subscription;
-  tagSubscription: Subscription = new Subscription;
+  tagSelectorSubscription: Subscription = new Subscription;
   isUpdateMode = false;
 
   form: FormGroup
@@ -43,12 +43,12 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       recentInfo: [''],
       dateLastContacted: [''],
       dateFollowUp: [''],
+      tags: []
     })
   }
 
   ngOnDestroy(): void {
     this.clientSubscription.unsubscribe();
-    this.tagSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -62,36 +62,41 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   }
 
   setClientForm(){
-    this.form.controls['firstName'].setValue(this.selectedClient.firstName);
-    this.form.controls['lastName'].setValue(this.selectedClient.lastName);
-    this.form.controls['company'].setValue(this.selectedClient.company);
-    this.form.controls['email'].setValue(this.selectedClient.email);
-    this.form.controls['cellphone'].setValue(this.selectedClient.cellphone);
-    this.form.controls['telephone'].setValue(this.selectedClient.telephone);
-    this.form.controls['recentInfo'].setValue(this.selectedClient.recentInfo);
-    this.form.controls['dateLastContacted'].setValue(this.datePipe.transform(this.selectedClient.dateLastContacted, 'yyyy-MM-dd'));
-    this.form.controls['dateFollowUp'].setValue(this.datePipe.transform(this.selectedClient.dateFollowUp, 'yyyy-MM-dd'));
+    this.form.controls.firstName.setValue(this.selectedClient.firstName);
+    this.form.controls.lastName.setValue(this.selectedClient.lastName);
+    this.form.controls.company.setValue(this.selectedClient.company);
+    this.form.controls.email.setValue(this.selectedClient.email);
+    this.form.controls.cellphone.setValue(this.selectedClient.cellphone);
+    this.form.controls.telephone.setValue(this.selectedClient.telephone);
+    this.form.controls.recentInfo.setValue(this.selectedClient.recentInfo);
+    this.form.controls.dateLastContacted.setValue(this.datePipe.transform(this.selectedClient.dateLastContacted, 'yyyy-MM-dd'));
+    this.form.controls.dateFollowUp.setValue(this.datePipe.transform(this.selectedClient.dateFollowUp, 'yyyy-MM-dd'));
+    this.form.controls.tags.setValue(this.selectedClient.tags);
   }
 
   closeModal(result?: any){
     this.activeModal.close(result);
   }
 
+  getSelectedTags(selectedTags: string){
+    return selectedTags;
+  }
+
   submit(){
     this.submitted = true;
 
     let client: Client = {
-      firstName: this.form.controls['firstName'].value,
-      lastName: this.form.controls['lastName'].value,
-      company: this.form.controls['company'].value,
-      email: this.form.controls['email'].value,
-      cellphone: this.form.controls['cellphone'].value,
-      telephone: this.form.controls['telephone'].value,
+      firstName: this.form.controls.firstName.value,
+      lastName: this.form.controls.lastName.value,
+      company: this.form.controls.company.value,
+      email: this.form.controls.email.value,
+      cellphone: this.form.controls.cellphone.value,
+      telephone: this.form.controls.telephone.value,
       lastEditor: this.userService.getLoggedInUser().firstName + ' ' + this.userService.getLoggedInUser().lastName,
-      recentInfo: this.form.controls['recentInfo'].value,
-      dateLastContacted: this.form.controls['dateLastContacted'].value,
-      dateFollowUp: this.form.controls['dateFollowUp'].value,
-      tags: ''
+      recentInfo: this.form.controls.recentInfo.value,
+      dateLastContacted: this.form.controls.dateLastContacted.value,
+      dateFollowUp: this.form.controls.dateFollowUp.value,
+      tags: this.form.controls.tags.value
     }
 
     if (this.form.valid){
@@ -109,7 +114,8 @@ export class ClientFormComponent implements OnInit, OnDestroy {
 
   addClient(client: Client){
     this.clientSubscription = this.clientService.addClient(client).subscribe(
-      (response) => {
+      (response: Client) => {
+        console.log(response);
         this.messageModalService.showSuccessMessage("The client has been successfully added.");
         this.closeModal('refresh');
       },

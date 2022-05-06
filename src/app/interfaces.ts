@@ -38,6 +38,8 @@ export interface Client{
 
 export interface ClientSet{
   resultsFound: number,
+  currentPage: number,
+  totalPages: number,
   clients: Client[]
 }
 

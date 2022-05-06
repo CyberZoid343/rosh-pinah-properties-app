@@ -31,6 +31,7 @@ import { PropertyDetailsComponent } from './components/property-details/property
 import { ProfileComponent } from './views/profile/profile.component';
 import { ProfileDetailsFormComponent } from './components/profile-details-form/profile-details-form.component';
 import { TagSelectorComponent } from './components/tag-selector/tag-selector.component';
+import { TagListComponent } from './components/tag-list/tag-list.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { TagSelectorComponent } from './components/tag-selector/tag-selector.com
     PropertyDetailsComponent,
     ProfileComponent,
     ProfileDetailsFormComponent,
-    TagSelectorComponent
+    TagSelectorComponent,
+    TagListComponent
   ],
   imports: [
     NgbModule,
