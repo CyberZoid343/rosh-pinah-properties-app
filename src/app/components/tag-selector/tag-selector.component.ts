@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Tag } from 'src/app/interfaces';
+
 
 @Component({
   selector: 'app-tag-selector',
@@ -8,8 +8,8 @@ import { Tag } from 'src/app/interfaces';
 })
 export class TagSelectorComponent implements OnInit {
 
-  @Input() tags: Tag[] = [];
-  @Output() selectedTags: EventEmitter<Tag[]> = new EventEmitter<Tag[]>();
+  @Input() tags: string = '';
+  @Output() selectedTags: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
@@ -18,32 +18,30 @@ export class TagSelectorComponent implements OnInit {
   }
 
   isSelected(tagId: number){
-
-    const tag = this.tags.find((tag) => {
-      return tag.tagId === tagId && tag.isSelected === true;
-    })
-    this.selectedTags.emit(this.tags);
-    if (tag){
-      return true;
-    }
-    else{
-      return false;
-    }
-
+    // const tag = this.tags.find((tag) => {
+    //   return tag.tagId === tagId && tag.isSelected === true;
+    // })
+    // this.selectedTags.emit(this.tags);
+    // if (tag){
+    //   return true;
+    // }
+    // else{
+    //   return false;
+    // }
   }
 
   selectTag(tagId: number){
 
-    const tag = this.tags.find((tag) => {
-      return tag.tagId === tagId;
-    })
+    // const tag = this.tags.find((tag) => {
+    //   return tag.tagId === tagId;
+    // })
 
-    if (tag!.isSelected){
-      tag!.isSelected = false;
-    }
-    else{
-      tag!.isSelected = true;
-    }
+    // if (tag!.isSelected){
+    //   tag!.isSelected = false;
+    // }
+    // else{
+    //   tag!.isSelected = true;
+    // }
 
     this.selectedTags.emit(this.tags);
 

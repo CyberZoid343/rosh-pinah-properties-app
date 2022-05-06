@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ChangePassword, User, UserAuthentication } from 'src/app/interfaces';
+import { UserNewPassword, User } from 'src/app/interfaces';
 import { MessageModalService } from 'src/app/services/message-modal/message-modal.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -47,25 +47,25 @@ export class ProfilePasswordFormComponent implements OnInit {
 
     this.submitted = true;
 
-    let changePassword: ChangePassword = {
+    let userNewPassword: UserNewPassword = {
       currentPassword: this.form.controls['currentPassword'].value,
       newPassword: this.form.controls['newPassword'].value,
       confirmNewPassword: this.form.controls['confirmNewPassword'].value,
     }
 
     if (this.form.valid){
-      this.updatePassword(changePassword);
+      this.updatePassword(userNewPassword);
     }
     else{
       return;
     }
   }
 
-  updatePassword(changePassword: ChangePassword){
+  updatePassword(userNewPassword: UserNewPassword){
 
     let userId: User = JSON.parse(localStorage.getItem('user')!).userId;
 
-    this.userSubscription = this.userService.updatePassword(changePassword, Number(userId)).subscribe(
+    this.userSubscription = this.userService.updatePassword(userNewPassword, Number(userId)).subscribe(
       (response) => {
         console.log(response);
         this.messageModalService.showSuccessMessage("Your password has been successfully updated.")

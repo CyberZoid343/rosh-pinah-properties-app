@@ -2,12 +2,11 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { Client, ClientTag, Tag } from 'src/app/interfaces';
+import { Client } from 'src/app/interfaces';
 import { ClientService } from 'src/app/services/client/client.service';
 import { MessageModalService } from 'src/app/services/message-modal/message-modal.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { DatePipe } from '@angular/common';
-import { TagService } from 'src/app/services/tag/tag.service';
 
 @Component({
   selector: 'app-client-form',
@@ -26,15 +25,11 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   submitted = false;
   today = new Date()
 
-  tags: Tag[] = [];
-  selectedTags: Tag[] = [];
-
   constructor(
     private activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private userService: UserService,
     private clientService: ClientService,
-    private tagService: TagService,
     private messageModalService: MessageModalService,
     private datePipe: DatePipe
   ) { 
@@ -64,8 +59,6 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       this.isUpdateMode = true;
       this.setClientForm();
     }
-
-    this.getTags();
   }
 
   setClientForm(){
@@ -84,51 +77,8 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     this.activeModal.close(result);
   }
 
-  getTags(){
-    this.tagSubscription = this.tagService.getTagSet().subscribe(
-      (response: Tag[]) => {
-
-        if (this.isUpdateMode){
-          let clientTags = this.selectedClient.clientTags!;
-          response.forEach(tag => {
-            clientTags.forEach(clientTag => {
-              if (clientTag.tagId == tag.tagId){
-                tag.isSelected = true;
-              }
-            });
-          });
-          this.tags = response;
-        }
-        else{
-          this.tags = response;
-        }
-
-      },
-      (error) => {
-        console.error(error);
-        this.messageModalService.showErrorMessage(error.error);
-      }
-    )
-  }
-
-  selectedTagsEventHandler(event:Tag[]){
-    this.selectedTags = event;
-  }
-
   submit(){
     this.submitted = true;
-
-    let clientTags: ClientTag[] = [];
-    let selectedTags = this.selectedTags;
-
-    selectedTags.forEach(selectedTag => {
-      if (selectedTag.isSelected){
-        let clientTag: ClientTag = {
-          tagId: selectedTag.tagId!,
-        }
-        clientTags.push(clientTag)
-      }
-    });
 
     let client: Client = {
       firstName: this.form.controls['firstName'].value,
@@ -141,7 +91,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       recentInfo: this.form.controls['recentInfo'].value,
       dateLastContacted: this.form.controls['dateLastContacted'].value,
       dateFollowUp: this.form.controls['dateFollowUp'].value,
-      clientTags: clientTags
+      tags: ''
     }
 
     if (this.form.valid){
@@ -171,7 +121,6 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   }
 
   updateClient(client: Client){
-
     client.clientId = this.selectedClient.clientId!;
     this.clientSubscription = this.clientService.updateClient(client, client.clientId).subscribe(
       (response) => {

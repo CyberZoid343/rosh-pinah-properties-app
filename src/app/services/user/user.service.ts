@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ChangePassword, User } from 'src/app/interfaces';
+import { UserNewPassword, User } from 'src/app/interfaces';
 import { ApiService } from '../api/api.service';
 
 @Injectable({
@@ -68,7 +68,7 @@ export class UserService {
     return user.isAdmin;
   }
 
-  updatePassword(userNewPassword: ChangePassword, id: number): Observable<any> {
+  updatePassword(userNewPassword: UserNewPassword, id: number): Observable<any> {
     return this.http.put<any>(this.apiURL + "/changePassword/" + id, userNewPassword, this.apiService.getHttpHeaders());
   }
 }

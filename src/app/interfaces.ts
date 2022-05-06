@@ -3,17 +3,17 @@ export interface User {
   firstName: string,
   lastName: string,
   email: string,
+  isAdmin?: boolean,
   dateAdded?: Date,
-  dateUpdated?: Date,
-  isAdmin?: boolean
+  dateUpdated?: Date
 }
 
-export interface UserAuthentication {
+export interface UserAuth {
   email: string,
   password: string
 }
 
-export interface ChangePassword {
+export interface UserNewPassword {
   currentPassword: string,
   newPassword: string,
   confirmNewPassword: string
@@ -32,15 +32,13 @@ export interface Client{
   lastEditor: string,
   recentInfo: string,
   dateLastContacted: Date,
-  dateFollowUp: Date,  
-  clientTags?: ClientTag[]
+  dateFollowUp: Date, 
+  tags: string
 }
 
-export interface ClientTag{
-  clientTagId?: number,
-  clientId?: number,
-  tagId: number,
-  tag?: Tag
+export interface ClientSet{
+  resultsFound: number,
+  clients: Client[]
 }
 
 export interface Property{
@@ -52,25 +50,13 @@ export interface Property{
   dateAdded?: Date,
   dateUpdated?: Date,
   lastEditor: string,
-  propertyTags?: PropertyTag[]
+  tags: string
 }
 
-export interface PropertyTag{
-  propertyTagId?: number,
-  propertyId?: number,
-  tagId: number,
-  tag?: Tag
+export interface PropertySet{
+  resultsFound: number,
+  properties: Property[]
 }
 
-export interface Tag{
-  tagId?: number,
-  name: string,
-  description: string,
-  isClientTag: boolean,
-  isPropertyTag: boolean,
-  dateAdded?: Date,
-  dateUpdated?: Date,
-  lastEditor: string,
-  isSelected?: boolean
-}
+
 

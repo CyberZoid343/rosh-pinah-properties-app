@@ -1,6 +1,8 @@
+import { HttpHeaders } from '@angular/common/http';
 import { OnDestroy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { ClientDetailsComponent } from 'src/app/components/client-details/client-details.component';
@@ -20,6 +22,10 @@ export class ClientsComponent implements OnInit, OnDestroy {
   clients: Client[] = [];
   searchIsVisible = false;
 
+  total = 0;
+
+  search = new FormControl()
+  urlTags = '';
   page = 1;
 
   loadingClients = false;
@@ -30,29 +36,30 @@ export class ClientsComponent implements OnInit, OnDestroy {
     private messageModalService: MessageModalService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        this.getClientSet();
+      }
+    });
+  }
 
   ngOnDestroy(): void {
     this.clientSubscription.unsubscribe();
+  }
+
+  isSelectedInFilter(tagId: any) {
+
+    return false;
+
   }
 
   ngOnInit(): void {
     this.getClientSet();
   }
 
-  showSeach(){
-    if (this.searchIsVisible){
-      this.searchIsVisible = false;
-    }
-    else{
-      this.searchIsVisible = true;
-    }
-  }
-
-  nextPage(){
-    
+  nextPage() {
     this.page += 1;
-
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
@@ -61,15 +68,22 @@ export class ClientsComponent implements OnInit, OnDestroy {
       queryParamsHandling: 'merge',
       skipLocationChange: false
     });
-
-    this.getClientSet()
-
   }
 
-  previousPage(){
-    if (this.page >= 1){
-      this.page -= 1;
+  searchClients() {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        search: this.search.value
+      },
+      queryParamsHandling: 'merge',
+      skipLocationChange: false
+    });
+  }
 
+  previousPage() {
+    if (this.page >= 1) {
+      this.page -= 1;
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: {
@@ -78,35 +92,38 @@ export class ClientsComponent implements OnInit, OnDestroy {
         queryParamsHandling: 'merge',
         skipLocationChange: false
       });
-  
-      this.getClientSet()
     }
-    else{
+    else {
       this.page = 1;
     }
   }
 
-  resetPage(){
+  resetPage() {
     this.page = 1;
-
+    this.search.setValue('');
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
-        page: this.page
+        page: this.page,
+        search: ''
       },
       queryParamsHandling: 'merge',
       skipLocationChange: false
     });
-
-    this.getClientSet()
   }
 
-  getClientSet(){
+  getClientSet() {
+
+    this.route.queryParams.subscribe(params => {
+      this.urlTags = params['tags'];
+    });
+
     this.clients = [];
     this.loadingClients = true;
     this.clientSubscription = this.clientService.getClientSet().subscribe(
-      (resposnse) => {
-        this.clients = resposnse;
+      (response) => {
+        this.clients = response;
+        this.total = response[0].total;
         this.loadingClients = false;
       },
       (error) => {
@@ -117,7 +134,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
     )
   }
 
-  openClientFormModal(){
+  openClientFormModal() {
     const modalRef = this.modalService.open(ClientFormComponent, { size: 'md', scrollable: true, centered: true })
     modalRef.result.then((result) => {
       if (result == "refresh") {
@@ -126,7 +143,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
     });
   }
 
-  openClientDetailsModal(selectedClient: Client){
+  openClientDetailsModal(selectedClient: Client) {
     const modalRef = this.modalService.open(ClientDetailsComponent, { size: 'lg', scrollable: true, centered: true })
     modalRef.componentInstance.clientId = selectedClient.clientId;
     modalRef.result.then((result) => {

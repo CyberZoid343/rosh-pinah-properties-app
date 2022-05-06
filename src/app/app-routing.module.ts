@@ -7,7 +7,6 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { ClientsComponent } from './views/clients/clients.component';
 import { UsersComponent } from './views/users/users.component';
 import { ProfileComponent } from './views/profile/profile.component';
-import { TagsComponent } from './views/tags/tags.component';
 
 const routes: Routes = [
   {
@@ -20,9 +19,6 @@ const routes: Routes = [
       },
       {
         path: "properties", component: PropertiesComponent
-      },
-      {
-        path: "tags", component: TagsComponent
       },
       {
         path: "users", component: UsersComponent

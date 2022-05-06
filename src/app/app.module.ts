@@ -26,15 +26,11 @@ import { PropertyFormComponent } from './components/property-form/property-form.
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { UsersComponent } from './views/users/users.component';
-import { TagsComponent } from './views/tags/tags.component';
-import { TagFormComponent } from './components/tag-form/tag-form.component';
-import { TagDetailsComponent } from './components/tag-details/tag-details.component';
 import { ProfilePasswordFormComponent } from './components/profile-password-form/profile-password-form.component';
 import { PropertyDetailsComponent } from './components/property-details/property-details.component';
 import { ProfileComponent } from './views/profile/profile.component';
 import { ProfileDetailsFormComponent } from './components/profile-details-form/profile-details-form.component';
 import { TagSelectorComponent } from './components/tag-selector/tag-selector.component';
-import { TagListComponent } from './components/tag-list/tag-list.component';
 
 @NgModule({
   declarations: [
@@ -55,15 +51,11 @@ import { TagListComponent } from './components/tag-list/tag-list.component';
     UserFormComponent,
     UserDetailsComponent,
     UsersComponent,
-    TagsComponent,
-    TagFormComponent,
-    TagDetailsComponent,
     ProfilePasswordFormComponent,
     PropertyDetailsComponent,
     ProfileComponent,
     ProfileDetailsFormComponent,
-    TagSelectorComponent,
-    TagListComponent
+    TagSelectorComponent
   ],
   imports: [
     NgbModule,

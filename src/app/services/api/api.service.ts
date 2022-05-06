@@ -22,6 +22,7 @@ export class ApiService {
         'Authorization': this.authorizationData
       })
     };
+
     return this.headerOptions;
   }
 }
