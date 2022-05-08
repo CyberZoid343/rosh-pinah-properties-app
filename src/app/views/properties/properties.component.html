@@ -1,32 +1,33 @@
-<div class="d-flex align-items-center px-3 py-2 bg-white border-bottom text-nowrap">
-    <h5 class="my-0 me-auto">Properties</h5>
-    <button class="btn btn-circle btn-circle-secondary me-1 ms-3" placement="bottom" ngbTooltip="Refresh">
-        <i class="fa-solid fa-refresh"></i>
+<div class="d-flex border-bottom align-items-center px-3 py-2 bg-white">
+    <h5 class="mb-0 me-auto">Properties</h5>
+    <button class="btn btn-hover-secondary ms-3 me-2" (click)="getPropertySet()" [disabled]="loadingProperties">
+        <i class="fa-solid fa-refresh me-2"></i>Refresh
     </button>
-    <button class="btn btn-circle btn-circle-secondary me-1" placement="bottom" ngbTooltip="Download" (click)="getPropertySet()">
-        <i class="fa-solid fa-download"></i>
+    <button class="btn btn-hover-secondary me-2" (click)="downloadExcel()" [disabled]="loadingProperties">
+        <i class="fa-solid fa-download me-2"></i>Download Excel
     </button>
-    <button class="btn btn-circle btn-circle-primary" placement="bottom" ngbTooltip="Add" (click)="openPropertyFormModal()">
-        <i class="fa-solid fa-plus"></i>
+    <button class="btn btn-primary" (click)="openPropertyFormModal()" [disabled]="loadingProperties">
+        <i class="fa-solid fa-plus me-2"></i>New Property
     </button>
 </div>
 <div class="d-flex align-items-center p-3 text-nowrap">
-    <div class="input-group me-2 flex-nowrap" style="max-width: 400px;">
-        <input type="search" class="form-control" placeholder="Search name, owner..." [formControl]="search" (keydown.enter)="searchProperties()" style="min-width: 300px">
-        <button class="btn bg-white border" ngbTooltip="Search" (click)="searchProperties()"><i class="fa-solid fa-search"></i></button>
-        <button class="btn bg-white border" ngbTooltip="Filters" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"><i class="fa-solid fa-filter"></i></button>
+    <div class="input-group me-2 flex-nowrap" style="max-width: 440px;">
+        <input type="text" class="form-control" placeholder="Search name, owner..." [formControl]="search" (keydown.enter)="searchProperties()">
+        <button class="btn bg-white border" ngbTooltip="Search" (click)="searchProperties()" [disabled]="loadingProperties"><i class="fa-solid fa-search"></i></button>
+        <button class="btn bg-white border" ngbTooltip="Filters" (click)="showPropertyFiltersForm()" [disabled]="loadingProperties"><i class="fa-solid fa-filter"></i></button>
+        <button class="btn bg-white border" ngbTooltip="Clear Filters" (click)="clearFilters()" [disabled]="loadingProperties"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <span class="me-auto">{{resultsFound}} results found</span>
-    <ul class="pagination mb-0 ms-2">
-        <li class="page-item"><a class="btn page-link">Previous</a></li>
-        <li class="page-item disabled"><a class="page-link" >Page 1</a></li>
-        <li class="page-item"><a class="btn page-link">Next</a></li>
-    </ul>
+    <div class="btn-group align-items-center">
+        <button class="btn btn-circle btn-hover-secondary" *ngIf="currentPage != 1" [ngClass]="{'disabled': loadingProperties}" ngbTooltip="Previous" (click)="handlePaging(-1)"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="px-2">Page {{currentPage}} of {{totalPages}}</span>
+        <button class="btn btn-circle btn-hover-secondary" *ngIf="currentPage != totalPages" [ngClass]="{'disabled': loadingProperties}" ngbTooltip="Next" (click)="handlePaging(1)"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
 </div>
 <div class="px-3">
-    <table class="table table-hover mb-0 align-middle bg-white border">
+    <table class="table table-hover border bg-white align-middle">
         <thead>
-            <tr class="bg-dark text-white">
+            <tr class="bg-dark text-white text-nowrap">
                 <th scope="col">Name</th>
                 <th scope="col">Owner</th>
                 <th scope="col">Tags</th>
@@ -46,13 +47,13 @@
                 <td colspan="12" class="text-center">No data found</td>
             </tr>
             <tr *ngFor="let property of properties" (click)="openPropertyDetailsModal(property)">
-                <td class="border-end">{{property.name}}</td>
+                <td class="border-end text-nowrap">{{property.name}}</td>
                 <td class="border-end">{{property.owner}}</td>
-                <td class="border-end">{{property.tags}}</td>
-                <td class="border-end text-nowrap">{{property.price}}</td>
+                <td class="border-end py-1"><app-tag-list [tagListString]="property.tags" [selectedTagListString]="property.tags"></app-tag-list></td>
+                <td class="border-end">{{property.price}}</td>
                 <td class="border-end text-nowrap">{{property.dateLoi | date: 'mediumDate'}}</td>
                 <td class="border-end text-nowrap">{{property.dateUpdated | date: 'mediumDate'}}</td>
-                <td class="text-nowrap">{{property.lastEditor}}</td>
+                <td class="text-nowrap">{{property.lastEditor?.firstName}} {{property.lastEditor?.lastName}}</td>
             </tr>
         </tbody>
     </table>

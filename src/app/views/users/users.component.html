@@ -1,7 +1,7 @@
 <div class="d-flex align-items-center border-bottom px-3 py-2 bg-white mb-3">
     <h5 class="my-0 me-auto">Users</h5>
-    <button class="btn btn-circle btn-circle-secondary me-1" placement="bottom" ngbTooltip="Refresh"><i class="fa-solid fa-refresh"></i></button>
-    <button class="btn btn-circle btn-circle-primary" placement="bottom" ngbTooltip="Add" (click)="openUserFormModal()"><i class="fa-solid fa-plus"></i></button>
+    <button class="btn btn-hover-secondary me-2" placement="bottom" (click)="getUserSet()" [disabled]="loadingUsers"><i class="fa-solid fa-refresh me-2"></i>Refresh</button>
+    <button class="btn btn-primary" placement="bottom" (click)="openUserFormModal()" [disabled]="loadingUsers"><i class="fa-solid fa-plus me-2"></i>Add New</button>
 </div>
 <div class="px-3">
     <table class="table table-hover align-middle border bg-white">

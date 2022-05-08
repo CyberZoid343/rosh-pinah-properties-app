@@ -1,7 +1,7 @@
 <div class="modal-header py-2 justify-content-start" ngbAutoFocus>
     <h5 class="modal-title me-auto" >Client Details</h5>
-    <button class="btn btn-circle btn-hover-danger me-1" placement="bottom" ngbTooltip="Delete" (click)="deleteClient()"><i class="fa-solid fa-trash"></i></button>
-    <button class="btn btn-circle btn-hover-primary me-1" placement="bottom" ngbTooltip="Edit" (click)="openClientFormModal()"><i class="fa-solid fa-pencil"></i></button>
+    <button class="btn btn-circle btn-hover-danger me-1" placement="bottom" ngbTooltip="Delete" (click)="deleteClient()" [disabled]="loadingClient"><i class="fa-solid fa-trash"></i></button>
+    <button class="btn btn-circle btn-hover-primary me-1" placement="bottom" ngbTooltip="Edit" (click)="openClientFormModal()" [disabled]="loadingClient"><i class="fa-solid fa-pencil"></i></button>
     <button class="btn btn-circle btn-hover-secondary" (click)="closeModal()"><i class="fa-solid fa-xmark"></i></button>
 </div>
 <div class="modal-body px-0 pb-0">
@@ -49,7 +49,7 @@
             </tr>
             <tr>
                 <th>Last Editor</th>
-                <td>{{selectedClient.lastEditor}}</td>
+                <td>{{selectedClient.lastEditor!.firstName}} {{selectedClient.lastEditor!.lastName}}</td>
             </tr>
             <tr class="align-top">
                 <th>Recent Info</th>

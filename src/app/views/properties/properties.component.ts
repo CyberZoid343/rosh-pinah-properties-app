@@ -9,6 +9,7 @@ import { MessageModalService } from 'src/app/services/message-modal/message-moda
 import { PropertyService } from 'src/app/services/property/property.service';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { PropertyFiltersComponent } from 'src/app/components/property-filters/property-filters.component';
 
 @Component({
   selector: 'app-properties',
@@ -21,7 +22,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   properties: Property[] = [];
   loadingProperties = false;
   resultsFound = 0;
+  currentPage = 1;
+  totalPages = 1;
   search = new FormControl()
+  routeSubsctiption: Subscription = new Subscription;
 
   constructor(
     private propertyService: PropertyService,
@@ -46,14 +50,48 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   searchProperties(){
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        search: this.search.value
-      },
-      queryParamsHandling: 'merge',
-      skipLocationChange: false
+    if(!this.loadingProperties){
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          search: this.search.value
+        },
+        queryParamsHandling: 'merge',
+        skipLocationChange: false
+      });
+    }
+  }
+
+  showPropertyFiltersForm(){
+    const modalRef = this.modalService.open(PropertyFiltersComponent, { size: 'md', scrollable: true, centered: true })
+    modalRef.result.then((result) => {
+      if (result == "refresh") {
+        this.getPropertySet();
+      }
     });
+  }
+
+  clearFilters(){
+    this.search.setValue(null);
+    this.router.navigate([]);
+  }
+
+  downloadExcel(){
+
+  }
+
+  handlePaging(increment: number){
+    this.currentPage += increment;
+    if (this.currentPage > 0){
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          page: this.currentPage
+        },
+        queryParamsHandling: 'merge',
+        skipLocationChange: false
+      });
+    }
   }
 
   getPropertySet(){
@@ -63,6 +101,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       (response: PropertySet) => {
         this.properties = response.properties;
         this.resultsFound = response.resultsFound;
+        this.currentPage = response.currentPage;
+        this.totalPages = response.totalPages;
         this.loadingProperties = false;
       },
       (error) => {

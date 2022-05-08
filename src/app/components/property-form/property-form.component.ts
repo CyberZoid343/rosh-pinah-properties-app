@@ -21,6 +21,7 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
   submitted = false;
   today = new Date();
   form: FormGroup;
+  submitting = false;
 
   constructor(
     private propertyService: PropertyService,
@@ -34,7 +35,8 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
       name: ['', [Validators.required]],
       owner: ['', [Validators.required]],
       price: [''],
-      dateLoi: ['']
+      dateLoi: [''],
+      tags: ['']
     })
   }
 
@@ -57,22 +59,27 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
   }
 
   setPropertyForm(){
-    this.form.controls['name'].setValue(this.selectedProperty.name);
-    this.form.controls['owner'].setValue(this.selectedProperty.owner);
-    this.form.controls['price'].setValue(this.selectedProperty.price);
-    this.form.controls['dateLoi'].setValue(this.datePipe.transform(this.selectedProperty.dateLoi, 'yyyy-MM-dd'));
+    this.form.controls.name.setValue(this.selectedProperty.name);
+    this.form.controls.owner.setValue(this.selectedProperty.owner);
+    this.form.controls.price.setValue(this.selectedProperty.price);
+    this.form.controls.dateLoi.setValue(this.datePipe.transform(this.selectedProperty.dateLoi, 'yyyy-MM-dd'));
+    this.form.controls.tags.setValue(this.selectedProperty.tags);
+  }
+
+  getSelectedTags(selectedTags: string){
+    this.form.controls.tags.setValue(selectedTags);
   }
 
   submit(){
     this.submitted = true;
 
     let property: Property = {
-      name: this.form.controls['name'].value,
-      owner: this.form.controls['owner'].value,
-      price: this.form.controls['price'].value,
-      dateLoi: this.form.controls['dateLoi'].value,
-      lastEditor: this.userService.getLoggedInUser().firstName + ' ' + this.userService.getLoggedInUser().lastName,
-      tags: ''
+      name: this.form.controls.name.value,
+      owner: this.form.controls.owner.value,
+      price: this.form.controls.price.value,
+      dateLoi: this.form.controls.dateLoi.value,
+      lastEditorId: this.userService.getLoggedInUser().userId!,
+      tags: this.form.controls.tags.value
     }
 
     if (this.form.valid){
@@ -90,13 +97,15 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
   }
 
   addProperty(property: Property){
+    this.submitting = true;
     this.propertySubscription = this.propertyService.addProperty(property).subscribe(
       (response) => {
-        console.log(response);
+        this.submitting = false;
         this.messageModalService.showSuccessMessage("The property has been successfully added.")
         this.closeModal("refresh")
       },
       (error) => {
+        this.submitting = false;
         console.error(error);
         this.messageModalService.showErrorMessage(error.error)
       }
@@ -104,13 +113,15 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
   }
 
   updateProperty(property: Property){
+    this.submitting = true;
     this.propertySubscription = this.propertyService.updateProperty(property, this.selectedProperty.propertyId!).subscribe(
       (response) => {
-        console.log(response);
+        this.submitting = false;
         this.messageModalService.showSuccessMessage("The property has been successfully updated.")
         this.closeModal(response)
       },
       (error) => {
+        this.submitting = false;
         console.error(error);
         this.messageModalService.showErrorMessage(error.error)
       }

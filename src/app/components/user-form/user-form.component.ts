@@ -18,6 +18,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   userSubscription: Subscription = new Subscription;
   isUpdateMode = false;
   submitted = false;
+  submittingUser = false;
   today = new Date();
   form: FormGroup;
 
@@ -87,13 +88,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   addUser(user: User){
+    this.submittingUser = true;
     this.userSubscription = this.userService.addUser(user).subscribe(
-      (response) => {
-        console.log(response);
+      (response: User) => {
         this.messageModalService.showSuccessMessage("The user has been successfully added.")
         this.closeModal("refresh")
       },
       (error) => {
+        this.submittingUser = false;
         console.error(error);
         this.messageModalService.showErrorMessage(error.error)
       }
@@ -101,13 +103,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   updateUser(user: User){
+    this.submittingUser = true;
     this.userSubscription = this.userService.updateUser(user, this.selectedUser.userId!).subscribe(
-      (response) => {
-        console.log(response);
+      (response: User) => {
         this.messageModalService.showSuccessMessage("The user has been successfully updated.")
         this.closeModal(response)
       },
       (error) => {
+        this.submittingUser = false;
         console.error(error);
         this.messageModalService.showErrorMessage(error.error)
       }

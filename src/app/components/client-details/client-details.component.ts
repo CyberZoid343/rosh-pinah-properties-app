@@ -17,10 +17,10 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   @Input() clientId!: number
 
   selectedClient!: Client;
-
   clientSubscription: Subscription = new Subscription;
-
   refreshClientList = false;
+  tags = ''
+  loadingClient = false;
 
   constructor(
     private activeModal: NgbActiveModal,
@@ -38,15 +38,23 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   }
 
   closeModal(result?: any){
-    this.activeModal.close(result);
+    if (this.refreshClientList){
+      this.activeModal.close('refresh');
+    }
+    else{
+      this.activeModal.close(result);
+    }
   }
 
   getClient(){
+    this.loadingClient = true;
     this.clientSubscription = this.clientService.getClient(this.clientId).subscribe(
       (response: Client) => {
+        this.loadingClient = false;
         this.selectedClient = response;
       },
       (error) => {
+        this.loadingClient = false;
         console.error(error);
         this.messageModalService.showErrorMessage(error.error)
       }

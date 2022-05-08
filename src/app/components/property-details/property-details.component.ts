@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Property } from 'src/app/interfaces';
@@ -12,15 +12,13 @@ import { PropertyFormComponent } from '../property-form/property-form.component'
   templateUrl: './property-details.component.html',
   styleUrls: ['./property-details.component.scss']
 })
-export class PropertyDetailsComponent implements OnInit, OnDestroy {
+export class PropertyDetailsComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() propertyId!: number
-
   selectedProperty!: Property;
-
   propertySubscription: Subscription = new Subscription;
-
   refreshPropertyList = false;
+  loadingProperty = false;
 
   constructor(
     private activeModal: NgbActiveModal,
@@ -28,6 +26,10 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     private propertyService: PropertyService,
     private messageModalService: MessageModalService
   ) { }
+
+  ngOnChanges(): void {
+    this.getProperty();
+  }
 
   ngOnDestroy(): void {
     this.propertySubscription.unsubscribe();
@@ -47,11 +49,14 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
   }
 
   getProperty(){
+    this.loadingProperty = true;
     this.propertySubscription = this.propertyService.getProperty(this.propertyId).subscribe(
       (response: Property) => {
+        this.loadingProperty = false;
         this.selectedProperty = response;
       },
       (error) => {
+        this.loadingProperty = false;
         console.error(error);
         this.messageModalService.showErrorMessage(error.error)
       }

@@ -1,3 +1,4 @@
+import { ExcelService } from './../../services/excel/excel.service';
 import { ClientFiltersComponent } from './../../components/client-filters/client-filters.component';
 import { ClientSet } from './../../interfaces';
 import { HttpHeaders } from '@angular/common/http';
@@ -34,13 +35,14 @@ export class ClientsComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private messageModalService: MessageModalService,
     public route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private excelService: ExcelService
   ) {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.getClientSet();
       }
-    }); 
+    });
   }
 
   ngOnDestroy(): void {
@@ -52,15 +54,17 @@ export class ClientsComponent implements OnInit, OnDestroy {
   }
 
   searchClients() {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        page: 1,
-        search: this.search.value
-      },
-      queryParamsHandling: 'merge',
-      skipLocationChange: false
-    });
+    if (!this.loadingClients) {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          page: 1,
+          search: this.search.value
+        },
+        queryParamsHandling: 'merge',
+        skipLocationChange: false
+      });
+    }
   }
 
   showClientFiltersForm() {
@@ -72,9 +76,9 @@ export class ClientsComponent implements OnInit, OnDestroy {
     });
   }
 
-  handlePaging(increment: number){
+  handlePaging(increment: number) {
     this.currentPage += increment;
-    if (this.currentPage > 0){
+    if (this.currentPage > 0) {
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: {
@@ -86,13 +90,84 @@ export class ClientsComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearFilters(){
+  clearFilters() {
     this.search.setValue(null);
     this.router.navigate([]);
   }
 
-  downloadExcel(){
+  downloadExcel() {
 
+    let clients: Client[] = [];
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        rows: '10000000'
+      },
+      queryParamsHandling: 'merge',
+      skipLocationChange: false
+    });
+
+    this.clientSubscription = this.clientService.getClientSet().subscribe(
+      (response: ClientSet) => {
+
+        clients = response.clients;
+
+        let headers = [
+          "Id",
+          "Name",
+          "Surname",
+          "Company",
+          "Tags",
+          "Email",
+          "Cell Number",
+          "Tel Number",
+          "Last Contacted",
+          "Follow Up",
+          "Date Added",
+          "Date Updated",
+          "Last Editor",
+          "Recent Information"
+        ]
+
+        let formattedClientData: any = []
+
+        this.clients.forEach(client => {
+          let formattedClient = {
+            id: client.clientId,
+            name: client.firstName,
+            surname: client.lastName,
+            company: client.company,
+            tags: client.tags,
+            email: client.email,
+            cellNumber: client.cellphone,
+            telNumberL: client.telephone,
+            dateLastContacted: client.dateLastContacted,
+            dateFollowUp: client.dateFollowUp,
+            dateAdded: client.dateAdded,
+            dateUpdated: client.dateUpdated,
+            lastEditor: client.lastEditor?.firstName + " " + client.lastEditor?.lastName,
+            recentInformation: client.recentInfo,
+          }
+          formattedClientData.push(formattedClient);
+        });
+
+        this.excelService.exportAsExcelFile(formattedClientData, headers, "Clients");
+
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: {
+            rows: '20'
+          },
+          queryParamsHandling: 'merge',
+          skipLocationChange: false
+        });
+    
+      },
+      (error) => {
+
+      }
+    )
   }
 
   getClientSet() {
@@ -124,7 +199,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
   }
 
   openClientDetailsModal(selectedClient: Client) {
-    const modalRef = this.modalService.open(ClientDetailsComponent, { size: 'lg', scrollable: true, centered: true })
+    const modalRef = this.modalService.open(ClientDetailsComponent, { size: 'md', scrollable: true, centered: true })
     modalRef.componentInstance.clientId = selectedClient.clientId;
     modalRef.result.then((result) => {
       if (result == "refresh") {
