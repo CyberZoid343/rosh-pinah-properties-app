@@ -8,11 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoadingIndicatorComponent implements OnInit {
 
-  @Input() message: string | undefined;
+  @Input() loading!: boolean;
 
   constructor() { }
 
   ngOnInit(): void {
+
+  }
+
+  getLoadingStatus() {
+    setTimeout(() => {
+      return this.loading;
+    },
+      1000);
   }
 
 }
