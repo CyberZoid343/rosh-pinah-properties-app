@@ -97,18 +97,12 @@ export class ClientsComponent implements OnInit, OnDestroy {
 
   downloadExcel() {
 
+    this.loadingClients = true;
     let clients: Client[] = [];
+    let tempClients = this.clients;
+    this.clients = [];
 
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        rows: '10000000'
-      },
-      queryParamsHandling: 'merge',
-      skipLocationChange: false
-    });
-
-    this.clientSubscription = this.clientService.getClientSet().subscribe(
+    this.clientSubscription = this.clientService.getClientSetForExcel().subscribe(
       (response: ClientSet) => {
 
         clients = response.clients;
@@ -132,7 +126,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
 
         let formattedClientData: any = []
 
-        this.clients.forEach(client => {
+        clients.forEach(client => {
           let formattedClient = {
             id: client.clientId,
             name: client.firstName,
@@ -153,19 +147,14 @@ export class ClientsComponent implements OnInit, OnDestroy {
         });
 
         this.excelService.exportAsExcelFile(formattedClientData, headers, "Clients");
-
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: {
-            rows: '20'
-          },
-          queryParamsHandling: 'merge',
-          skipLocationChange: false
-        });
-    
+        this.loadingClients = false;
+        this.clients = tempClients;
       },
       (error) => {
-
+        console.log(error)
+        this.messageModalService.showErrorMessage(error.error)
+        this.loadingClients = false;
+        this.clients = tempClients;
       }
     )
   }

@@ -1,3 +1,4 @@
+import { ExcelService } from './../../services/excel/excel.service';
 import { PropertySet } from './../../interfaces';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -32,7 +33,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private messageModalService: MessageModalService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private excelService: ExcelService
   ) { 
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
@@ -76,8 +78,64 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.router.navigate([]);
   }
 
-  downloadExcel(){
+  downloadExcel() {
 
+    this.loadingProperties = true;
+    let properties: Property[] = [];
+    let tempProperties = this.properties;
+    this.properties = [];
+
+    this.propertySubscription = this.propertyService.getPropertySetForExcel().subscribe(
+      (response: PropertySet) => {
+
+        properties = response.properties;
+
+        let headers = [
+          "Id",
+          "Name",
+          "Owner",
+          "Tags",
+          "Price",
+          "LOI",
+          "Date Added",
+          "Date Updated",
+          "Last Editor",
+        ]
+
+        let formattedPropertyData: any = []
+
+        properties.forEach(property => {
+
+          let formattedProperty = {
+            id: property.propertyId,
+            name: property.name,
+            owner: property.owner,
+            tags: property.tags,
+            price: property.price,
+            dateLoi: property.dateLoi,
+            dateAdded: property.dateAdded,
+            dateUpdated: property.dateUpdated,
+            lastEditor: '',
+          }
+
+          if (property.lastEditor){
+            formattedProperty.lastEditor = property.lastEditor.firstName + " " + property.lastEditor.lastName
+          }
+
+          formattedPropertyData.push(formattedProperty);
+        });
+
+        this.excelService.exportAsExcelFile(formattedPropertyData, headers, "Properties");
+        this.loadingProperties = false;
+        this.properties = tempProperties;
+      },
+      (error) => {
+        console.log(error)
+        this.messageModalService.showErrorMessage(error.error)
+        this.loadingProperties = false;
+        this.properties = tempProperties;
+      }
+    )
   }
 
   handlePaging(increment: number){

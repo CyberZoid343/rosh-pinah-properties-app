@@ -24,7 +24,7 @@ export class ClientService {
       return url.substring(this.router.url.indexOf('?'));
     }
     else {
-      return '';
+      return '?';
     }
   }
 
@@ -47,4 +47,14 @@ export class ClientService {
   deleteClient(id: number): Observable<any> {
     return this.http.delete(this.apiURL + "/" + id, this.apiService.getHttpHeaders())
   }
+
+  getClientSetForExcel(): Observable<any> {
+
+    let filters = this.getFilters();
+
+    filters += '&rows=10000'
+
+    return this.http.get(this.apiURL + filters, this.apiService.getHttpHeaders())
+  }
+  
 }

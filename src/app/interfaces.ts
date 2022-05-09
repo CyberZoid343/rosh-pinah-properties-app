@@ -48,12 +48,12 @@ export interface Property{
   propertyId?: number,
   name: string,
   owner: string,
-  price: number,
+  price?: number,
   dateLoi: Date,
   dateAdded?: Date,
   dateUpdated?: Date,
   tags: string,
-  lastEditorId: number,
+  lastEditorId?: number,
   lastEditor?: User
 }
 
