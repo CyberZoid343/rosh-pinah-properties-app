@@ -15,6 +15,7 @@ $success: #198754;
 $danger: #dc3545;
 $light: #f8f9fa;
 $secondary: #e9ecef;
+$dark: #212529;
 
 //box-shadow styles
 $box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
@@ -33,7 +34,7 @@ $container-max-widths: (
 );
 
 //Typography
-$font-size-base: 0.8rem;
+$font-size-base: 0.9rem;
 
 //button styles
 a i, button i, .dropdown-item i{
@@ -41,10 +42,38 @@ a i, button i, .dropdown-item i{
   text-align: center !important;
 }
 
+.btn-circle{
+  border-radius: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px !important;
+  min-height: 36px !important;
+  width: 36px !important;
+  min-width: 36px !important;;
+  padding: 0px !important;
+}
+
+.btn-hover-secondary:hover{
+  background-color: $secondary;
+}
+
+.btn-hover-danger:hover{
+  color: $danger !important;
+  background-color: rgba($danger, 0.1) !important;
+}
+
+.btn-hover-primary:hover{
+  color: $primary !important;
+  background-color: rgba($primary, 0.1) !important;
+}
+
 //table styles
 $table-cell-padding-y: 0.5rem;
 $table-cell-padding-x: 0.94rem;
 $table-striped-bg: $light;      
+
+$table-hover-bg: $secondary;
 
 .table-row-hover-light:hover{
   background: $light;
@@ -116,18 +145,45 @@ $table-striped-bg: $light;
   transform: translate(-50%, -50%);
 }
 
-//Form control styles
-
-.input-search-icon{
-  transform: translateY(1px); 
-  position: absolute; 
-  z-index: 1000; 
-  margin-left: 8px; 
-  margin-top: 10px;
+.modal.fade {
+  background: rgba(0, 0, 0, 0.3);
 }
 
-.input-search{
-  padding-left: 28px !important;
+.modal-backdrop.fade {
+  opacity: 10000;
+}
+
+//Form control styles
+
+.search-input{
+  position: relative;
+}
+
+.search-input i{
+  position: absolute;
+  transform: translateX(12px) translateY(10px);
+}
+
+.search-input input{
+  padding-left: 36px !important;
+  padding-right: 0px !important;
+}
+
+
+.show-search{
+  width: 30%;
+  transition: all 0.3s;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-right: 8px;
+}
+
+.hide-search{
+  width: 0%;
+  transition: all 0.3s;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-right: 0px;
 }
 
 //Badge styles
@@ -139,3 +195,6 @@ $badge-font-size: .70em;
 
 
 
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

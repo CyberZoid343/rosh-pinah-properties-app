@@ -1,0 +1,6 @@
+<div class="d-flex flex-wrap">
+    <span *ngFor="let tag of tags" class="me-1 mb-1">
+        <input type="checkbox" class="btn-check" id="{{tag}}" autocomplete="off" value="{{tag}}" [checked]="isSelected(tag)" (change)="selectTag(tag)">
+        <label class="btn btn-sm btn-outline-primary rounded-pill text-capitalize" for="{{tag}}">{{tag}}</label><br>
+    </span>
+</div>
