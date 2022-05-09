@@ -1,84 +1,68 @@
 export interface User {
-  id: number,
-  name: string,
-  surname: string,
+  userId?: number,
+  firstName: string,
+  lastName: string,
   email: string,
+  isAdmin?: boolean,
   dateAdded?: Date,
-  dateUpdated?: Date,
-  dateLogin?: Date,
-  dateLogoff?: Date,
-  isAdmin: boolean,
-  isOnline: boolean,
-  isActivated: boolean
+  dateUpdated?: Date
 }
 
-export interface UserAuthentication {
+export interface UserAuth {
   email: string,
   password: string
 }
 
 export interface UserNewPassword {
+  currentPassword: string,
   newPassword: string,
-  confirmPassword: string
-}
-
-export interface Company{
-  id: number,
-  name: string,
-  dateAdded: Date,
-  dateLastUpdated: Date,
-  lastEditor: string
+  confirmNewPassword: string
 }
 
 export interface Client{
-  id: number,
-  name: string,
-  surname: string,
-  companyName: string,
-  tags?: string
+  clientId?: number,
+  firstName: string,
+  lastName: string,
+  company: string,
   email: string,
-  cellNumber: string,
-  telNumber: string,
+  cellphone: string,
+  telephone: string,
+  dateAdded?: Date,
+  dateUpdated?: Date,
+  recentInfo: string,
   dateLastContacted: Date,
-  dateFollowUp: Date,
-  dateAdded?: Date,
-  dateUpdated?: Date,
-  isActive: boolean,
+  dateFollowUp: Date, 
+  tags: string,
   lastEditorId: number,
-  lastEditor?: User,
-  followUpDays?: number,
-  lastContactedDays?: number,
-  updatedDays?: number,
-  addedDays?: number,
-  tagArray?: any[],
-  recentInformation: string,
+  lastEditor?: User
 }
 
-export interface Tag{
-  id: number,
-  name: string
+export interface ClientSet{
+  resultsFound: number,
+  currentPage: number,
+  totalPages: number,
+  clients: Client[]
 }
 
-export interface ClientTag{
-  clientId: number,
-  tagId: number,
-  tag?: Tag
-}
-
-export interface ClientFilters{
-  search?: string | null,
-  status?: string | null,
-  followUpPeriod?: string | null,
-  lastContactedPeriod?: string | null
-}
-
-export interface ClientNote{
-  id?: number,
-  description: string,
+export interface Property{
+  propertyId?: number,
+  name: string,
+  owner: string,
+  price?: number,
+  dateLoi: Date,
   dateAdded?: Date,
   dateUpdated?: Date,
-  clientId: number,
-  userId: number,
-  isEdited: boolean,
-  user?: User
+  tags: string,
+  lastEditorId?: number,
+  lastEditor?: User
 }
+
+export interface PropertySet{
+  resultsFound: number,
+  currentPage: number,
+  totalPages: number,
+  properties: Property[]
+}
+
+
+

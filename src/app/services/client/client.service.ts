@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Client, ClientFilters } from 'src/app/interfaces';
+import { Client } from 'src/app/interfaces';
 import { ApiService } from '../api/api.service';
 
 @Injectable({
@@ -11,9 +11,9 @@ import { ApiService } from '../api/api.service';
 export class ClientService {
 
   constructor(
-    public http: HttpClient,
-    public apiService: ApiService,
-    public router: Router
+    private http: HttpClient,
+    private apiService: ApiService,
+    private router: Router
   ) { }
 
   apiURL = this.apiService.apiConnectionString + "client";
@@ -24,7 +24,7 @@ export class ClientService {
       return url.substring(this.router.url.indexOf('?'));
     }
     else {
-      return '';
+      return '?';
     }
   }
 
@@ -47,4 +47,14 @@ export class ClientService {
   deleteClient(id: number): Observable<any> {
     return this.http.delete(this.apiURL + "/" + id, this.apiService.getHttpHeaders())
   }
+
+  getClientSetForExcel(): Observable<any> {
+
+    let filters = this.getFilters();
+
+    filters += '&rows=10000'
+
+    return this.http.get(this.apiURL + filters, this.apiService.getHttpHeaders())
+  }
+  
 }
