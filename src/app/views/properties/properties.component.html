@@ -50,7 +50,7 @@
                 <td class="border-end text-nowrap">{{property.name}}</td>
                 <td class="border-end">{{property.owner}}</td>
                 <td class="border-end py-1"><app-tag-list [tagListString]="property.tags" [selectedTagListString]="property.tags"></app-tag-list></td>
-                <td class="border-end">{{property.price}}</td>
+                <td class="border-end">{{property.price | currency:"R":"symbol"}}</td>
                 <td class="border-end text-nowrap">{{property.dateLoi | date: 'mediumDate'}}</td>
                 <td class="border-end text-nowrap">{{property.dateUpdated | date: 'mediumDate'}}</td>
                 <td class="text-nowrap">{{property.lastEditor?.firstName}} {{property.lastEditor?.lastName}}</td>
