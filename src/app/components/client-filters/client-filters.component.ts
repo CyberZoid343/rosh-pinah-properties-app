@@ -21,7 +21,8 @@ export class ClientFiltersComponent implements OnInit {
     private activeModal: NgbActiveModal
   ) { 
     this.form = this.formBuilder.group({
-      tags: [null]
+      tags: [null],
+      order: [null],
     })
   }
 
@@ -33,16 +34,23 @@ export class ClientFiltersComponent implements OnInit {
     this.activeModal.close(result);
   }
 
-  getSelectedTags(selectedTags: string){
-    this.form.controls.tags.setValue(selectedTags);
-  }
-
   setForm(){
     this.route.queryParams.subscribe(params => {
       if (params['tags']){
         this.form.controls.tags.setValue(params['tags']);
       }
+      if (params['order']){
+        this.form.controls.order.setValue(params['order']);
+      }
     });
+  }
+
+  getSelectedTags(selectedTags: string){
+    this.form.controls.tags.setValue(selectedTags);
+  }
+
+  getSelectedOrder(event: any){
+    this.form.controls.order.setValue(event.target.value);
   }
 
   submit(){
@@ -50,7 +58,8 @@ export class ClientFiltersComponent implements OnInit {
       relativeTo: this.route,
       queryParams: {
         page: 1,
-        tags: this.form.controls.tags.value 
+        tags: this.form.controls.tags.value,
+        order: this.form.controls.order.value
       },
       queryParamsHandling: 'merge',
       skipLocationChange: false
