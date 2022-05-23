@@ -66,9 +66,8 @@ export class ProfilePasswordFormComponent implements OnInit {
   updatePassword(userNewPassword: UserNewPassword){
 
     this.submitting = true;
-    let userId: User = JSON.parse(localStorage.getItem('user')!).userId;
 
-    this.userSubscription = this.userService.updatePassword(userNewPassword, Number(userId)).subscribe(
+    this.userSubscription = this.userService.updatePassword(userNewPassword, this.userService.getLoggedInUserId()!).subscribe(
       (response) => {
         this.submitting = false;
         this.messageModalService.showSuccessMessage("Your password has been successfully updated.")
