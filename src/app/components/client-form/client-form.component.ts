@@ -24,6 +24,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   form: FormGroup
   submitted = false;
   today = new Date()
+  submittingClient = false;
 
   constructor(
     private activeModal: NgbActiveModal,
@@ -79,10 +80,11 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   }
 
   getSelectedTags(selectedTags: string){
-    return selectedTags;
+    this.form.controls.tags.setValue(selectedTags);
   }
 
   submit(){
+
     this.submitted = true;
 
     let client: Client = {
@@ -92,7 +94,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       email: this.form.controls.email.value,
       cellphone: this.form.controls.cellphone.value,
       telephone: this.form.controls.telephone.value,
-      lastEditor: this.userService.getLoggedInUser().firstName + ' ' + this.userService.getLoggedInUser().lastName,
+      lastEditorId: this.userService.getLoggedInUser().userId!,
       recentInfo: this.form.controls.recentInfo.value,
       dateLastContacted: this.form.controls.dateLastContacted.value,
       dateFollowUp: this.form.controls.dateFollowUp.value,
@@ -113,13 +115,14 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   }
 
   addClient(client: Client){
+    this.submittingClient = true;
     this.clientSubscription = this.clientService.addClient(client).subscribe(
       (response: Client) => {
-        console.log(response);
         this.messageModalService.showSuccessMessage("The client has been successfully added.");
         this.closeModal('refresh');
       },
       (error) => {
+        this.submittingClient = false;
         console.error(error);
         this.messageModalService.showErrorMessage(error.error);
       }
@@ -127,6 +130,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   }
 
   updateClient(client: Client){
+    this.submittingClient = true;
     client.clientId = this.selectedClient.clientId!;
     this.clientSubscription = this.clientService.updateClient(client, client.clientId).subscribe(
       (response) => {
@@ -134,6 +138,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         this.closeModal(response);
       },
       (error) => {
+        this.submittingClient = false;
         console.error(error);
         this.messageModalService.showErrorMessage(error.error);
       }

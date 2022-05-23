@@ -46,7 +46,7 @@
 </form>
 <div class="modal-footer border-top-0 bg-secondary">
     <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-    <button class="btn btn-primary" (click)="submit()">
+    <button class="btn btn-primary" (click)="submit()" [disabled]="submittingUser">
         <span *ngIf="!isUpdateMode">Add User</span>
         <span *ngIf="isUpdateMode">Update User</span>
     </button>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/interfaces';
@@ -12,13 +12,13 @@ import { UserFormComponent } from '../user-form/user-form.component';
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss']
 })
-export class UserDetailsComponent implements OnInit {
+export class UserDetailsComponent implements OnInit, OnChanges {
 
-  @Input() selectedUser!: User
-
+  @Input() selectedUserId!: number
   userSubscription: Subscription = new Subscription;
-
   refreshUserList = false;
+  loadingUser = false;
+  selectedUser!: User;
 
   constructor(
     private activeModal: NgbActiveModal,
@@ -27,7 +27,12 @@ export class UserDetailsComponent implements OnInit {
     private messageModalService: MessageModalService
   ) { }
 
+  ngOnChanges(): void {
+    this.getUser();
+  }
+
   ngOnInit(): void {
+    this.getUser();
   }
 
   closeModal() {
@@ -39,12 +44,24 @@ export class UserDetailsComponent implements OnInit {
     }
   }
 
+  getUser(){
+    this.userSubscription = this.userService.getUser(this.selectedUserId).subscribe(
+      (response: User) =>{
+        this.selectedUser = response;
+      },
+      (error) => {
+        console.error(error);
+        this.messageModalService.showErrorMessage(error.error)
+      }
+    )
+  }
+
   openUserFormModal() {
     const modalRef = this.modalService.open(UserFormComponent, { size: 'md', scrollable: true, centered: true })
     modalRef.componentInstance.selectedUser = this.selectedUser;
     modalRef.result.then((result) => {
       if (result) {
-        this.selectedUser = result;
+        this.getUser();
         this.refreshUserList = true;
       }
     });

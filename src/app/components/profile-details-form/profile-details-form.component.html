@@ -1,32 +1,48 @@
 
-<form [formGroup]="form">
-    <div class="mb-3">
-        <label for="firstName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="firstName" formControlName="firstName"
-            [ngClass]="{ 'is-invalid': form.controls.firstName.errors && submitted}">
-        <div class="invalid-feedback">
-            <div *ngIf="form.controls.firstName.errors?.required">Required field</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Personal Details</h5>
+                    <p>Your updated </p>
+                </div>
+                <div class="col-md-8">
+                    <form [formGroup]="form">
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName" formControlName="firstName"
+                                [ngClass]="{ 'is-invalid': form.controls.firstName.errors && submitted}">
+                            <div class="invalid-feedback">
+                                <div *ngIf="form.controls.firstName.errors?.required">Required field</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" formControlName="lastName"
+                                [ngClass]="{ 'is-invalid': form.controls.lastName.errors && submitted}">
+                            <div class="invalid-feedback">
+                                <div *ngIf="form.controls.lastName.errors?.required">Required field</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="email" formControlName="email"
+                                [ngClass]="{ 'is-invalid': form.controls.email.errors && submitted}">
+                            <div class="invalid-feedback">
+                                <div *ngIf="form.controls.email.errors?.required">Required field</div>
+                                <div *ngIf="form.controls.email.errors?.email">Invalid email</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="mb-3">
-        <label for="lastName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="lastName" formControlName="lastName"
-            [ngClass]="{ 'is-invalid': form.controls.lastName.errors && submitted}">
-        <div class="invalid-feedback">
-            <div *ngIf="form.controls.lastName.errors?.required">Required field</div>
+    <div class="card-footer bg-secondary border-top-0 p-3">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" (click)="submit()" [disabled]="loadingUser || submittingUser">Update Personal Details</button>
         </div>
     </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="text" class="form-control" id="email" formControlName="email"
-            [ngClass]="{ 'is-invalid': form.controls.email.errors && submitted}">
-        <div class="invalid-feedback">
-            <div *ngIf="form.controls.email.errors?.required">Required field</div>
-            <div *ngIf="form.controls.email.errors?.email">Invalid email</div>
-        </div>
-    </div>
-</form>
-<div class="d-flex justify-content-end">
-    <button class="btn btn-secondary me-2" (click)="setUserForm()">Cancel</button>
-    <button class="btn btn-primary" (click)="submit()">Update Personal Details</button>
-</div>
+</div>  

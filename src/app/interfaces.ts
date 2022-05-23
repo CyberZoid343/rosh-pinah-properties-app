@@ -29,11 +29,12 @@ export interface Client{
   telephone: string,
   dateAdded?: Date,
   dateUpdated?: Date,
-  lastEditor: string,
   recentInfo: string,
   dateLastContacted: Date,
   dateFollowUp: Date, 
-  tags: string
+  tags: string,
+  lastEditorId: number,
+  lastEditor?: User
 }
 
 export interface ClientSet{
@@ -47,16 +48,19 @@ export interface Property{
   propertyId?: number,
   name: string,
   owner: string,
-  price: number,
+  price?: number,
   dateLoi: Date,
   dateAdded?: Date,
   dateUpdated?: Date,
-  lastEditor: string,
-  tags: string
+  tags: string,
+  lastEditorId?: number,
+  lastEditor?: User
 }
 
 export interface PropertySet{
   resultsFound: number,
+  currentPage: number,
+  totalPages: number,
   properties: Property[]
 }
 

@@ -17,6 +17,8 @@ export class ProfileDetailsFormComponent implements OnInit, OnDestroy {
   today = new Date();
   form: FormGroup;
   isAdmin = false;
+  submittingUser = false;
+  loadingUser = false;
 
   constructor(
     private userService: UserService,
@@ -39,14 +41,17 @@ export class ProfileDetailsFormComponent implements OnInit, OnDestroy {
   }
 
   setUserForm(){
+    this.loadingUser = true;
     this.userSubscription = this.userService.getUser(JSON.parse(localStorage.getItem("user")!).userId).subscribe(
       (response: User) => {
+        this.loadingUser = false;
         this.form.controls['firstName'].setValue(response.firstName);
         this.form.controls['lastName'].setValue(response.lastName);
         this.form.controls['email'].setValue(response.email);
         this.isAdmin = response.isAdmin!;
       },
       (error) => {
+        this.loadingUser = false;
         console.error(error);
         this.messageModalService.showErrorMessage(error.error)
       }
@@ -72,13 +77,16 @@ export class ProfileDetailsFormComponent implements OnInit, OnDestroy {
   }
 
   updateUser(user: User){
+    this.submittingUser = true;
     this.userSubscription = this.userService.updateUser(user, user.userId!).subscribe(
-      (response) => {
+      (response: User) => {
+        this.submittingUser = false;
         console.log(response);
         this.messageModalService.showSuccessMessage("Your profile has been successfully updated.")
         localStorage.setItem('user', JSON.stringify(response));
       },
       (error) => {
+        this.submittingUser = false;
         console.error(error);
         this.messageModalService.showErrorMessage(error.error)
       }

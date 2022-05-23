@@ -4,8 +4,28 @@
             class="fa-solid fa-xmark"></i></button>
 </div>
 <form class="modal-body" [formGroup]="form">
+    <div class="mb-3">
+        <label class="form-label">Tags</label>
+        <app-tag-selector [tagListString]="this.form.controls.tags.value" [tagType]="'clients'" (outputTags)="getSelectedTags($event)"></app-tag-selector>
+    </div>
     <div class="mb-0">
-        <app-tag-selector [tagListString]="this.form.controls.tags.value" (outputTags)="getSelectedTags($event)"></app-tag-selector>
+        <label class="form-label">List Order</label>
+        <select class="form-select" aria-label="Default select example" (change)="getSelectedOrder($event)" formControlName="order">
+            <option value="first-name-asc">First Name (A-Z)</option>
+            <option value="first-name-desc">First Name (A-Z)</option>
+            <option value="last-name-asc">Last Name (A-Z)</option>
+            <option value="last-name-desc">Last Name (Z-A)</option>
+            <option value="company-asc">Company (A-Z)</option>
+            <option value="company-desc">Company (Z-A)</option>
+            <option value="date-added-desc">Date Added (Latest-Oldest)</option>
+            <option value="date-added-asc">Date Added (Oldest-Latest)</option>
+            <option value="date-updated-desc">Date Updated (Latest-Oldest)</option>
+            <option value="date-updated-asc">Date Updated (Oldest-Latest)</option>
+            <option value="date-last-contacted-desc">Date Last Contacted (Latest-Oldest)</option>
+            <option value="date-last-contacted-asc">Date Last Contacted (Oldest-Latest)</option>
+            <option value="date-follow-up-desc">Date Follow Up (Latest-Oldest)</option>
+            <option value="date-follow-up-asc">Date Follow Up (Oldest-Latest)</option>
+        </select>
     </div>
 </form>
 <div class="modal-footer border-top-0 bg-secondary">

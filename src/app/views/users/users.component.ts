@@ -59,7 +59,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   openUserDetailsModal(selectedUser: User){
     const modalRef = this.modalService.open(UserDetailsComponent, { size: 'md', scrollable: true, centered: true })
-    modalRef.componentInstance.selectedUser = selectedUser;
+    modalRef.componentInstance.selectedUserId = selectedUser.userId;
     modalRef.result.then((result) => {
       if (result == "refresh") {
         this.getUserSet();

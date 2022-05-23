@@ -16,6 +16,8 @@ export class ProfilePasswordFormComponent implements OnInit {
   userSubscription: Subscription = new Subscription;
   submitted = false;
   form: FormGroup;
+  submitting = false;
+  loading = false;
 
   constructor(
     private userService: UserService,
@@ -63,15 +65,16 @@ export class ProfilePasswordFormComponent implements OnInit {
 
   updatePassword(userNewPassword: UserNewPassword){
 
-    let userId: User = JSON.parse(localStorage.getItem('user')!).userId;
+    this.submitting = true;
 
-    this.userSubscription = this.userService.updatePassword(userNewPassword, Number(userId)).subscribe(
+    this.userSubscription = this.userService.updatePassword(userNewPassword, this.userService.getLoggedInUserId()!).subscribe(
       (response) => {
-        console.log(response);
+        this.submitting = false;
         this.messageModalService.showSuccessMessage("Your password has been successfully updated.")
         this.router.navigate(['']);
       },
       (error) => {
+        this.submitting = false;
         console.error(error);
         this.messageModalService.showErrorMessage(error.error)
       }
