@@ -27,6 +27,8 @@ export interface Client{
   email: string,
   cellphone: string,
   telephone: string,
+  officeRegion: string,
+  officeAddress: string,
   dateAdded?: Date,
   dateUpdated?: Date,
   recentInfo: string,
