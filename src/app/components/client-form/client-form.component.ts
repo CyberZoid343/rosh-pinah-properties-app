@@ -41,6 +41,8 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]],
       cellphone: [''],
       telephone: [''],
+      officeRegion: [''],
+      officeAddress: [''],
       recentInfo: [''],
       dateLastContacted: [''],
       dateFollowUp: [''],
@@ -69,6 +71,8 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     this.form.controls.email.setValue(this.selectedClient.email);
     this.form.controls.cellphone.setValue(this.selectedClient.cellphone);
     this.form.controls.telephone.setValue(this.selectedClient.telephone);
+    this.form.controls.officeRegion.setValue(this.selectedClient.officeRegion);
+    this.form.controls.officeAddress.setValue(this.selectedClient.officeAddress);
     this.form.controls.recentInfo.setValue(this.selectedClient.recentInfo);
     this.form.controls.dateLastContacted.setValue(this.datePipe.transform(this.selectedClient.dateLastContacted, 'yyyy-MM-dd'));
     this.form.controls.dateFollowUp.setValue(this.datePipe.transform(this.selectedClient.dateFollowUp, 'yyyy-MM-dd'));
@@ -94,6 +98,8 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       email: this.form.controls.email.value,
       cellphone: this.form.controls.cellphone.value,
       telephone: this.form.controls.telephone.value,
+      officeAddress: this.form.controls.officeAddress.value,
+      officeRegion: this.form.controls.officeRegion.value,
       lastEditorId: this.userService.getLoggedInUser().userId!,
       recentInfo: this.form.controls.recentInfo.value,
       dateLastContacted: this.form.controls.dateLastContacted.value,
