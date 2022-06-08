@@ -51,6 +51,24 @@
         <input type="text" class="form-control" id="telephone" formControlName="telephone">
     </div>
     <div class="mb-3">
+        <label for="officeRegion" class="form-label">Office Region</label>
+        <select formControlName="officeRegion" class="form-select" id="officeRegion">
+            <option value="Eastern Cape">Eastern Cape</option>
+            <option value="Free State">Free State</option>
+            <option value="Gauteng">Gauteng</option>
+            <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+            <option value="Limpopo">Limpopo</option>
+            <option value="Mpumalanga">Mpumalanga</option>
+            <option value="North West">North West</option>
+            <option value="Northern Cape">Northern Cape</option>
+            <option value="Western Cape">Western Cape</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="officeAddress" class="form-label">Office Address</label>
+        <input type="text" class="form-control" id="officeAddress" formControlName="officeAddress">
+    </div>
+    <div class="mb-3">
         <label for="dateLastContacted" class="form-label">Last Contacted</label>
         <input type="date" class="form-control" id="dateLastContacted" formControlName="dateLastContacted" max="{{today | date:'yyyy-MM-dd'}}">
     </div>
