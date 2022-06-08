@@ -12,7 +12,8 @@
     "electron": "ng build --base-href ./ && electron .",
     "package-mac-m1": "electron-packager . --overwrite --platform=darwin ---arch=arm64 --icon=./src/assets/icons/mac/icon.icns --prune=true --out=release-builds",
     "package-mac-intel": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=./src/assets/icons/mac/icon.icns --prune=true --out=release-builds",
-    "package-win": "electron-packager . --overwrite --platform=win32 --arch=x64  --icon=./src/assets/icons/win/icon.ico --out=release-builds"
+    "package-win": "electron-packager . --overwrite --platform=win32 --arch=x64  --icon=./src/assets/icons/win/icon.ico --out=release-builds",
+    "tauri": "tauri"
   },
   "private": true,
   "dependencies": {
