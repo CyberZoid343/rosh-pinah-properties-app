@@ -41,9 +41,6 @@ export class ExcelService {
         writeBinaryFile(filePath, data).then(
           success => {
             this.messageModalService.showSuccessMessage('Excel file successfuly created at "' + savedFiledPath + '"');
-          },
-          error => {
-            this.messageModalService.showErrorMessage('Failed to save excel file at "' + savedFiledPath + '"');
           }
         );
       }
