@@ -28,7 +28,13 @@ export class TagSelectorComponent implements OnInit {
     'Storage Units',
     'Garages',
     'Mining',
-    'Contact'
+    'Contact',
+    'Transacted with since 2015',
+    'Seller',
+    'Buyer',
+    'Given offer',
+    'Offer accepted',
+    'FICA Compliant'
   ]
 
   propertyTags: string[] = [

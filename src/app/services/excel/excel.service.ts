@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
-
-const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-const EXCEL_EXTENSION = '.xlsx';
+import { save, SaveDialogOptions } from '@tauri-apps/api/dialog';
+import { writeBinaryFile } from '@tauri-apps/api/fs';
+import { MessageModalService } from '../message-modal/message-modal.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExcelService {
 
-  constructor() { }
+  constructor(
+    private messageModalService: MessageModalService,
+  ) { }
 
   public exportAsExcelFile(json: any[], headers: any[], excelFileName: string): void {
 
@@ -24,10 +25,31 @@ export class ExcelService {
     this.saveAsExcelFile(excelBuffer, excelFileName);
   }
 
-  private saveAsExcelFile(buffer: any, fileName: string): void {
-    const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
-    });
-    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  async saveAsExcelFile(buffer: any, fileName: string) {
+
+    const data: Uint8Array = new Uint8Array(buffer.buffer);
+
+    let savedFiledPath = '';
+
+    const options: SaveDialogOptions = {
+      defaultPath: fileName + '.xlsx',
+    }
+
+    save(options).then(
+      filePath => {
+        savedFiledPath = filePath;
+        writeBinaryFile(filePath, data).then(
+          success => {
+            this.messageModalService.showSuccessMessage('Excel file successfuly created at "' + savedFiledPath + '"');
+          },
+          error => {
+            this.messageModalService.showErrorMessage('Failed to save excel file at "' + savedFiledPath + '"');
+          }
+        );
+      }
+    );
+    
   }
 }
+
+
